@@ -1,12 +1,10 @@
-NAME=thesis
-ABSTRACT=abstract
-LATEXMKOPTS=-pdflua #force lualatex
-LATEXMK=latexmk $(LATEXMKOPTS)
+all: thesis.pdf abstract-cs.pdf abstract-en.pdf
 
-all:
-	$(LATEXMK) $(NAME)
-	$(LATEXMK) $(ABSTRACT)-cz
-	$(LATEXMK) $(ABSTRACT)-en
+%.pdf: force
+	latexmk $*.tex
 
 clean:
-	$(LATEXMK) -C
+	rm -rf aux
+	rm -f thesis.pdf abstract.pdf abstract-cs.pdf abstract-en.pdf
+
+.PHONY: force

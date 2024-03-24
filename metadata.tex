@@ -1,93 +1,95 @@
+%%% Please fill in basic information on your thesis, which will be automatically
+%%% inserted at the right places.
 
+% Type of your thesis:
+%	"bc" for Bachelor's
+%	"mgr" for Master's
+%	"phd" for PhD
+%	"rig" for rigorosum
+\def\ThesisType{bc}
 
-%%% Choose a language %%%
+% Language of your study programme:
+%	"cs" for Czech
+%	"en" for English
+\def\StudyLanguage{cs}
 
-\newif\ifEN
-\ENtrue   % uncomment this for english
-%\ENfalse   % uncomment this for czech
-
-%%% Configuration of the title page %%%
-
-\def\ThesisTitleStyle{mff} % MFF style
-%\def\ThesisTitleStyle{cuni} % uncomment for old-style with cuni.cz logo
-%\def\ThesisTitleStyle{natur} % uncomment for nature faculty logo
-
-\def\UKFaculty{Faculty of Mathematics and Physics}
-%\def\UKFaculty{Faculty of Science}
-
-\def\UKName{Charles University in Prague} % this is not used in the "mff" style
-
-% Thesis type names, as used in several places in the title
-\def\ThesisTypeTitle{\ifEN BACHELOR THESIS \else BAKALÁŘSKÁ PRÁCE \fi}
-%\def\ThesisTypeTitle{\ifEN MASTER THESIS \else DIPLOMOVÁ PRÁCE \fi}
-%\def\ThesisTypeTitle{\ifEN RIGOROUS THESIS \else RIGORÓZNÍ PRÁCE \fi}
-%\def\ThesisTypeTitle{\ifEN DOCTORAL THESIS \else DISERTAČNÍ PRÁCE \fi}
-\def\ThesisGenitive{\ifEN bachelor \else bakalářské \fi}
-%\def\ThesisGenitive{\ifEN master \else diplomové \fi}
-%\def\ThesisGenitive{\ifEN rigorous \else rigorózní \fi}
-%\def\ThesisGenitive{\ifEN doctoral \else disertační \fi}
-\def\ThesisAccusative{\ifEN bachelor \else bakalářskou \fi}
-%\def\ThesisAccusative{\ifEN master \else diplomovou \fi}
-%\def\ThesisAccusative{\ifEN rigorous \else rigorózní \fi}
-%\def\ThesisAccusative{\ifEN doctoral \else disertační \fi}
-
-
-
-%%% Fill in your details %%%
-
+% Thesis title in English (exactly as in the official assignment)
 % (Note: \xxx is a "ToDo label" which makes the unfilled visible. Remove it.)
 \def\ThesisTitle{\xxx{Thesis title}}
-\def\ThesisAuthor{\xxx{Your Name Surname}}
+
+% Author of the thesis (you)
+\def\ThesisAuthor{\xxx{Name Surname}}
+
+% Year when the thesis is submitted
 \def\YearSubmitted{\xxx{YEAR}}
 
-% department assigned to the thesis
+% Name of the department or institute, where the work was officially assigned
+% (according to the Organizational Structure of MFF UK in English,
+% see https://www.mff.cuni.cz/en/faculty/organizational-structure,
+% or a full name of a department outside MFF)
 \def\Department{\xxx{Name of the department}}
+
 % Is it a department (katedra), or an institute (ústav)?
 \def\DeptType{\xxx{Department}}
 
+% Thesis supervisor: name, surname and titles
 \def\Supervisor{\xxx{Supername Supersurname}}
+
+% Supervisor's department (again according to Organizational structure of MFF)
 \def\SupervisorsDepartment{\xxx{department}}
 
-% Study programme and specialization
+% Study programme (does not apply to rigorosum theses)
 \def\StudyProgramme{\xxx{study programme}}
-\def\StudyBranch{\xxx{study branch}}
 
+% An optional dedication: you can thank whomever you wish (your supervisor,
+% consultant, who provided you with tea and pizza, etc.)
 \def\Dedication{%
-Dedication. \xxx{It is nice to say thanks to supervisors, friends, family, book authors and food providers.}
+\xxx{Dedication.}
 }
 
-\def\AbstractEN{%
-\xxx{Abstracts are an abstract form of art. Use the most precise, shortest sentences that state what problem the thesis addresses, how it is approached, pinpoint the exact result achieved, and describe the applications and significance of the results. Highlight anything novel that was discovered or improved by the thesis. Maximum length is 200 words, but try to fit into 120. Abstracts are often used for deciding if a reviewer will be suitable for the thesis; a well-written abstract thus increases the probability of getting a reviewer who will like the thesis.}
-% ABSTRACT IS NOT A COPY OF YOUR THESIS ASSIGNMENT!
+% Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
+\def\Abstract{%
+\xxx{Use the most precise, shortest sentences that state what problem the
+thesis addresses, how it is approached, pinpoint the exact result achieved, and
+describe the applications and significance of the results. Highlight anything
+novel that was discovered or improved by the thesis. Maximum length is 200
+words, but try to fit into 120. Abstracts are often used for deciding if
+a reviewer will be suitable for the thesis; a well-written abstract thus
+increases the probability of getting a reviewer who will like the thesis.}
 }
 
-\def\AbstractCS{%
-\xxx{You will need to submit both Czech and English abstract to the SIS, no matter what language you use in the thesis. If writing in English, translate the contents of \texttt{\textbackslash{}AbstractEN} into this field. In case you do not speak czech, your supervisor should be able to help you with the translation.}
-}
-
-% 3 to 5 keywords (recommended), each enclosed in curly braces.
+% 3 to 5 keywords (recommended) separated by \sep
 % Keywords are useful for indexing and searching for the theses by topic.
-\def\Keywords{%
-\xxx{{key} {words}}
+\def\ThesisKeywords{%
+\xxx{keyword\sep key phrase}
 }
+
+% If any of your metadata strings contains TeX macros, you need to provide
+% a plain-text version for use in XMP metadata embedded in the output PDF file.
+% If you are not sure, check the generated thesis.xmpdata file.
+\def\ThesisAuthorXMP{\ThesisAuthor}
+\def\ThesisTitleXMP{\ThesisTitle}
+\def\ThesisKeywordsXMP{\ThesisKeywords}
+\def\AbstractXMP{\Abstract}
 
 % If your abstracts are long and do not fit in the infopage, you can make the
 % fonts a bit smaller by this setting. (Also, you should try to compress your abstract more.)
-% Alternatively, consider increasing the size of the page by uncommenting the
-% geometry modification in thesis.tex.
 \def\InfoPageFont{}
-%\def\InfoPageFont{\small}  %uncomment to decrease font size
+%\def\InfoPageFont{\small}  % uncomment to decrease font size
 
-\ifEN\relax\else
-% If you are writing a czech thesis, you additionally need to fill in the
-% english translation of the metadata here!
-\def\ThesisTitleEN{\xxx{Thesis title in English}}
-\def\DepartmentEN{\xxx{Name of the department in English}}
-\def\DeptTypeEN{\xxx{Department}}
-\def\SupervisorsDepartmentEN{\xxx{Superdepartment}}
-\def\StudyProgrammeEN{\xxx{study programme}}
-\def\StudyBranchEN{\xxx{study branch}}
-\def\KeywordsEN{%
-\xxx{{key} {words}}
+% If you are studing in a Czech programme, you also need to provide metadata in Czech:
+% (in English programmes, this is not used anywhere)
+
+\def\ThesisTitleCS{\xxx{Název práce česky}}
+\def\DepartmentCS{\xxx{Název katedry česky}}
+\def\DeptTypeCS{\xxx{Katedra}}
+\def\SupervisorsDepartmentCS{\xxx{katedra vedoucího}}
+\def\StudyProgrammeCS{\xxx{studijní program}}
+
+\def\ThesisKeywordsCS{%
+\xxx{klíčová slova\sep klíčové fráze}
 }
-\fi
+
+\def\AbstractCS{%
+\xxx{Abstrakt práce přeložte také do češtiny.}
+}
