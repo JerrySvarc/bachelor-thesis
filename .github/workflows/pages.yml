@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the thesis
-        run: latexmk thesis && latexmk abstract-cz && latexmk abstract-en
+        run: latexmk thesis && latexmk abstract-cs && latexmk abstract-en
       - name: Prepare a website directory
         run: |
           mkdir -p public
