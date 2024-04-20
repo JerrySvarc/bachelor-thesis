@@ -2,16 +2,50 @@
 \label{chap:background}
 
 \section{Low-code development systems}
-\xxx{Low-code development has been defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
-This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools, integrated development environments with code generation capabilities,
-artificial intelligence development tools, and generators generating source code based on template files. 
-In this thesis, we will mainly focus on visual programming tools enabling the creation and modification of programs using a graphical user interface. }
+
+
+\xxx{Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
+This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools, 
+integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
+In this thesis, we will mainly focus on visual programming tools. }
 
 \xxx{Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over 
-the development domain and provides tools to create and modify software through this user interface. The user interface provides }
+the development domain. It provides tools to create and modify software elements. }
+
+\subsection{Hypercard}
+\xxx{
+\emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the 
+Macworld exposition in Boston~\cite{hyper_release}. Apple developed and maintained the program until 1998. The program became very popular, and similar programs and clones of Hypercard were created after the discontinuation. 
+ }
+
+\xxx{The following summary of functionality is based on a book\footnote{The book serves as a comprehensive guide for the program.} written by~\citet{goodman_hypertext}.
+The fundamental elements that the user creates are called \emph{cards}. Cards can hold data as text, have custom graphics, contain buttons, and implement custom behavior.
+Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A stack is a collection of cards with the same type of information. 
+The program saves a stack as a single file to the disk. Finally, users can distribute and modify these stacks. 
+}
+
+\xxx{
+The program offers users a choice of a user level. The program changes the user interface's capabilities based on the selected user level. 
+The higher the selected user level, the more options the program enables and displays. A selected level enables all previous-level options alongside other options and functionality.
+Users can choose from five different user levels:
+\begin{enumerate}
+    \item Browsing - enables no modification of cards and is mainly intended to be used to view the different cards inside a stack.
+    \item Typing - enables inserting and modifying text data inside the cards.
+    \item Painting - enables the creation of custom graphics inside the cards. The program provides different graphical options and tools.  
+    \item Authoring - adds the ability to add buttons and fields. This way, the users can add card functionality without writing code.
+    \item Scripting - adds the ability to use the HyperTalk scripting language to modify the behavior of the different elements inside the cards. 
+\end{enumerate}
+}
+\xxx{
+The program became popular with users at many different skill levels thanks to separating more advanced features from the basic ones. Less advanced users can learn to 
+use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options. On the other hand, advanced users can set the highest 
+user level and use the program fully from the start. }
+
 
 \subsection{Darklang}
-\xxx{}
+\xxx{Darklang is a low-code programming cloud-based system for creating web application backends.   }
+
+\subsection{}
 
 
 \subsection{Output-directed programming}
@@ -21,8 +55,6 @@ the development domain and provides tools to create and modify software through 
 \section{Web development tools}
 \subsection{Elm}
 \subsection{Web development using F\# }
-
-\section{Data-driven approach to web development}
 
 
 
