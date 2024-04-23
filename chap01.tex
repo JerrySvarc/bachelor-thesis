@@ -43,19 +43,39 @@
 
 
 \subsection{Darklang}
-\xxx{Darklang\footnote{\url{https://darklang.com/} [visited on 2024-04-22][online]} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
+\xxx{\emph{Darklang}\footnote{\url{https://darklang.com/} [visited on 2024-04-22][online]} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
+    The original system's development was discontinued in 2023 and renamed Darklang-classic.
 }
 
-\xxx{The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/}[visited on 2024-04-22][online]}.
-    Darklang consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
+\xxx{The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/} [visited on 2024-04-22][online]}.
+    The Darklang project consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
     The editor provides the main functionality of the service. It consists of a canvas that displays the created application elements as draggable boxes.
     Each box provides options to modify the element. These options include different menus and input fields.
     Some elements can be modified using the Darklang programming language to implement custom behavior.
-    The user can create elements of the following categories:
+    The user can create program elements of the following categories:
     \begin{itemize}
-        \item
-        \item
-    \end{itemize}}
+        \item HTTP handlers - definition of API endpoints
+        \item Persistent storage - database creation and modification
+        \item Workers - processing of background tasks
+        \item Cron jobs - scheduled jobs with custom behavior
+        \item REPL - a general-purpose programmable element
+        \item Functions - a reusable element with custom behavior
+        \item Blocks - anonymous functions implemented by the user operating on a set of values
+    \end{itemize}
+    Combining these elements allows users to create application backends that display complex behavior.
+    The system automatically deploys the elements when the user creates an element and modifies its functionality.
+    The user then can test the system without deploying it by hand.  }
+
+\xxx{Users can implement custom functionality by writing code in the \emph{Darklang language}.
+    It is a statically-typed \emph{ML-style} language similar to \emph{OCaml}\footnote{\url{https://ocaml.org/} [visited on 2024-04-23][online]}.
+    Some of the features of the language include:
+    \begin{itemize}
+        \item The pipe operator.
+        \item Functions for working with collections, such as the \emph{map} and \emph{fold} functions.
+        \item Pattern matching.
+        \item Implicit returns.
+    \end{itemize}
+}
 
 \subsection{Output-directed programming}
 \xxx{Output-directed programming}
