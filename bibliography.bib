@@ -29,7 +29,7 @@
   pages    = {101185},
   language = {en}
 }
- @inproceedings{Hempel_Lubin_Chugh_2019,
+ @inproceedings{sketch-and-sketch,
   address   = {New Orleans LA USA},
   title     = {Sketch-n-Sketch: Output-Directed Programming for SVG},
   isbn      = {9781450368162},
@@ -43,6 +43,38 @@
   pages     = {281–292},
   language  = {en}
 }
+ @article{output-directed-programming,
+  title        = {Programmatic and direct manipulation, together at last},
+  volume       = {51},
+  issn         = {0362-1340},
+  url          = {https://doi.org/10.1145/2980983.2908103},
+  doi          = {10.1145/2980983.2908103},
+  abstractnote = {Direct manipulation interfaces and programmatic systems have distinct and complementary strengths. The former provide intuitive, immediate visual feedback and enable rapid prototyping, whereas the latter enable complex, reusable abstractions. Unfortunately, existing systems typically force users into just one of these two interaction modes. We present a system called Sketch-n-Sketch that integrates programmatic and direct manipulation for the particular domain of Scalable Vector Graphics (SVG). In Sketch-n-Sketch, the user writes a program to generate an output SVG canvas. Then the user may directly manipulate the canvas while the system immediately infers a program update in order to match the changes to the output, a workflow we call live synchronization. To achieve this, we propose (i) a technique called trace-based program synthesis that takes program execution history into account in order to constrain the search space and (ii) heuristics for dealing with ambiguities. Based on our experience with examples spanning 2,000 lines of code and from the results of a preliminary user study, we believe that Sketch-n-Sketch provides a novel workflow that can augment traditional programming systems. Our approach may serve as the basis for live synchronization in other application domains, as well as a starting point for yet more ambitious ways of combining programmatic and direct manipulation.},
+  number       = {6},
+  journal      = {ACM SIGPLAN Notices},
+  author       = {Chugh, Ravi and Hempel, Brian and Spradlin, Mitchell and Albers, Jacob},
+  year         = {2016},
+  month        = jun,
+  pages        = {341–354}
+}
+
+@article{html-direct,
+  title        = {Bidirectional evaluation with direct manipulation},
+  volume       = {2},
+  issn         = {2475-1421},
+  url          = {https://dl.acm.org/doi/10.1145/3276497},
+  doi          = {10.1145/3276497},
+  abstractnote = {We present an evaluation update (or simply, update) algorithm for a full-featured functional programming language, which synthesizes program changes based on output changes. Intuitively, the update algorithm retraces the steps of the original evaluation, rewriting the program as needed to reconcile differences between the original and updated output values. Our approach, furthermore, allows expert users to define custom lenses that augment the update algorithm with more advanced or domain-specific program updates.              To demonstrate the utility of evaluation update, we implement the algorithm in Sketch-n-Sketch, a novel direct manipulation programming system for generating HTML documents. In Sketch-n-Sketch, the user writes an ML-style functional program to generate HTML output. When the user directly manipulates the output using a graphical user interface, the update algorithm reconciles the changes. We evaluate bidirectional evaluation in Sketch-n-Sketch by authoring ten examples comprising approximately 1400 lines of code in total. These examples demonstrate how a variety of HTML documents and applications can be developed and edited interactively in Sketch-n-Sketch, mitigating the tedious edit-run-view cycle in traditional programming environments.},
+  number       = {OOPSLA},
+  journal      = {Proceedings of the ACM on Programming Languages},
+  author       = {Mayer, Mikaël and Kuncak, Viktor and Chugh, Ravi},
+  year         = {2018},
+  month        = oct,
+  pages        = {1–28},
+  language     = {en}
+}
+
+
 
  @book{goodman_hypertext,
   address    = {Toronto ; New York},
