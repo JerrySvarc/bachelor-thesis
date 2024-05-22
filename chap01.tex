@@ -4,25 +4,23 @@
 \section{Low-code development systems}
 
 
-\xxx{Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
-	This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
-	integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
-	In this thesis, we will mainly focus on visual programming tools. }
+Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
+This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
+integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
+In this thesis, we will mainly focus on visual programming tools.
 
-\xxx{Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
-	the development domain. It provides tools to create and modify software elements. }
+Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
+the development domain. It provides tools to create and modify software elements.
 
 \subsection{Hypercard}
-\xxx{
-	\emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
-	Macworld exposition in Boston~\cite{hyper_release}. Apple developed and maintained the program until 1998. The program became very popular, and similar programs and clones of Hypercard were created after the discontinuation.
-}
+\emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
+Macworld exposition in Boston~\cite{hyper_release}. Apple developed and maintained the program until 1998. The program became very popular, and similar programs and clones of Hypercard were created after the discontinuation.
 
-\xxx{The following summary of functionality is based on a book written by~\citet{goodman_hypertext}.
-	The fundamental elements that the user creates are called \emph{cards}. Cards can hold data as text, have custom graphics, contain buttons, and implement custom behavior.
-	Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A stack is a collection of cards with the same type of information.
-	The program saves a stack as a single file to the disk. Finally, users can distribute and modify these stacks.
-}
+
+The following summary of functionality is based on a book written by~\citet{goodman_hypertext}.
+The fundamental elements that the user creates are called \emph{cards}. Cards can hold data as text, have custom graphics, contain buttons, and implement custom behavior.
+Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A stack is a collection of cards with the same type of information.
+The program saves a stack as a single file to the disk. Finally, users can distribute and modify these stacks.
 
 \begin{figure}
 	\centering
@@ -31,23 +29,23 @@
 	\label{fig:f}
 \end{figure}
 
-\xxx{
-	The program offers users a choice of a user level, as seen in figure \ref{fig:f}. The program changes the user interface's capabilities based on the selected user level.
-	The higher the selected user level, the more options the program enables and displays. A selected level enables all previous-level options alongside other options and functionality.
-	Users can choose from five different user levels:
-	\begin{enumerate}
-		\item Browsing - enables no modification of cards and is mainly intended to be used to view the different cards inside a stack.
-		\item Typing - enables inserting and modifying text data inside the cards.
-		\item Painting - enables the creation of custom graphics inside the cards. The program provides different graphical options and tools.
-		\item Authoring - adds the ability to add buttons and fields. This way, the users can add card functionality without writing code.
-		\item Scripting - adds the ability to use the HyperTalk scripting language to modify the behavior of the different elements inside the cards.
-	\end{enumerate}
-}
 
-\xxx{
-	The program became popular with users at many different skill levels thanks to separating more advanced features from the basic ones.
-	Less advanced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
-	On the other hand, advanced users can set the highest user level and use the program fully from the start. }
+The program offers users a choice of a user level, as seen in figure \ref{fig:f}. The program changes the user interface's capabilities based on the selected user level.
+The higher the selected user level, the more options the program enables and displays. A selected level enables all previous-level options alongside other options and functionality.
+Users can choose from five different user levels:
+\begin{enumerate}
+	\item Browsing - enables no modification of cards and is mainly intended to be used to view the different cards inside a stack.
+	\item Typing - enables inserting and modifying text data inside the cards.
+	\item Painting - enables the creation of custom graphics inside the cards. The program provides different graphical options and tools.
+	\item Authoring - adds the ability to add buttons and fields. This way, the users can add card functionality without writing code.
+	\item Scripting - adds the ability to use the HyperTalk scripting language to modify the behavior of the different elements inside the cards.
+\end{enumerate}
+
+
+
+The program became popular with users at many different skill levels thanks to separating more advanced features from the basic ones.
+Less advanced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
+On the other hand, advanced users can set the highest user level and use the program in its entirety from the start.
 
 
 \subsection{Darklang}
@@ -57,7 +55,7 @@
 
 \xxx{The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/} [visited on 2024-04-22][online]}.
 	The Darklang project consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
-	The editor provides the main functionality of the service. It consists of a canvas that displays the created application elements as draggable boxes.
+	The editor provides the service's main functionality. It consists of a canvas that displays the created application elements as draggable boxes.
 	Each box provides options to modify the element. These options include different menus and input fields.
 	Some elements can be modified using the Darklang programming language to implement custom behavior.
 	The user can create program elements of the following categories:
@@ -68,9 +66,9 @@
 		\item Cron jobs - scheduled jobs with custom behavior
 		\item REPL - a general-purpose programmable element
 		\item Functions - a reusable element with custom behavior
-  \end{itemize}
-	Through the combination of these elements, the users can create application backends of varying complexity.
-	After the user creates and modifies a particular element, the system automatically redeploys the entire application.
+	\end{itemize}
+	By combining these elements, the users can create application backends of varying complexity.
+	The system automatically redeploys the entire application after the user creates and modifies a particular element.
 	This allows for an interactive style of development where changes made to the system are almost immediately visible.}
 
 \xxx{Users can implement custom functionality by using the \emph{Darklang language}.
@@ -88,17 +86,35 @@
 \xxx{
 	\emph{Output-directed programming} is described by \citet{sketch-and-sketch} as
 	a programming paradigm where users construct plain text programs using mouse-based operations on the program's output.
-	The text representation of the program serves as the main representation.
-	This means that the user can also directly change the text of the program, which will result in a change in output.
-	This allows the user to make changes that are difficult or impossible to make using the direct manipulation of the program's output.
-	This bimodal approach can be seen as an extension of the standard programming paradigm where the manipulation of the text-based program
-	representation is the only way to change the program's output.
+	The difference between this paradigm and other low-code programming approaches is that the source code is still the main representation of the program.
+	When making a change using the mouse-based operations is too hard or impossible, the user
+	can still change the output by directly changing the source code.
+	This approach is made possible thanks to the use of \emph{live synchronization} and \emph{trace-based program synthesis} as defined by \citet{output-directed-programming}}
+
+\xxx{One example of a programming system that demonstrates this paradigm is called \emph{Sketch-and-Sketch} \cite{sketch-and-sketch,output-directed-programming}.
+	It is a browser-based application that provides a bimodal programming environment. It allows creating and modifying Scalable Vector Graphics (SVG) by directly manipulating the program's SVG output.
+	The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
+	After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values}.
 }
 
-\xxx{One example of a programming system that demonstrates this paradigm is called \emph{Sketch-and-Sketch} firstly presented by \citet{output-directed-programming}.
-	The system allows the creation and modification of Scalable Vector Graphics using direct manipulation of the program's SVG output.
+\xxx{
+	\emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it.
+	\emph{Intermediate values} are values produced at the intermediate execution steps of the program.
+	The program provides widgets for different types of intermediate values such as \emph{offset}, \emph{point}, or \emph{list} widgets.
+	Widgets can take the form of draggable boxes or input fields.
 }
+
+
+\xxx{Another programming system implementing the direct manipulation paradigm is \emph{Transformic} introduced by \citet{Schreiber_Krahn_Ingalls_Hirschfeld_2017}.
+	It is a functional interpretation of the Morphic GUI Framework providing direct-manipulation functionality.
+}
+
+
 
 \section{Web development tools}
+
+\xxx{In the world of web-development the number of existing tools is staggering. }
+
+
 \subsection{Elm}
 \subsection{Web development using F\# }
