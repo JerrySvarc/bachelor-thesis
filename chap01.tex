@@ -3,14 +3,14 @@
 
 \section{Low-code development systems}
 
-
-Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
-This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
-integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
-In this thesis, we will mainly focus on visual programming tools.
-
-Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
-the development domain. It provides tools to create and modify software elements.
+\xxx{
+	Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
+	This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
+	integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
+	In this thesis, we will mainly focus on visual programming tools.}
+\xxx{
+	Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
+	the development domain. It provides tools to create and modify software elements.}
 
 \subsection{Hypercard}
 \emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
@@ -110,11 +110,79 @@ On the other hand, advanced users can set the highest user level and use the pro
 }
 
 
-
+\newpage
 \section{Web development tools}
 
-\xxx{In the world of web-development the number of existing tools is staggering. }
+\xxx{This section serves as a description of web development tools used during the
+	implementation of the prototype application. We will present the Elm programming language,
+	and describe tools which enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler Fable and the Elmish architecture.
+}
 
 
 \subsection{Elm}
-\subsection{Web development using F\# }
+\xxx{\emph{Elm} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
+	It allows the creation of responsive graphical user interfaces by employing the
+	\emph{functional reactive programming} approach. The functional reactive programming
+	approach applies pure functional programming paradigms to time-varying values.
+	Time-varying values can represent the input and output of the GUI or other information
+	channels, such as server requests. The applications to time-varying values are known
+	as \emph{signals}. Elm improves upon other functional reactive programming languages
+	by assuming that the signals are discrete. This means that it avoids unnecessary
+	recomputation when the signals are unchanged. Discrete change of a signal is called
+	an event. Events trigger the recomputation and the application is updated. Elm also
+	provides tools and abstractions to enable asynchronous computations.}
+
+\xxx{
+	The main categories of GUI elements in Elm are \emph{forms} and \emph{elements}.
+	\emph{Elements} represent a \emph{rectangular} GUI element with properties such as width and height. Elements
+	can contain data in a form of text, video or an image and can be composed together.
+	Forms on the other hand represent two dimensional elements of arbitrary shapes with
+	modifiable properties such as color and texture.}
+
+\xxx{
+	Reactive GUIs can be implemented by combining GUI elements and input signals.
+	Elm provides a range of primitive signals such as ”Mouse.clicks” which triggers on
+	mouse click. Some primitive signals may require arguments for their constructor such
+	as the ”Window.dimensions” signal.}
+
+
+
+\subsection{Fable}
+
+\xxx{\citet{fable} is a compiler capable of compiling programs written in F\# to multiple
+	target languages. One of the available target languages is JavaScript and the compiler
+	produces human-readable and formatted JavaScript code. This enables the creation of
+	web applications in a type-safe functional programming language while also enabling
+	the use of tools and libraries from the wider JavaScript ecosystem.}
+
+\xxx{
+	The compiler supports the use of some types from .NET Base Class and FSharp.Core
+	libraries \cite{fable-comp} and tries to compile the types to native JavaScript whenever possible.}
+
+\subsection{Elmish}
+
+\xxx{
+	\emph{Elmish} or \emph{The Elm Architecture}\cite{eml-arch} is an architecture for building applications inspired
+	by the Elm programming language. The architecture follows the \emph{Model-View-Update}
+	pattern or \emph{MVU}. The main emphasis of the architecture is to extensibily, type-safely,
+	and declaratively create reactive applications with graphical user interface.}
+
+\xxx{
+	The \emph{Model} is a data-structure which keeps the state of the entire application. It
+	holds data and other necessary values that the application uses.
+	The data-structure is usually immutable.
+	This means that making changes to the state results in a creation
+	of an updated copy of the state which becomes the new state.}
+
+\xxx{
+	\emph{View} is a function which takes the current state of the application and creates a
+	graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.}
+
+\xxx{
+	\emph{Update} is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
+	Messages are similar to events in the Elm language. Each message represents a certain change to the model.
+	The update function updates the model based on the provided message and the current application state.
+	The message type is usually represented as a \emph{disciminated-union}.
+	This enables the update function to use pattern-matching expressions to efficiently update the model.
+}
+
