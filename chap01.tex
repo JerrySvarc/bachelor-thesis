@@ -2,7 +2,7 @@
 \label{chap:background}
 
 \section{Low-code development systems}
-
+\label{sec:low-code}
 \xxx{
 	Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
 	This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
@@ -24,7 +24,7 @@ The program saves a stack as a single file to the disk. Finally, users can distr
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.7\linewidth]{img/hypercard−menu.pdf}
+	\includegraphics[width=.8\linewidth]{img/hypercard−menu.pdf}
 	\caption{Selection of a user level in the Hypercard preferences menu.}
 	\label{fig:f}
 \end{figure}
@@ -49,13 +49,14 @@ On the other hand, advanced users can set the highest user level and use the pro
 
 
 \subsection{Darklang}
-\xxx{\emph{Darklang}\footnote{\url{https://darklang.com/} [visited on 2024-04-22][online]} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
+\label{sec:darklang}
+\xxx{\citet{darklang} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
 	The original system's development was discontinued in 2023 and renamed Darklang-classic.
 }
 
 \xxx{The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/} [visited on 2024-04-22][online]}.
 	The Darklang project consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
-	The editor provides the service's main functionality. It consists of a canvas that displays the created application elements as draggable boxes.
+	The editor provides the service's main functionality. It consists of a canvas that displays the created application elements as draggable boxes as seen in Figure~\ref{fig:darklang}.
 	Each box provides options to modify the element. These options include different menus and input fields.
 	Some elements can be modified using the Darklang programming language to implement custom behavior.
 	The user can create program elements of the following categories:
@@ -67,22 +68,23 @@ On the other hand, advanced users can set the highest user level and use the pro
 		\item REPL - a general-purpose programmable element
 		\item Functions - a reusable element with custom behavior
 	\end{itemize}
+}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{img/darklang.pdf}
+	\caption{Example of Darklang's drag-and-drop user interface.}
+	\label{fig:darklang}
+\end{figure}
+
+\xxx{
 	By combining these elements, the users can create application backends of varying complexity.
 	The system automatically redeploys the entire application after the user creates and modifies a particular element.
 	This allows for an interactive style of development where changes made to the system are almost immediately visible.}
 
-\xxx{Users can implement custom functionality by using the \emph{Darklang language}.
-	It is a statically-typed \emph{ML-style} language similar to \emph{OCaml}\footnote{\url{https://ocaml.org/} [visited on 2024-04-23][online]}.
-	Some of the features of the language include:
-	\begin{itemize}
-		\item The pipe operator.
-		\item Functions for working with collections, such as the \emph{map} and \emph{fold} functions.
-		\item Pattern matching.
-		\item Implicit returns.
-	\end{itemize}
-}
 
 \subsection{Output-directed programming}
+\label{sec:odp}
 \xxx{
 	\emph{Output-directed programming} is described by \citet{sketch-and-sketch} as
 	a programming paradigm where users construct plain text programs using mouse-based operations on the program's output.
@@ -94,7 +96,7 @@ On the other hand, advanced users can set the highest user level and use the pro
 \xxx{One example of a programming system that demonstrates this paradigm is called \emph{Sketch-and-Sketch} \cite{sketch-and-sketch,output-directed-programming}.
 	It is a browser-based application that provides a bimodal programming environment. It allows creating and modifying Scalable Vector Graphics (SVG) by directly manipulating the program's SVG output.
 	The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
-	After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values}.
+	After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values} as seen in Figure~\ref{fig:sketch}.
 }
 
 \xxx{
@@ -109,6 +111,12 @@ On the other hand, advanced users can set the highest user level and use the pro
 	It is a functional interpretation of the Morphic GUI Framework providing direct-manipulation functionality.
 }
 
+\begin{figure}
+	\centering
+	\includegraphics[width=1\linewidth]{img/sketch.pdf}
+	\caption{Example of Sketch-and-Sketch's user interface. }
+	\label{fig:sketch}
+\end{figure}
 
 \newpage
 \section{Web development tools}
@@ -120,7 +128,7 @@ On the other hand, advanced users can set the highest user level and use the pro
 
 
 \subsection{Elm}
-\xxx{\emph{Elm} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
+\xxx{\citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
 	It allows the creation of responsive graphical user interfaces by employing the
 	\emph{functional reactive programming} approach. The functional reactive programming
 	approach applies pure functional programming paradigms to time-varying values.

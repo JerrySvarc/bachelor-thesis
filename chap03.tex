@@ -1,12 +1,78 @@
 \chapter{Design principles}
 \label{chap:design}
-\begin{itemize}
-	\item Takes inspiration from low-code editors and output-directed programming. The output is displayed alongside the modification low-code menus.
-	\item Changes are visible as soon as user makes them
-	\item Useful with GraphQL -> get data using GraphQL -> put it in the editor and create the application interface -> modify behavior -> generate code
-	\item Ability to generate code to integrate into an existing codebase -> system should allow generating code in different languages/frameworks
-	\item Some elements make sense for specific data, but not all
-	\item Inferring elements based on the datatypes provided
-\end{itemize}
 
+\xxx{This chapter describes the main design princpiple of the data-driven low-code programming system for creating web applications shown in \ref{chap:walktrough}. }
+
+\section{Data-driven approach}
+
+\xxx{
+	The main general design principle of the proposed programming system is the \emph{data-driven} approach to creating applications.
+	By data-driven, we mean that the creation of a particular application starts by providing \emph{concrete data} to the system.
+	This approach is similar to existing systems such as the previously presented~Darklang~\ref{sec:darklang} or \citet{mendix}.
+}
+
+\xxx{
+	The system analyzes the provided data and provides development options based on its structure and properties.
+	The analysis can be tailored to the specific aims of the programming system.
+	For example, the proposed application for creating web applications can analyze the data and map it to specific HTML elements based on its type and structure.
+	Usually, the developer performs this data analysis and creates the GUI elements by hand.
+	Using this approach, the developer can offload some of this work onto the system and focus on other aspects of the development process.
+}
+
+\xxx{
+	The data analysis itself can employ various techniques such as data structure and type recognition.
+	It can be performed once after the data is provided to the system, and the system provides options based on this single analysis.
+	Alternatively, the system can perform it continuously throughout the development process and provide development options based on the already created parts of the application, similar to Output-directed programming \ref{sec:odp}.
+	It may also be enhanced through the use of various machine-learning techniques.
+}
+
+\xxx{
+	Another useful property of systems employing this approach is the ability to integrate them with other existing technologies, mainly those focused on data manipulation and retrieval.
+	For example, the proposed system employing this approach can be used in conjunction with existing technologies such as \citet{graphql}.
+	Using GraphQL, the developer can specify the data they wish to use and its structure.
+	This data can then be provided to the system and used to create the desired web application.
+}
+
+\xxx{
+	Our programming system is what \citet{Sahay_Indamutsa_Di} call a \emph{Data to UI} programming system.
+	The main difference between our programming system and other \emph{Data to UI} systems such as \citet{mendix} is that the creation of the user interface is directly tied to the data provided to the application.
+	Usually, the \emph{Data to UI} systems provide options to create pre-made UI components which may then use the provided data.
+	This is fundamentally different from our data-driven approach.
+}
+
+\section{Low-code editor}
+
+\xxx{
+	The second design principle is the concept of a \emph{low-code editor}.
+	Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
+	The system provides contextual menus to aid in the creation of the application.
+	Various existing low-code programming editors were presented previously in section \ref{sec:low-code}.
+}
+
+\xxx{
+	The visual design and functionality of the system is inspired by the "what you see is what you get" (abbreviated as \emph{WYSIWYG}) editors\cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
+	This is a sub-category of low-code editors which display the application's output as if it were running inside its native environment.
+	This allows the system to update the output every time a change is made to the program and display its result.
+}
+
+\xxx{
+	Our system interweaves the contextual menus with the application's output as seen in chapter \ref{chap:walktrough}.
+	Each menu is placed next to the corresponding element which can be modified by it.
+	The developer can also hide these menus altogether and be shown only the application's output.
+}
+
+
+\section{Code generation}
+\xxx{
+	The last main design principle is the ability to generate a code representation of the created application.
+	This adresses some of the concerns and main pitfalls of many low-code programming systems as stated by \citet{Pinho_Aguiar_Amaral_2023}.
+	These concerns include \emph{Interoperability issues} and \emph{Vendor lock-in},
+	both of which are mitigated as the user can download the already created part of the application in its textual representation and continue its modification in another programming system.
+}
+
+
+\xxx{}
+
+
+Ability to generate code to integrate into an existing codebase -> system should allow generating code in different languages/frameworks
 
