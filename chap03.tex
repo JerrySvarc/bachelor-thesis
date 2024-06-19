@@ -1,90 +1,68 @@
 \chapter{Design principles}
 \label{chap:design}
 
-\xxx{
-	This chapter describes the main design principle of the data-driven low-code programming system for creating web applications shown in Chapter~\ref{chap:walktrough}.
-	The main design principles discussed include:
-	\begin{enumerate}
-		\item Data-driven design
-		\item Low-code editing
-		\item Code generation capability
-	\end{enumerate}
-}
+This chapter describes the main design principles behind the data-driven low-code programming system for creating web applications shown in Chapter~\ref{chap:walktrough}.
+The main design principles discussed include:
+\begin{enumerate}
+	\item Data-driven design
+	\item Low-code editing
+	\item Code generation capability
+\end{enumerate}
 
 \section{Data-driven approach}
 
-\xxx{
-	The main general design principle of the proposed programming system is the \emph{data-driven} approach to creating applications.
-	By data-driven, we mean that the creation of a particular application starts by providing \emph{concrete data} to the system.
-	The development process is tied to the specific data provided.
-	This approach is similar to existing systems such as the previously presented~Darklang~\ref{sec:darklang} or \citet{mendix}.
-}
+The main general design principle of the proposed programming system is the \emph{data-driven} approach to creating applications.
+By data-driven, we mean that the creation of a particular application starts by providing \emph{concrete data} to the system.
+The development process is tied to the specific data provided.
+This approach is similar to existing systems such as the previously presented~Darklang~\ref{sec:darklang} or \citet{mendix}.
 
-\xxx{
-	The system analyzes the provided data and provides development options based on its structure and properties.
-	The analysis can be tailored to the specific aims of the programming system.
-	For example, the proposed application for creating web applications can analyze the data and map it to specific HTML elements based on its type and structure.
-	Usually, the developer performs this data analysis and creates the GUI elements by hand.
-	Using this approach, the developer can offload some of this work onto the system and focus on other aspects of the development process.
-}
+The system analyzes the provided data and provides development options based on its structure and properties.
+The analysis can be tailored to the specific aims of the programming system.
+For example, the proposed application for creating web applications can analyze the data and map it to specific HTML elements based on its type and structure.
+Usually, the developer performs this data analysis and creates the GUI elements by hand.
+Using this approach, the developer can offload some of this work onto the system and focus on other aspects of the development process.
 
-\xxx{
-	The data analysis can employ various techniques, such as data structure and type recognition.
-	One option is that the system performs the analysis once after the developer provides data to the system, and the system provides options based on this single analysis.
-	Alternatively, the system can perform it continuously throughout the development process and provide development options based on the already created application elements, similar to Output-directed programming \ref{sec:odp}.
-	The system could also use various machine-learning techniques to improve the analysis.
-}
+The data analysis can employ various techniques, such as data structure and data type recognition.
+One option is that the system performs the analysis once after the developer provides data to the system, and the system provides options based on this single analysis.
+Alternatively, the system can perform it continuously throughout the development process and provide development options based on the already created application elements, similar to Output-directed programming described in Section~\ref{sec:odp}.
+The system could also use various machine-learning techniques to improve the data analysis.
 
-\xxx{
-	Another valuable property of systems employing this approach is their ability to be used in conjunction with other existing technologies, mainly those focused on data manipulation and retrieval.
-	For example, the developer can use the proposed system employing this approach together with existing technologies such as \citet{graphql}.
-	Using GraphQL, the developer can specify the data they wish to use and its structure.
-	This data can then be provided to the system and used to create the desired web application.
-}
+Another valuable property of systems employing this approach is their ability to be used in conjunction with other existing technologies, mainly those focused on data manipulation and retrieval.
+For example, the developer can use the proposed system employing this approach together with existing technologies such as \citet{graphql}.
+Using GraphQL, the developer can specify the data they wish to use and its structure.
+This data can then be provided to the system and used to create the desired web application.
 
-\xxx{
-	Our prototype programming system is what \citet{Sahay_Indamutsa_Di} call a \emph{Data to UI} programming system.
-	The main difference between our programming system and other \emph{Data to UI} systems such as \citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
-	Usually, the \emph{Data to UI} systems provide options to create pre-made UI components, which may then reference and use the provided data.
-	This functionality is fundamentally different from our described data-driven approach.
-}
+Our prototype programming system is what \citet{Sahay_Indamutsa_Di} call a \emph{Data to UI} programming system.
+The main difference between our programming system and other \emph{Data to UI} systems such as \citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
+Usually, the \emph{Data to UI} systems provide options to create pre-made UI components, which may then reference and use the provided data.
+This functionality is fundamentally different from our described data-driven approach.
 
 \section{Low-code editor}
 
-\xxx{
-	The second design principle is the concept of a \emph{low-code editor}.
-	Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
-	The system provides contextual menus to aid in the creation of the application.
-	Various existing low-code programming editors were presented previously in section \ref{sec:low-code}.
-}
+The second design principle is the concept of a \emph{low-code editor}.
+Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
+The system provides contextual menus to aid in the creation of the application.
+Various existing low-code programming editors were presented previously in section \ref{sec:low-code}.
 
-\xxx{
-	The visual design and functionality of the system is inspired by the "what you see is what you get" (abbreviated as \emph{WYSIWYG}) editors\cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
-	This sub-category of low-code editors displays the application's output as if running inside its native environment.
-	This design allows the system to update the output every time a change is made to the program and display its result, allowing for a more dynamic development loop \cite{output-directed-programming}.
-}
+The visual design and functionality of the system is inspired by the "what you see is what you get" (abbreviated as \emph{WYSIWYG}) editors\cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
+This sub-category of low-code editors displays the application's output as if running inside its native environment.
+This design allows the system to update the output every time a change is made to the program and display its result, allowing for a more dynamic development loop \cite{output-directed-programming}.
 
-\xxx{
-	Our prototype system interweaves the contextual menus with the application's output, as seen in chapter \ref{chap:walktrough}.
-	Each menu is placed next to the corresponding element, which it can modify.
-	The developer can also hide these menus and show only the application's output.
-	The design of the contextual menus was influenced by menus in currently existing programming systems, such as property menus from the \emph{Visual studio} editor.
-}
+Our prototype system interweaves the contextual menus with the application's output, as seen in chapter \ref{chap:walktrough}.
+Each menu is placed next to the corresponding element, which it can modify.
+The developer can also hide these menus and show only the application's output.
+The design of the contextual menus was influenced by menus in currently existing programming systems, such as property menus from the \emph{Visual studio} editor.
 
 \section{Code generation}
 
-\xxx{
-	The last design principle is the ability to generate a plain−text representation of the created application.
-	This ability addresses some of the concerns and main pitfalls of many low-code programming systems, as stated by \citet{Pinho_Aguiar_Amaral_2023}.
-	These concerns include \emph{Interoperability issues} and \emph{Vendor lock-in}.
-	Both are mitigated as the user can download the already created part of the application in its textual representation and continue its modification in another programming system.
-}
+The last design principle is the ability to generate a plain−text representation of the created application.
+This ability addresses some of the concerns and main pitfalls of many low-code programming systems, as stated by \citet{Pinho_Aguiar_Amaral_2023}.
+These concerns include \emph{Interoperability issues} and \emph{Vendor lock-in}.
+Both are mitigated as the user can download the already created part of the application in its textual representation and continue its modification in another programming system.
 
-\xxx{
-	Our prototype implementation also provides a code generation capability.
-	The type system of the application represents the created parts of the application in a form that allows translation of the created application to various programming languages and other technologies.
-	The prototype system can target the PHP programming language but could be extended to provide a wider selection of target technologies.
-}
+Our prototype implementation also provides a code generation capability.
+The type system of the application represents the created parts of the application in a form that allows translation of the created application to various programming languages and other technologies.
+The prototype system can target the \emph{PHP} programming language but could be extended to provide a wider selection of target technologies.
 
 
 

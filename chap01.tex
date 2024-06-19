@@ -46,25 +46,23 @@ On the other hand, advanced users can set the highest user level and use the pro
 
 \subsection{Darklang}
 \label{sec:darklang}
-\xxx{\citet{darklang} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
-	The original system's development was discontinued in 2023 and renamed Darklang-classic.
-}
+\citet{darklang} is a cloud-based low-code programming system for building web application backends created by Paul Biggar.
+The original system's development was discontinued in 2023 and renamed Darklang-classic.
 
-\xxx{The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/} [visited on 2024-04-22][online]}.
-	The Darklang project consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
-	The editor provides the service's main functionality. It consists of a canvas that displays the created application elements as draggable boxes as seen in Figure~\ref{fig:darklang}.
-	Each box provides options to modify the element. These options include different menus and input fields.
-	Some elements can be modified using the Darklang programming language to implement custom behavior.
-	The user can create program elements of the following categories:
-	\begin{itemize}
-		\item HTTP handlers - definition of API endpoints
-		\item Persistent storage - database creation and modification
-		\item Workers - processing of background tasks
-		\item Cron jobs - scheduled jobs with custom behavior
-		\item REPL - a general-purpose programmable element
-		\item Functions - a reusable element with custom behavior
-	\end{itemize}
-}
+The following summary follows the official Darklang~documentation\footnote{\url{https://docs.darklang.com/} [visited on 2024-04-22][online]}.
+The Darklang project consists of a low-code editor and a programming language. It also provides tools for creating persistent storage and for deployment.
+The editor provides the service's main functionality. It consists of a canvas that displays the created application elements as draggable boxes as seen in Figure~\ref{fig:darklang}.
+Each box provides options to modify the element. These options include different menus and input fields.
+Some elements can be modified using the Darklang programming language to implement custom behavior.
+The user can create program elements of the following categories:
+\begin{itemize}
+	\item HTTP handlers - definition of API endpoints
+	\item Persistent storage - database creation and modification
+	\item Workers - processing of background tasks
+	\item Cron jobs - scheduled jobs with custom behavior
+	\item REPL - a general-purpose programmable element
+	\item Functions - a reusable element with custom behavior
+\end{itemize}
 
 \begin{figure}
 	\centering
@@ -73,39 +71,35 @@ On the other hand, advanced users can set the highest user level and use the pro
 	\label{fig:darklang}
 \end{figure}
 
-\xxx{
-	By combining these elements, the users can create application backends of varying complexity.
-	The system automatically redeploys the entire application after the user creates and modifies a particular element.
-	This allows for an interactive style of development where changes made to the system are almost immediately visible.}
+
+By combining these elements, the users can create application backends of varying complexity.
+The system automatically redeploys the entire application after the user creates and modifies a particular element.
+This allows for an interactive style of development where changes made to the system are almost immediately visible.
 
 
 \subsection{Output-directed programming}
 \label{sec:odp}
-\xxx{
-	\emph{Output-directed programming} is described by \citet{sketch-and-sketch} as
-	a programming paradigm where users construct plain text programs using mouse-based operations on the program's output.
-	The difference between this paradigm and other low-code programming approaches is that the source code is still the main representation of the program.
-	When making a change using the mouse-based operations is too hard or impossible, the user
-	can still change the output by directly changing the source code.
-	This approach is made possible thanks to the use of \emph{live synchronization} and \emph{trace-based program synthesis} as defined by \citet{output-directed-programming}}
+\emph{Output-directed programming} is described by \citet{sketch-and-sketch} as
+a programming paradigm where users construct plain text programs using mouse-based operations on the program's output.
+The difference between this paradigm and other low-code programming approaches is that the source code is still the main representation of the program.
+When making a change using the mouse-based operations is too hard or impossible, the user
+can still change the output by directly changing the source code.
+This approach is made possible thanks to the use of \emph{live synchronization} and \emph{trace-based program synthesis} as defined by \citet{output-directed-programming}
 
-\xxx{One example of a programming system that demonstrates this paradigm is called \emph{Sketch-and-Sketch} \cite{sketch-and-sketch,output-directed-programming}.
-	It is a browser-based application that provides a bimodal programming environment. It allows creating and modifying Scalable Vector Graphics (SVG) by directly manipulating the program's SVG output.
-	The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
-	After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values} as seen in Figure~\ref{fig:sketch}.
-}
-
-\xxx{
-	\emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it.
-	\emph{Intermediate values} are values produced at the intermediate execution steps of the program.
-	The program provides widgets for different types of intermediate values such as \emph{offset}, \emph{point}, or \emph{list} widgets.
-	Widgets can take the form of draggable boxes or input fields.
-}
+One example of a programming system that demonstrates this paradigm is called \emph{Sketch-and-Sketch} \cite{sketch-and-sketch,output-directed-programming}.
+It is a browser-based application that provides a bimodal programming environment. It allows creating and modifying Scalable Vector Graphics (SVG) by directly manipulating the program's SVG output.
+The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
+After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values} as seen in Figure~\ref{fig:sketch}.
 
 
-\xxx{Another programming system implementing the direct manipulation paradigm is \emph{Transformic} introduced by \citet{Schreiber_Krahn_Ingalls_Hirschfeld_2017}.
-	It is a functional interpretation of the Morphic GUI Framework providing direct-manipulation functionality.
-}
+\emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it.
+\emph{Intermediate values} are values produced at the intermediate execution steps of the program.
+The program provides widgets for different types of intermediate values such as \emph{offset}, \emph{point}, or \emph{list} widgets.
+Widgets can take the form of draggable boxes or input fields.
+
+
+Another programming system implementing the direct manipulation paradigm is \emph{Transformic} introduced by \citet{Schreiber_Krahn_Ingalls_Hirschfeld_2017}.
+It is a functional interpretation of the Morphic GUI Framework providing direct-manipulation functionality.
 
 \begin{figure}
 	\centering
@@ -117,76 +111,69 @@ On the other hand, advanced users can set the highest user level and use the pro
 \newpage
 \section{Web development tools}
 
-\xxx{This section serves as a description of web development tools used during the
-	implementation of the prototype application. We will present the Elm programming language,
-	and describe tools which enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler Fable and the Elmish architecture.
-}
+This section serves as a description of web development tools used during the
+implementation of the prototype application. We will present the Elm programming language,
+and describe tools which enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler Fable and the Elmish architecture.
 
 
 \subsection{Elm}
-\xxx{\citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
-	It allows the creation of responsive graphical user interfaces by employing the
-	\emph{functional reactive programming} approach. The functional reactive programming
-	approach applies pure functional programming paradigms to time-varying values.
-	Time-varying values can represent the input and output of the GUI or other information
-	channels, such as server requests. The applications to time-varying values are known
-	as \emph{signals}. Elm improves upon other functional reactive programming languages
-	by assuming that the signals are discrete. This means that it avoids unnecessary
-	recomputation when the signals are unchanged. Discrete change of a signal is called
-	an event. Events trigger the recomputation and the application is updated. Elm also
-	provides tools and abstractions to enable asynchronous computations.}
+\citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
+It allows the creation of responsive graphical user interfaces by employing the
+\emph{functional reactive programming} approach. The functional reactive programming
+approach applies pure functional programming paradigms to time-varying values.
+Time-varying values can represent the input and output of the GUI or other information
+channels, such as server requests. The applications to time-varying values are known
+as \emph{signals}. Elm improves upon other functional reactive programming languages
+by assuming that the signals are discrete. This means that it avoids unnecessary
+recomputation when the signals are unchanged. Discrete change of a signal is called
+an event. Events trigger the recomputation and the application is updated. Elm also
+provides tools and abstractions to enable asynchronous computations.
 
-\xxx{
-	The main categories of GUI elements in Elm are \emph{forms} and \emph{elements}.
-	\emph{Elements} represent a \emph{rectangular} GUI element with properties such as width and height. Elements
-	can contain data in a form of text, video or an image and can be composed together.
-	Forms on the other hand represent two dimensional elements of arbitrary shapes with
-	modifiable properties such as color and texture.}
+The main categories of GUI elements in Elm are \emph{forms} and \emph{elements}.
+\emph{Elements} represent a \emph{rectangular} GUI element with properties such as width and height. Elements
+can contain data in a form of text, video or an image and can be composed together.
+Forms on the other hand represent two dimensional elements of arbitrary shapes with
+modifiable properties such as color and texture.
 
-\xxx{
-	Reactive GUIs can be implemented by combining GUI elements and input signals.
-	Elm provides a range of primitive signals such as ”Mouse.clicks” which triggers on
-	mouse click. Some primitive signals may require arguments for their constructor such
-	as the ”Window.dimensions” signal.}
+Reactive GUIs can be implemented by combining GUI elements and input signals.
+Elm provides a range of primitive signals such as ”Mouse.clicks” which triggers on
+mouse click. Some primitive signals may require arguments for their constructor such
+as the ”Window.dimensions” signal.
 
 
 
 \subsection{Fable}
 
-\xxx{\citet{fable} is a compiler capable of compiling programs written in F\# to multiple
-	target languages. One of the available target languages is JavaScript and the compiler
-	produces human-readable and formatted JavaScript code. This enables the creation of
-	web applications in a type-safe functional programming language while also enabling
-	the use of tools and libraries from the wider JavaScript ecosystem.}
+\citet{fable} is a compiler capable of compiling programs written in F\# to multiple
+target languages. One of the available target languages is JavaScript and the compiler
+produces human-readable and formatted JavaScript code. This enables the creation of
+web applications in a type-safe functional programming language while also enabling
+the use of tools and libraries from the wider JavaScript ecosystem.
 
-\xxx{
-	The compiler supports the use of some types from .NET Base Class and FSharp.Core
-	libraries \cite{fable-comp} and tries to compile the types to native JavaScript whenever possible.}
+The compiler supports the use of some types from .NET Base Class and FSharp.Core
+libraries \cite{fable-comp} and tries to compile the types to native JavaScript whenever possible.
 
 \subsection{Elmish}
 \label{sec:elmish}
-\xxx{
-	\emph{Elmish} or \emph{The Elm Architecture}\cite{eml-arch} is an architecture for building applications inspired
-	by the Elm programming language. The architecture follows the \emph{Model-View-Update}
-	pattern or \emph{MVU}. The main emphasis of the architecture is to extensibily, type-safely,
-	and declaratively create reactive applications with graphical user interface.}
 
-\xxx{
-	The \emph{Model} is a data-structure which keeps the state of the entire application. It
-	holds data and other necessary values that the application uses.
-	The data-structure is usually immutable.
-	This means that making changes to the state results in a creation
-	of an updated copy of the state which becomes the new state.}
+\emph{Elmish} or \emph{The Elm Architecture}\cite{eml-arch} is an architecture for building applications inspired
+by the Elm programming language. The architecture follows the \emph{Model-View-Update}
+pattern or \emph{MVU}. The main emphasis of the architecture is to extensibily, type-safely,
+and declaratively create reactive applications with graphical user interface.
 
-\xxx{
-	\emph{View} is a function which takes the current state of the application and creates a
-	graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.}
 
-\xxx{
-	\emph{Update} is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
-	Messages are similar to events in the Elm language. Each message represents a certain change to the model.
-	The update function updates the model based on the provided message and the current application state.
-	The message type is usually represented as a \emph{disciminated-union}.
-	This enables the update function to use pattern-matching expressions to efficiently update the model.
-}
+The \emph{Model} is a data-structure which keeps the state of the entire application. It
+holds data and other necessary values that the application uses.
+The data-structure is usually immutable.
+This means that making changes to the state results in a creation
+of an updated copy of the state which becomes the new state.
+
+\emph{View} is a function which takes the current state of the application and creates a
+graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.
+
+\emph{Update} is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
+Messages are similar to events in the Elm language. Each message represents a certain change to the model.
+The update function updates the model based on the provided message and the current application state.
+The message type is usually represented as a \emph{disciminated-union}.
+This enables the update function to use pattern-matching expressions to efficiently update the model.
 
