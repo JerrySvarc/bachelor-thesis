@@ -3,32 +3,35 @@
 
 \section{Low-code development systems}
 \label{sec:low-code}
-\xxx{
-	Low-code development is defined by \citet{Pinho_Aguiar_Amaral_2023} as \emph{"an approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."}
-	This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
-	integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
-	In this thesis, we will mainly focus on visual programming tools.}
-\xxx{
-	Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
-	the development domain. It provides tools to create and modify software elements.}
+In this section, we describe the \emph{low-code development approach} and several systems employing it.
+Low-code development approach can be defined as follows:
+\begin{defn}[Low-code development approach]
+	Defined by \citet{Pinho_Aguiar_Amaral_2023} as "An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."
+\end{defn}
+This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
+integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
+We focus mainly on visual programming tools employing the defined low-code approach.
+
+Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
+the development domain. It provides tools to create and modify software elements.
+In the following sections, we describe several existing low-code visual programming systems.
 
 \subsection{Hypercard}
 \emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
-Macworld exposition in Boston~\cite{hyper_release}. Apple developed and maintained the program until 1998. The program became very popular, and similar programs and clones of Hypercard were created after the discontinuation.
+Macworld exposition in Boston~\cite{hyper_release}. Apple developed and maintained the program until 1998.
+The popularity of the program ensured that similar programs and clones of Hypercard were created after its discontinuation.
 
-
-The following summary of functionality is based on a book written by~\citet{goodman_hypertext}.
+The following summary of functionality is based on a manual for the Hypercard system written by~\citet{goodman_hypertext}.
 The fundamental elements that the user creates are called \emph{cards}. Cards can hold data as text, have custom graphics, contain buttons, and implement custom behavior.
 Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A stack is a collection of cards with the same type of information.
 The program saves a stack as a single file to the disk. Finally, users can distribute and modify these stacks.
-
+Creation and modification of the card is done through the low-code interface. The program provides several options for the different card elements.
 \begin{figure}
 	\centering
 	\includegraphics[width=.8\linewidth]{img/hypercard−menu.pdf}
 	\caption{Selection of a user level in the Hypercard preferences menu.}
 	\label{fig:f}
 \end{figure}
-
 
 The program offers users a choice of a user level, as seen in figure \ref{fig:f}. The program changes the user interface's capabilities based on the selected user level.
 The higher the selected user level, the more options the program enables and displays. A selected level enables all previous-level options alongside other options and functionality.
@@ -40,9 +43,8 @@ Users can choose from five different user levels:
 	\item Authoring - adds the ability to add buttons and fields. This way, the users can add card functionality without writing code.
 	\item Scripting - adds the ability to use the HyperTalk scripting language to modify the behavior of the different elements inside the cards.
 \end{enumerate}
-Less advanced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
+This is favourable, as less experienced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
 On the other hand, advanced users can set the highest user level and use the program in its entirety from the start.
-
 
 \subsection{Darklang}
 \label{sec:darklang}
@@ -138,8 +140,6 @@ Reactive GUIs can be implemented by combining GUI elements and input signals.
 Elm provides a range of primitive signals such as ”Mouse.clicks” which triggers on
 mouse click. Some primitive signals may require arguments for their constructor such
 as the ”Window.dimensions” signal.
-
-
 
 \subsection{Fable}
 

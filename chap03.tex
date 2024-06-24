@@ -4,7 +4,7 @@
 This chapter describes the main design principles behind the data-driven low-code programming system for creating web applications shown in Chapter~\ref{chap:walktrough}.
 The main design principles discussed include:
 \begin{enumerate}
-	\item Data-driven design
+	\item Data-driven approach
 	\item Low-code editing
 	\item Code generation capability
 \end{enumerate}
@@ -19,16 +19,16 @@ We define the general approach as follows:
 
 Meaning that the development process is tied to the specific data provided.
 In the context of creating web application UI elements, some data can be used only for certain UI elements as to maintain the correct semantic meaning and functionality of the elements.
-A definition which could be used to describe our approach is the following:
+Another definition which could be used to describe our approach is the following:
 
 \begin{defn}[Data to UI]
 	Defined by \citet{Sahay_Indamutsa_Di} as "A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows."
 \end{defn}
 
-This definition also includes the concepts of data modeling and specification of business logic rules and workflows but we will only focus on the concept of user interface creation in this thesis.
+This definition also includes the concepts of data modeling and specification of business logic rules and workflows but we only focus on the aspect of user interface creation in this thesis.
 The main difference between our programming system and other systems described by \citet{Sahay_Indamutsa_Di} as \emph{Data to UI} such as \citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
 Usually, the \emph{Data to UI} systems provide options to create pre-made UI elements, which may then reference and use the provided data.
-Whereas our proposed system creates the UI elements based on the data itself.
+Whereas our proposed system creates the UI elements based on the data itself which then reference the provided data.
 
 The system analyzes the provided data and provides development options based on its structure and properties.
 The analysis can be tailored to the specific aims of the programming system.
@@ -41,10 +41,12 @@ One option is that the system performs the analysis once after the developer pro
 Alternatively, the system can perform it continuously throughout the development process and provide development options based on the already created application elements, similar to Output-directed programming described in Section~\ref{sec:odp}.
 The system could also use various machine-learning techniques to improve the data analysis.
 
-Another valuable property of systems employing this approach is their ability to be used in conjunction with other existing technologies, mainly those focused on data manipulation and retrieval.
+Another valuable property of systems employing this approach is their ability to be used in conjunction with other existing technologies, mainly those focused on data modeling and retrieval.
 For example, the developer can use the proposed system employing this approach together with existing technologies such as \citet{graphql}.
 Using GraphQL, the developer can specify the data they wish to use and its structure.
 This data can then be provided to the system and used to create the desired web application.
+
+
 
 
 \section{Low-code editor}

@@ -1,11 +1,39 @@
 \chapter{Core logic}
 \label{chap:corelogic}
 
-\xxx{//TODO: chapter intro + description}
+This chapter describes the core logic of the programming system.
+Firstly, we describe the hole-based approach applied to the creation of elements.
+After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
+Then, we describe mapping of the different input data types to specific types representing the UI elements.
+We present two ways of combining the created UI elements with the corresponding data.
+Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
+
+\section{Hole-based approach}
+The hole−based approach is
 
 \section{Type system}
-\subsection{RenderingCode Type}
-\subsection{}
+\subsection{RenderingCode}
+The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
+Each case represents a type of an HTML element.
 
-\section{Summary}
-\xxx{//TODO: Chapter summary}
+
+\begin{listing}[H]
+	\label{list:holeCode}
+	\caption {RenderingCode type with hole}
+	\begin{lstlisting}
+  type RenderingCode =
+    | HtmlElement of 
+        tag: Tag * 
+        attrs: Attributes * 
+        innerValue: InnerValue
+    | HtmlList of 
+        listType: ListType * 
+        headers: string list option * 
+        itemCode: RenderingCode list
+    | Sequence of RenderingCode list
+    | Hole of FieldHole
+  \end{lstlisting}
+\end{listing}
+
+\section{Combined traversal}
+
