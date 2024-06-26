@@ -4,22 +4,67 @@
 This chapter describes the core logic of the programming system.
 Firstly, we describe the hole-based approach applied to the creation of elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
-Then, we describe mapping of the different input data types to specific types representing the UI elements.
+Then, we describe mapping the input data types to specific types representing the UI elements.
 We present two ways of combining the created UI elements with the corresponding data.
 Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
 
 \section{Hole-based approach}
-The hole−based approach is
+The main motivation of this approach is to allow \emph{incremental creation} of UI elements.
+The elements are created based on the provided data and its structure.
+Each element corresponds to a data value.
+We need the ability to represent data values that have not yet been used to create UI elements.
+To address this need, we define a type named \emph{Hole} as follows:
+\begin{defn}[Hole type definition]
+	A Hole is a placeholder type representing a UI element that is yet to be created despite its existing corresponding data. It serves as a temporary stand-in during the incremental construction of a user interface.
+\end{defn}
+
+We then define the incremental creation process as a \emph{sequence of discrete opreations}.
+Each operation is either a \emph{modification} of an existing UI element, or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
+This discrete approach allows the system to perform different tasks after each operation.
+These tasks include updating the UI element preview, analyzing the input data or providing new modification menus and options.
+The system could also perform analysis of the already created UI elements and other operations at this time.
+
 
 \section{Type system}
+
+\subsection{JSON}
+The creation process starts by providing JSON data to the system.
+To use this data, we need to parse it and create an internal representation.
+The internal representation is in a form of an \emph{Abstract systax tree}.
+The type is defined as a discriminated union.
+\begin{listing}[H]
+	\caption {JSON Abstract syntax tree}
+	\begin{lstlisting}
+  type Json =
+    | JNumber of float
+    | JString of string
+    | JBool of bool
+    | JNull
+    | JArray of Json list
+    | JObject of Map<string, Json>  
+  \end{lstlisting}
+\end{listing}
+
+Each node represents a JSON value in the input data.
+The types of nodes can be divided into two categories:
+\begin{itemize}
+	\item {\textbf{Collections:} The first category contains types representing a \emph{collection} of other values. This category includes the types \emph{JObject} and \emph{JArray}.
+	      We define the two collection types as follows:
+	      \begin{itemize}
+		      \item \textbf{JObject:} It is based on the JSON Object type. Represents a collection of different JSON types. The original ordering of the inner elements is \emph{ignored}.
+		      \item \textbf{JArray:} It is based on the JSON List type. Represents a collections of JSON values of the \emph{same type and structure}. The original ordering of the inner elements is \emph{preserved}. \xxx{//TODO: May change}
+	      \end{itemize}
+	      }
+	\item \textbf{Primitives:} The second category contains types representing data primitives, such as numerical values, boolean values,
+	      a string of text, or the null value.
+\end{itemize}
+
 \subsection{RenderingCode}
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Each case represents a type of an HTML element.
 
-
 \begin{listing}[H]
-	\label{list:holeCode}
-	\caption {RenderingCode type with hole}
+	\caption {RenderingCode type}
 	\begin{lstlisting}
   type RenderingCode =
     | HtmlElement of 
@@ -28,12 +73,18 @@ Each case represents a type of an HTML element.
         innerValue: InnerValue
     | HtmlList of 
         listType: ListType * 
-        headers: string list option * 
         itemCode: RenderingCode list
-    | Sequence of RenderingCode list
-    | Hole of FieldHole
+    | Object of RenderingCode list
+    | Hole 
   \end{lstlisting}
 \end{listing}
 
-\section{Combined traversal}
+\section{Data mapping}
+\section{Creation process}
 
+
+We then traverse the
+
+\section{Referencing input data}
+\subsection{Simultanious traversal}
+\subsection{Selector based approach}
