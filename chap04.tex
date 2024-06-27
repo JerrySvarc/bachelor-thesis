@@ -9,31 +9,32 @@ We present two ways of combining the created UI elements with the corresponding 
 Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
 
 \section{Hole-based approach}
-The main motivation of this approach is to allow \emph{incremental creation} of UI elements.
+The primary motivation of this approach is to allow \emph{incremental creation} of UI elements.
 The elements are created based on the provided data and its structure.
 Each element corresponds to a data value.
-We need the ability to represent data values that have not yet been used to create UI elements.
+We need the ability to represent data values that have yet to be used to create UI elements.
 To address this need, we define a type named \emph{Hole} as follows:
 \begin{defn}[Hole type definition]
 	A Hole is a placeholder type representing a UI element that is yet to be created despite its existing corresponding data. It serves as a temporary stand-in during the incremental construction of a user interface.
 \end{defn}
 
 We then define the incremental creation process as a \emph{sequence of discrete opreations}.
-Each operation is either a \emph{modification} of an existing UI element, or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
+Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
 This discrete approach allows the system to perform different tasks after each operation.
-These tasks include updating the UI element preview, analyzing the input data or providing new modification menus and options.
-The system could also perform analysis of the already created UI elements and other operations at this time.
+These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
+The system could also analyze the UI elements and other operations that have already been created.
 
 
 \section{Type system}
 
-\subsection{JSON}
-The creation process starts by providing JSON data to the system.
+\subsection{JSON type}
+\label{sub:json}
+The creation process starts by providing \emph{JSON} data to the system.
 To use this data, we need to parse it and create an internal representation.
-The internal representation is in a form of an \emph{Abstract systax tree}.
-The type is defined as a discriminated union.
+The internal representation is in the form of an \emph{Abstract syntax tree}.
+The type named \emph{JSON} is defined as a discriminated union.
 \begin{listing}[H]
-	\caption {JSON Abstract syntax tree}
+	\caption {JSON type}
 	\begin{lstlisting}
   type Json =
     | JNumber of float
@@ -41,7 +42,7 @@ The type is defined as a discriminated union.
     | JBool of bool
     | JNull
     | JArray of Json list
-    | JObject of Map<string, Json>  
+    | JObject of Map<string, Json>
   \end{lstlisting}
 \end{listing}
 
@@ -51,33 +52,45 @@ The types of nodes can be divided into two categories:
 	\item {\textbf{Collections:} The first category contains types representing a \emph{collection} of other values. This category includes the types \emph{JObject} and \emph{JArray}.
 	      We define the two collection types as follows:
 	      \begin{itemize}
-		      \item \textbf{JObject:} It is based on the JSON Object type. Represents a collection of different JSON types. The original ordering of the inner elements is \emph{ignored}.
-		      \item \textbf{JArray:} It is based on the JSON List type. Represents a collections of JSON values of the \emph{same type and structure}. The original ordering of the inner elements is \emph{preserved}. \xxx{//TODO: May change}
+		      \item \textbf{JObject:} It is based on the JSON Object type and represents a collection of different JSON types. The original ordering of the inner elements is \emph{ignored}.
+		      \item \textbf{JArray:} It is based on the JSON List type and represents a collection of JSON values of the \emph{same type and structure}. The original ordering of the inner elements is \emph{preserved}.
 	      \end{itemize}
 	      }
-	\item \textbf{Primitives:} The second category contains types representing data primitives, such as numerical values, boolean values,
+	\item \textbf{Primitives:} The second category contains types representing data primitives such as numerical values, boolean values,
 	      a string of text, or the null value.
 \end{itemize}
 
-\subsection{RenderingCode}
+\subsection{RenderingCode type}
+To allow the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
-Each case represents a type of an HTML element.
-
+Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
+The created UI elements are represented as an Abstract syntax tree.
 \begin{listing}[H]
 	\caption {RenderingCode type}
 	\begin{lstlisting}
   type RenderingCode =
-    | HtmlElement of 
-        tag: Tag * 
-        attrs: Attributes * 
+    | HtmlElement of
+        tag: Tag *
+        attrs: Attributes *
         innerValue: InnerValue
-    | HtmlList of 
-        listType: ListType * 
+    | HtmlList of
+        listType: ListType *
         itemCode: RenderingCode list
-    | Object of RenderingCode list
-    | Hole 
+    | HtmlObject of RenderingCode list
+    | Hole
   \end{lstlisting}
 \end{listing}
+
+The types are defined as follows:
+\begin{itemize}
+	\item{ \textbf{HtmlElement:} The HtmlElement type represents a HTML element consisting of a Tag, Attributes and an InnerValue.
+	      The Tag and Attributes types are the
+	      }
+
+
+\end{itemize}
+
+The hole-based incremental creation process
 
 \section{Data mapping}
 \section{Creation process}
@@ -88,3 +101,4 @@ We then traverse the
 \section{Referencing input data}
 \subsection{Simultanious traversal}
 \subsection{Selector based approach}
+
