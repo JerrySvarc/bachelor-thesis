@@ -9,6 +9,7 @@ We present two ways of combining the created UI elements with the corresponding 
 Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
 
 \section{Hole-based approach}
+\label{sec:hole-based}
 The primary motivation of this approach is to allow \emph{incremental creation} of UI elements.
 The elements are created based on the provided data and its structure.
 Each element corresponds to a data value.
@@ -22,17 +23,18 @@ We then define the incremental creation process as a \emph{sequence of discrete 
 Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
 This discrete approach allows the system to perform different tasks after each operation.
 These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
-The system could also analyze the UI elements and other operations that have already been created.
+The system could also analyze the existing UI elements and other operations.
 
 
-\section{Type system}
+\section{Type system and Operations}
 
 \subsection{JSON type}
 \label{sub:json}
 The creation process starts by providing \emph{JSON} data to the system.
-To use this data, we need to parse it and create an internal representation.
-The internal representation is in the form of an \emph{Abstract syntax tree}.
-The type named \emph{JSON} is defined as a discriminated union.
+In order to use this data, we parse it and create an internal representation.
+We define a discriminated union type named \emph{JSON}.
+This type is the foundation for the Abstract Syntax Tree (AST) representation of the JSON data.
+The type is defined as a as follows:
 \begin{listing}[H]
 	\caption {JSON type}
 	\begin{lstlisting}
@@ -61,10 +63,10 @@ The types of nodes can be divided into two categories:
 \end{itemize}
 
 \subsection{RenderingCode type}
-To allow the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
+To facilitate the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
-The created UI elements are represented as an Abstract syntax tree.
+This type is the foundation for the \emph{Abstract Syntax Tree} representation of UI elements.
 \begin{listing}[H]
 	\caption {RenderingCode type}
 	\begin{lstlisting}
@@ -75,30 +77,89 @@ The created UI elements are represented as an Abstract syntax tree.
         innerValue: InnerValue
     | HtmlList of
         listType: ListType *
-        itemCode: RenderingCode list
-    | HtmlObject of RenderingCode list
+        elements: RenderingCode list
+    | HtmlObject of
+      objectType : ObjectType *
+      elements: RenderingCode list
     | Hole
   \end{lstlisting}
 \end{listing}
 
-The types are defined as follows:
+The case types are defined as follows:
 \begin{itemize}
-	\item{ \textbf{HtmlElement:} The HtmlElement type represents a HTML element consisting of a Tag, Attributes and an InnerValue.
-	      The Tag and Attributes types are the
+	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
+	      \begin{itemize}
+		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span).
+
+		      \item \emph{InnerValue}: Represents the content of the element, defined as:
+		            \begin{lstlisting}
+type InnerValue =
+  | Data 
+  | Empty
+  | Constant of string  
+        \end{lstlisting}
+		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
+	      \end{itemize}	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
+	      \begin{itemize}
+		      \item \emph{ListType}: Specifies the list type (e.g., unordered, ordered, table).
+		      \item \emph{itemCodes}: A list of RenderingCode elements representing list items.
+		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
+		            The Attribute type is defined as follows:
+		            \begin{lstlisting}
+type Attribute = string * InnerValue
+              \end{lstlisting}
+		            It consists of a key of a type string and an value of a type InnerValue. This allows selecting the value of an Attribute as a value from the input data.
+		            }
+
+	      \end{itemize}
+	\item \textbf{HtmlObject:} Represents a collection of diverse HTML elements derived from JSON object. It consists of:
+	      \begin{itemize}
+		      \item \emph{ObjectType}: Defines the type of the object (e.g., div, span, section).
+		      \item \emph{Elements}: A list of RenderingCode elements representing the object's contents.
+	      \end{itemize}
+	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
+	      The Hole is a discriminated union type
 	      }
 
 
+	\item  \xxx{//TODO: CustomWrapper and Javascript}
 \end{itemize}
 
-The hole-based incremental creation process
 
-\section{Data mapping}
+\subsection{Data Mapping: JSON to RenderingCode}
+The process of transforming JSON data into UI elements requires systematic mapping between JSON and RenderingCode types.
+This mapping forms the core of our UI generation system, allowing us to convert arbitrary JSON input into a structured representation of UI elements.
+Each JSON type has a corresponding representation in RenderingCode:
+\begin{itemize}
+	\item JObject maps to HtmlObject
+	\item JArray maps to HtmlList
+	\item JNull, JString, JNumber, and JBool map to HtmlElement
+\end{itemize}
+Th
+
+We define a mapping function named \emph{recognizeJson} as follows:
+\begin{listing}[H]
+	\caption {RenderingCode type}
+	\begin{lstlisting}
+let recognizeJson (json: Json) =
+    match json with
+    | JArray array -> 
+        //create a hole for each element of the array
+        HtmlList containing the holes as elements
+    | JObject obj ->
+        //create hole for each element of the object 
+        HtmlObject containing the holes as elements
+    | JNull -> Hole(UnNamed)
+    | _ -> HtmlElement 
+  \end{lstlisting}
+\end{listing}
+
+
 \section{Creation process}
 
 
-We then traverse the
 
 \section{Referencing input data}
-\subsection{Simultanious traversal}
+\subsection{Structual referencing}
 \subsection{Selector based approach}
 
