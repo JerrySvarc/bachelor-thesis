@@ -19,21 +19,21 @@ To address this need, we define a type named \emph{Hole} as follows:
 	A Hole is a placeholder type representing a UI element that is yet to be created despite its existing corresponding data. It serves as a temporary stand-in during the incremental construction of a user interface.
 \end{defn}
 
-We then define the incremental creation process as a \emph{sequence of discrete opreations}.
+We then define the \emph{incremental creation process} as a \emph{sequence of discrete opreations}.
 Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
 This discrete approach allows the system to perform different tasks after each operation.
 These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
 The system could also analyze the existing UI elements and other operations.
 
 
-\section{Type system and Operations}
+\section{Type system and Mapping}
 
 \subsection{JSON type}
 \label{sub:json}
 The creation process starts by providing \emph{JSON} data to the system.
 In order to use this data, we parse it and create an internal representation.
 We define a discriminated union type named \emph{JSON}.
-This type is the foundation for the Abstract Syntax Tree (AST) representation of the JSON data.
+This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
 The type is defined as a as follows:
 \begin{listing}[H]
 	\caption {JSON type}
@@ -68,7 +68,7 @@ The \emph{RenderingCode} is a discriminated union type used to represent the UI 
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
 This type is the foundation for the \emph{Abstract Syntax Tree} representation of UI elements.
 \begin{listing}[H]
-	\caption {RenderingCode type}
+	\caption {RenderingCode type definition}
 	\begin{lstlisting}
   type RenderingCode =
     | HtmlElement of
@@ -92,24 +92,31 @@ The case types are defined as follows:
 		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span).
 
 		      \item \emph{InnerValue}: Represents the content of the element, defined as:
-		            \begin{lstlisting}
-type InnerValue =
+		            \begin{listing}[H]
+			            \caption{InnerValue type definition}
+			            \begin{lstlisting}type InnerValue =
   | Data 
   | Empty
   | Constant of string  
-        \end{lstlisting}
+
+                  \end{lstlisting}
+		            \end{listing}
 		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
+		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
+		            The Attribute type is defined as follows:
+		            \begin{listing}[H]
+			            \caption {Attribute type definition}
+			            \begin{lstlisting}
+type Attribute = string * InnerValue
+              \end{lstlisting}
+		            \end{listing}
+		            It consists of a key of a type string and an value of a type InnerValue. This allows selecting the value of an Attribute as a value from the input data.
+		            }
+
 	      \end{itemize}	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
 	      \begin{itemize}
 		      \item \emph{ListType}: Specifies the list type (e.g., unordered, ordered, table).
 		      \item \emph{itemCodes}: A list of RenderingCode elements representing list items.
-		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
-		            The Attribute type is defined as follows:
-		            \begin{lstlisting}
-type Attribute = string * InnerValue
-              \end{lstlisting}
-		            It consists of a key of a type string and an value of a type InnerValue. This allows selecting the value of an Attribute as a value from the input data.
-		            }
 
 	      \end{itemize}
 	\item \textbf{HtmlObject:} Represents a collection of diverse HTML elements derived from JSON object. It consists of:
@@ -118,16 +125,17 @@ type Attribute = string * InnerValue
 		      \item \emph{Elements}: A list of RenderingCode elements representing the object's contents.
 	      \end{itemize}
 	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
-	      The Hole is a discriminated union type
+	      The Hole is a discriminated union type of either a \emph{Named}
 	      }
 
+	\item {\textbf{CustomWrapper:} //TODO:}
+	\item{\textbf{JavascriptCode:} //TODO:}
 
-	\item  \xxx{//TODO: CustomWrapper and Javascript}
 \end{itemize}
 
 
 \subsection{Data Mapping: JSON to RenderingCode}
-The process of transforming JSON data into UI elements requires systematic mapping between JSON and RenderingCode types.
+Transforming JSON data into UI elements requires systematic mapping between JSON and RenderingCode types.
 This mapping forms the core of our UI generation system, allowing us to convert arbitrary JSON input into a structured representation of UI elements.
 Each JSON type has a corresponding representation in RenderingCode:
 \begin{itemize}
@@ -135,11 +143,16 @@ Each JSON type has a corresponding representation in RenderingCode:
 	\item JArray maps to HtmlList
 	\item JNull, JString, JNumber, and JBool map to HtmlElement
 \end{itemize}
-Th
 
-We define a mapping function named \emph{recognizeJson} as follows:
+The \emph{incremental creation process} described in Section~\ref{sec:hole-based} involves dynamically creating replaceable \emph{Hole} elements.
+We perform this creation lazyly and incorporate it into the mapping process.
+A \emph{Hole} element is created for each inner element of the collection types described in Section~\ref{sub:json}.
+
+
+We call this mapping process the \emph{recognition} of the JSON value and define the mapping function named \emph{recognizeJson} as follows:
+
 \begin{listing}[H]
-	\caption {RenderingCode type}
+	\caption {JSON to RenderingCode mapping}
 	\begin{lstlisting}
 let recognizeJson (json: Json) =
     match json with
@@ -154,11 +167,55 @@ let recognizeJson (json: Json) =
   \end{lstlisting}
 \end{listing}
 
+\section{Incremental Creation process}
 
-\section{Creation process}
+We described the \emph{incremental creation process} briefly in Section~\ref{sec:hole-based} as a sequence of discrete operations.
+In this Section we extend this description and define the previously described operations.
 
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[node distance=1.5cm and 1.5cm, auto,
+			user/.style={rectangle, draw=black, thick, fill=yellow!20,
+					text width=7em, text centered, rounded corners, minimum height=3em},
+			system/.style={rectangle, draw=black, thick, fill=blue!20,
+					text width=7em, text centered, rounded corners, minimum height=3em},
+			legend/.style={rectangle, draw=black, thin, fill=white,
+					text width=4em, text centered,rounded corners, minimum height=2em, font=\footnotesize},
+			line/.style={draw, thick, -stealth', shorten >=2pt, shorten <=2pt}]
 
+		% Define nodes
+		\node [user] (concrete) {New JSON value visited};
+		\node [system, right=of concrete] (hole) {Create a Hole};
+		\node [system, right=of hole] (holemenu) {Display Hole Menu};
+		\node [user, below=of holemenu] (replace) {Replace Hole};
+		\node [system, left=of replace] (recognize) {Create new RenderingCode based on JSON value};
+		\node [system, left=of recognize] (update) {Update AST with new RenderingCode};
+		\node [system, below=of update] (elemmenu){Display modification menu};
+		\node [system, right=of elemmenu] (final) {Render element preview};
 
+		% Draw connections
+		\path [line] (concrete) -- (hole);
+		\path [line] (hole) -- (holemenu);
+		\path [line] (holemenu) -- (replace);
+		\path [line] (replace) -- (recognize);
+		\path [line] (recognize) -- (update);
+		\path [line] (update) -- (elemmenu);
+		\path [line] (update) -- (final);
+
+		% Add step numbers and labels
+		\foreach [count=\i] \n/\l in {concrete/User, hole/System, holemenu/System, replace/User, update/System, elemmenu/System, final/System}
+			{
+				\node[font=\small, above left, text=black] at (\n.north west) {\i};
+				\node[font=\tiny, below right, text=gray] at (\n.south east) {\l};
+			}
+
+		% Compact Legend
+		\node[legend, fill=yellow!20, below right=0.5cm and -0.5cm of final] (user_legend) {User Action};
+		\node[legend, fill=blue!20, right=0.8cm of user_legend] (system_legend) {System Action};
+
+	\end{tikzpicture}	\caption{Single UI Element Creation Process}
+	\label{fig:ui-creation-process}
+\end{figure}
 \section{Referencing input data}
 \subsection{Structual referencing}
 \subsection{Selector based approach}
