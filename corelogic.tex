@@ -28,6 +28,9 @@ The system could also analyze the existing UI elements and other operations.
 
 \section{Type System and Mapping}
 
+In this section, we describe the types which the system uses to represent the input data and types used to represent the created UI elements.
+We also define the mapping between the input data and the UI element representation.
+
 \subsection{JSON Type}
 \label{sub:json}
 The creation process starts by providing \emph{JSON} data to the system.
@@ -35,7 +38,7 @@ In order to use this data, we parse it and create an internal representation.
 We define a discriminated union type named \emph{JSON}.
 This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
 The type is defined as follows:
-\begin{listing}[H]
+\begin{listing}[h]
 	\caption {JSON type}
 	\begin{lstlisting}
   type Json =
@@ -67,8 +70,8 @@ To facilitate the creation of UI elements based on the JSON type, we define a ty
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
 This type is the foundation for the \emph{Abstract Syntax Tree} representation of UI elements.
-\begin{listing}[H]
-	\caption {RenderingCode type definition}
+\begin{listing}[h]
+	\caption {RenderingCode type}
 	\begin{lstlisting}
   type RenderingCode =
     | HtmlElement of
@@ -89,12 +92,12 @@ The case types are defined as follows:
 \begin{itemize}
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
 	      \begin{itemize}
-		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span).
-
-		      \item \emph{InnerValue}: Represents the content of the element, defined as:
-		            \begin{listing}[H]
+		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span). \item \emph{InnerValue}: Represents the content of the element defined as seen in Program~\ref{fig:inner}.
+		            \begin{listing}
 			            \caption{InnerValue type definition}
-			            \begin{lstlisting}type InnerValue =
+			            \label{fig:inner}
+			            \begin{lstlisting}
+type InnerValue =
   | Data 
   | Empty
   | Constant of string  
@@ -103,32 +106,30 @@ The case types are defined as follows:
 		            \end{listing}
 		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
-		            The Attribute type is defined as follows:
-		            \begin{listing}[H]
-			            \caption {Attribute type definition}
-			            \begin{lstlisting}
-type Attribute = string * InnerValue
-              \end{lstlisting}
-		            \end{listing}
 		            It consists of a string key and an InnerValue value. This representation allows for the selection of an attribute's value from the input data.
 		            }
 
-	      \end{itemize}	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
+	      \end{itemize}
+
+	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
 	      \begin{itemize}
 		      \item \emph{ListType}: Specifies the list type (e.g., unordered, ordered, table).
 		      \item \emph{itemCodes}: A list of RenderingCode elements representing list items.
 
 	      \end{itemize}
+
 	\item \textbf{HtmlObject:} Represents a collection of diverse HTML elements derived from JSON object. It consists of:
 	      \begin{itemize}
 		      \item \emph{ObjectType}: Defines the type of the object (e.g., div, span, Section).
 		      \item \emph{Elements}: A list of RenderingCode elements representing the object's contents.
 	      \end{itemize}
+
 	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
 	      The Hole is a discriminated union type of either a \emph{Named}
 	      }
 
 	\item {\textbf{CustomWrapper:} //TODO:}
+
 	\item{\textbf{JavascriptCode:} //TODO:}
 
 \end{itemize}
@@ -152,7 +153,7 @@ A \emph{Hole} element is created for each inner element of the collection types 
 
 We call this mapping process the \emph{recognition} of the JSON value and define the mapping function named \emph{recognizeJson} as follows:
 
-\begin{listing}[H]
+\begin{listing}[h]
 	\caption {JSON to RenderingCode mapping}
 	\begin{lstlisting}
 let recognizeJson (json: Json) =
@@ -207,10 +208,13 @@ After every User operation, the system performs this traversal to update the ele
 
 \subsection{Hole Replacement and Modification}
 
+During the creation process, User operations require finding a specific node inside the RenderingCode AST.
+To find this specific node, we define a dynamically generated \emph{Path} for all nodes during the traversal process.
+The Path is a sequence of indices.
 
 \subsection{Creation of a single RenderingCode}
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm and 1.5cm, auto,
 			user/.style={rectangle, draw=black, thick, fill=yellow!20,
@@ -241,10 +245,10 @@ After every User operation, the system performs this traversal to update the ele
 		\path [line] (update) -- (final);
 
 		% Add step numbers and labels
-		\foreach [count=\i] \n/\l in {concrete/User, hole/System, holemenu/System, replace/User, update/System, elemmenu/System, final/System}
+		\foreach [count=\i] \n/\l in {concrete/System, hole/System, holemenu/System, replace/User,recognize/System, update/System, elemmenu/System, final/System}
 			{
 				\node[font=\small, above left, text=black] at (\n.north west) {\i};
-				\node[font=\tiny, below right, text=gray] at (\n.south east) {\l};
+				\node[font=\tiny, below right, text=black] at (\n.south east) {\l};
 			}
 
 		% Compact Legend
@@ -252,7 +256,7 @@ After every User operation, the system performs this traversal to update the ele
 		\node[legend, fill=blue!20, right=0.8cm of user_legend] (system_legend) {System Operation};
 
 	\end{tikzpicture}	\caption{Single RenderingCode Creation Process}
-	\label{fig:ui-creation-process}
+	\label{fig:element-creation}
 \end{figure}
 
 \section{Referencing input data}
