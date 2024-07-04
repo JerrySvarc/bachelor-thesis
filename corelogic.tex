@@ -1,4 +1,4 @@
-\chapter{Core logic}
+\chapter{Core Logic}
 \label{chap:corelogic}
 
 This chapter describes the core logic of the programming system.
@@ -8,7 +8,7 @@ Then, we describe mapping the input data types to specific types representing th
 We present two ways of combining the created UI elements with the corresponding data.
 Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
 
-\section{Hole-based approach}
+\section{Hole-based Approach}
 \label{sec:hole-based}
 The primary motivation of this approach is to allow \emph{incremental creation} of UI elements.
 The elements are created based on the provided data and its structure.
@@ -26,15 +26,15 @@ These tasks include updating the UI element preview, analyzing the input data, o
 The system could also analyze the existing UI elements and other operations.
 
 
-\section{Type system and Mapping}
+\section{Type System and Mapping}
 
-\subsection{JSON type}
+\subsection{JSON Type}
 \label{sub:json}
 The creation process starts by providing \emph{JSON} data to the system.
 In order to use this data, we parse it and create an internal representation.
 We define a discriminated union type named \emph{JSON}.
 This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
-The type is defined as a as follows:
+The type is defined as follows:
 \begin{listing}[H]
 	\caption {JSON type}
 	\begin{lstlisting}
@@ -62,7 +62,7 @@ The types of nodes can be divided into two categories:
 	      a string of text, or the null value.
 \end{itemize}
 
-\subsection{RenderingCode type}
+\subsection{RenderingCode Type}
 To facilitate the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
@@ -110,7 +110,7 @@ The case types are defined as follows:
 type Attribute = string * InnerValue
               \end{lstlisting}
 		            \end{listing}
-		            It consists of a key of a type string and an value of a type InnerValue. This allows selecting the value of an Attribute as a value from the input data.
+		            It consists of a string key and an InnerValue value. This representation allows for the selection of an attribute's value from the input data.
 		            }
 
 	      \end{itemize}	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
@@ -121,7 +121,7 @@ type Attribute = string * InnerValue
 	      \end{itemize}
 	\item \textbf{HtmlObject:} Represents a collection of diverse HTML elements derived from JSON object. It consists of:
 	      \begin{itemize}
-		      \item \emph{ObjectType}: Defines the type of the object (e.g., div, span, section).
+		      \item \emph{ObjectType}: Defines the type of the object (e.g., div, span, Section).
 		      \item \emph{Elements}: A list of RenderingCode elements representing the object's contents.
 	      \end{itemize}
 	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
@@ -135,6 +135,7 @@ type Attribute = string * InnerValue
 
 
 \subsection{Data Mapping: JSON to RenderingCode}
+\label{sec:mapping}
 Transforming JSON data into UI elements requires systematic mapping between JSON and RenderingCode types.
 This mapping forms the core of our UI generation system, allowing us to convert arbitrary JSON input into a structured representation of UI elements.
 Each JSON type has a corresponding representation in RenderingCode:
@@ -160,17 +161,54 @@ let recognizeJson (json: Json) =
         //create a hole for each element of the array
         HtmlList containing the holes as elements
     | JObject obj ->
-        //create hole for each element of the object 
+        //create a Hole for each element of the object 
         HtmlObject containing the holes as elements
     | JNull -> Hole(UnNamed)
     | _ -> HtmlElement 
   \end{lstlisting}
 \end{listing}
 
-\section{Incremental Creation process}
+\section{Incremental Creation Process}
 
 We described the \emph{incremental creation process} briefly in Section~\ref{sec:hole-based} as a sequence of discrete operations.
-In this Section we extend this description and define the previously described operations.
+In this Section, we extend this description and define the previously described operations in greater detail.
+We divide the operations into two categories:
+\begin{itemize}
+	\item \textbf{User operations:} Operations performed by the user such as element creation, element modification, and providing data to the system.
+	      User operations are performed through the provided GUI.
+	\item \textbf{System operations:} Operations performed by the system in reaction to the User operations.
+	      These operations include creating new RenderingCode elements, analyzing newly visited JSON values, modifying AST, rendering menus, and previewing elements.
+\end{itemize}
+This categorization allows us to divide the functionality and responsibilities of the system between different parts of the application.
+For example, the GUI portion of the application is mainly responsible for accepting User operations, whereas other modules can implement different System operations.
+
+
+\subsection{Traversal}
+An essential aspect of the creation process is how the system processes the JSON AST and helps the user build the RenderingCode AST.
+The process involves traversing both the JSON and RenderingCode ASTs simultaneously.
+We can do this because we create the RenderingCode AST based on the structure of the JSON AST.
+This allows the system to dynamically create Hole elements for direct descendants of existing RenderingCode elements for which corresponding data exists, but the elements have not yet been created.
+
+Another way to look at this process is that the RenderingCode AST is guiding our traversal, while the JSON AST inspires the structure of the RenderingCode AST.
+The traversal begins from the roots of the ASTs, and we traverse the trees recursively.
+Based on the type of the visited RenderingCode node and the mapping described in Section~\ref{sec:mapping}, we can perform different operations:
+\begin{itemize}
+	\item \textbf{HtmlElement:} The node is of type HtmlElement, which maps to a primitive JSON value. This means the JSON value has no descendants, and we can end the traversal.
+	      The system then performs the operations of displaying a preview of the HtmlElement and a modification menu.
+	\item \textbf{Hole:} The node is of type Hole, meaning the JSON value was visited before, but the user has not created the corresponding RenderingCode.
+	      The presence of a Hole element also means that we cannot visit the potential descendants, and we can stop the traversal.
+	      The system displays a menu to add a new element corresponding to the JSON value.
+
+	\item \textbf{HtmlList and HtmlObject:} When the node represents a \emph{Collection} type of type HtmlList or HtmlObject, we recursively traverse all its descendants.
+	      The system displays a modification menu for the element and continues the traversal.
+\end{itemize}
+
+After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
+
+\subsection{Hole Replacement and Modification}
+
+
+\subsection{Creation of a single RenderingCode}
 
 \begin{figure}[H]
 	\centering
@@ -184,7 +222,7 @@ In this Section we extend this description and define the previously described o
 			line/.style={draw, thick, -stealth', shorten >=2pt, shorten <=2pt}]
 
 		% Define nodes
-		\node [user] (concrete) {New JSON value visited};
+		\node [system] (concrete) {New JSON value visited};
 		\node [system, right=of concrete] (hole) {Create a Hole};
 		\node [system, right=of hole] (holemenu) {Display Hole Menu};
 		\node [user, below=of holemenu] (replace) {Replace Hole};
@@ -210,12 +248,13 @@ In this Section we extend this description and define the previously described o
 			}
 
 		% Compact Legend
-		\node[legend, fill=yellow!20, below right=0.5cm and -0.5cm of final] (user_legend) {User Action};
-		\node[legend, fill=blue!20, right=0.8cm of user_legend] (system_legend) {System Action};
+		\node[legend, fill=yellow!20, below right=0.5cm and -0.5cm of final] (user_legend) {User Operation};
+		\node[legend, fill=blue!20, right=0.8cm of user_legend] (system_legend) {System Operation};
 
-	\end{tikzpicture}	\caption{Single UI Element Creation Process}
+	\end{tikzpicture}	\caption{Single RenderingCode Creation Process}
 	\label{fig:ui-creation-process}
 \end{figure}
+
 \section{Referencing input data}
 \subsection{Structual referencing}
 \subsection{Selector based approach}
