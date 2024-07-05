@@ -5,8 +5,8 @@ This chapter describes the core logic of the programming system.
 Firstly, we describe the hole-based approach applied to the creation of elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
 Then, we describe mapping the input data types to specific types representing the UI elements.
-We present two ways of combining the created UI elements with the corresponding data.
-Lastly, we describe one possible way of displaying a preview of the created UI elements and the modification menus.
+Lastly, we present two ways of combining the created UI elements with the corresponding data.
+
 
 \section{Hole-based Approach}
 \label{sec:hole-based}
@@ -30,6 +30,7 @@ The system could also analyze the existing UI elements and other operations.
 
 In this section, we describe the types which the system uses to represent the input data and types used to represent the created UI elements.
 We also define the mapping between the input data and the UI element representation.
+We use the F\# syntax for type definitions.
 
 \subsection{JSON Type}
 \label{sub:json}
@@ -210,11 +211,46 @@ After every User operation, the system performs this traversal to update the ele
 
 During the creation process, User operations require finding a specific node inside the RenderingCode AST.
 To find this specific node, we define a dynamically generated \emph{Path} for all nodes during the traversal process.
-The Path is a sequence of indices.
+The \emph{Path} is a sequence of indices unique to every node in the AST.
+
+\begin{listing}[h]
+	\caption {Example: RenderingCode AST with corresponding paths}
+	\label{fig:paths}
+	\begin{lstlisting}
+  HtmlObject [ //Path: []
+      HtmlElement(Div, [], Empty) //Path: [0]
+      HtmlList(UnorderedList, [ //Path: [1]
+          HtmlElement(Li, [], Constant "Item 1") //Path: [1,0]
+          HtmlElement(Li, [], Constant "Item 2") //Path: [1,1]
+				])
+		]
+  \end{lstlisting}
+\end{listing}
+
+We can see the different paths for each element in Program~\ref{fig:paths} which shows an example RenderingCode AST.
+The example AST consists of a root node of a type HtmlObject and elements contained within it.
+We see that the root node has an empty path.
+Then for each element inside a collection, we append its position inside the collection to the path.
+This then allows us to traverse the AST based on the specified path and find the correct element using a recursive search funtion.
+
+\xxx{
+	Because we also allow the creation of a CustomWrapper element containing an existing rendering code and an arbitrary number of different CustomElements,
+	we need the ability to create paths for these CustomElements aswell.
+	We achive this by adding a -1 index to each of their paths followed by their index inside the CustomWrapper collection.}
+
+Using the dynamically created paths, we can then replace a RenderingCode by following its specified path through the RenderingCode AST.
+A potential implementation of the \emph{replace} function can be seen in Program~\ref{fig:replace}
+
+\begin{listing}
+	\caption {Function used to replace a RenderingCode inside the RenderingCode AST}
+	\label{fig:replace}
+	\begin{lstlisting}
+  \end{lstlisting}
+\end{listing}
 
 \subsection{Creation of a single RenderingCode}
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm and 1.5cm, auto,
 			user/.style={rectangle, draw=black, thick, fill=yellow!20,
@@ -252,10 +288,10 @@ The Path is a sequence of indices.
 			}
 
 		% Compact Legend
-		\node[legend, fill=yellow!20, below right=0.5cm and -0.5cm of final] (user_legend) {User Operation};
-		\node[legend, fill=blue!20, right=0.8cm of user_legend] (system_legend) {System Operation};
+		\node[legend, fill=yellow!20, below right=0.5cm and 1cm of final] (user_legend) {User Operation};
+		\node[legend, fill=blue!20, right=0.5cm of user_legend] (system_legend) {System Operation};
 
-	\end{tikzpicture}	\caption{Single RenderingCode Creation Process}
+	\end{tikzpicture}\caption{Single RenderingCode Creation Process}
 	\label{fig:element-creation}
 \end{figure}
 
