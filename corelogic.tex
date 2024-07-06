@@ -186,6 +186,7 @@ For example, the GUI portion of the application is mainly responsible for accept
 
 
 \subsection{Traversal}
+\label{sec:traversal}
 An essential aspect of the creation process is how the system processes the JSON AST and helps the user build the RenderingCode AST.
 The process involves traversing both the JSON and RenderingCode ASTs simultaneously.
 We can do this because we create the RenderingCode AST based on the structure of the JSON AST.
@@ -207,10 +208,11 @@ Based on the type of the visited RenderingCode node and the mapping described in
 
 After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
 
+
 \subsection{Hole Replacement and Modification}
 
-During the creation process, User operations require finding a specific node inside the RenderingCode AST.
-To find this specific node, we define a dynamically generated \emph{Path} for all nodes during the traversal process.
+User operations require finding a specific node inside the RenderingCode AST during the creation process.
+We define a dynamically generated \emph{Path} for all nodes during the traversal process to find this specific node.
 The \emph{Path} is a sequence of indices unique to every node in the AST.
 
 \begin{listing}[h]
@@ -227,28 +229,44 @@ The \emph{Path} is a sequence of indices unique to every node in the AST.
   \end{lstlisting}
 \end{listing}
 
-We can see the different paths for each element in Program~\ref{fig:paths} which shows an example RenderingCode AST.
+We can see the different paths for each element in Program~\ref{fig:paths}, which shows an example of RenderingCode AST.
 The example AST consists of a root node of a type HtmlObject and elements contained within it.
 We see that the root node has an empty path.
-Then for each element inside a collection, we append its position inside the collection to the path.
-This then allows us to traverse the AST based on the specified path and find the correct element using a recursive search funtion.
+Then, we append the position of each element inside the collection to the Path.
+This allows us to traverse the AST based on the specified Path and find the correct element using a recursive search function.
 
 \xxx{
 	Because we also allow the creation of a CustomWrapper element containing an existing rendering code and an arbitrary number of different CustomElements,
-	we need the ability to create paths for these CustomElements aswell.
-	We achive this by adding a -1 index to each of their paths followed by their index inside the CustomWrapper collection.}
+	we need the ability to create paths for these CustomElements as well.
+	We achieve this by adding a -1 index to each Path, followed by their index inside the CustomWrapper collection.}
 
-Using the dynamically created paths, we can then replace a RenderingCode by following its specified path through the RenderingCode AST.
-A potential implementation of the \emph{replace} function can be seen in Program~\ref{fig:replace}
+Using the dynamically created paths, we can replace a RenderingCode by following its specified Path through the RenderingCode AST.
+We can see a potential implementation of the \emph{replace} function leveraging this indexing in Program~\ref{fig:replace}.
 
+
+\xxx{//TODO: update replace function implementation}
 \begin{listing}
-	\caption {Function used to replace a RenderingCode inside the RenderingCode AST}
+	\caption {A function used to replace a RenderingCode inside the RenderingCode AST}
 	\label{fig:replace}
 	\begin{lstlisting}
   \end{lstlisting}
 \end{listing}
 
+The User operations such as replacing a Hole with a new RenderingCode or modification of an existing RenderingCode correspond to a specific usage of the replace function.
+
 \subsection{Creation of a single RenderingCode}
+
+Now that we have defined all necessary operations, we can focus on the creation process of a single RenderingCode element based on the input data.
+Creating a single RenderingCode element consists of multiple System operations and a single User operation.
+We can see the sequence of operations in Figure~\ref{fig:element-creation}.
+
+
+The process starts when the system visits a previously unvisited node of the JSON AST during the traversal described in Section~\ref{sec:traversal}.
+The system automatically creates a corresponding Hole element and adds it to the RenderingCode AST.
+Then, the system displays a menu to the user, allowing them to replace the Hole element with a RenderingCode based on the JSON value.
+After the user chooses to add the new RenderingCode element, the system uses the previously defined \emph{recognizeJson} function to create the new element based on the corresponding JSON value.
+Following that, the system uses the \emph{replace} function to replace the existing Hole element at the specified path with the newly created RenderingCode.
+Lastly, traverses the modified RenderingCode AST and JSON AST as described in Section~\ref{sec:traversal} and performs operations such as displaying modification menus and element preview.
 
 \begin{figure}[h]
 	\centering
@@ -268,8 +286,7 @@ A potential implementation of the \emph{replace} function can be seen in Program
 		\node [user, below=of holemenu] (replace) {Replace Hole};
 		\node [system, left=of replace] (recognize) {Create new RenderingCode based on JSON value};
 		\node [system, left=of recognize] (update) {Update AST with new RenderingCode};
-		\node [system, below=of update] (elemmenu){Display modification menu};
-		\node [system, right=of elemmenu] (final) {Render element preview};
+		\node [system,  below=of update] (final) {Traverse the Newly modified RenderingCode AST};
 
 		% Draw connections
 		\path [line] (concrete) -- (hole);
@@ -277,25 +294,27 @@ A potential implementation of the \emph{replace} function can be seen in Program
 		\path [line] (holemenu) -- (replace);
 		\path [line] (replace) -- (recognize);
 		\path [line] (recognize) -- (update);
-		\path [line] (update) -- (elemmenu);
 		\path [line] (update) -- (final);
 
 		% Add step numbers and labels
-		\foreach [count=\i] \n/\l in {concrete/System, hole/System, holemenu/System, replace/User,recognize/System, update/System, elemmenu/System, final/System}
+		\foreach [count=\i] \n/\l in {concrete/System, hole/System, holemenu/System, replace/User,recognize/System, update/System,  final/System}
 			{
 				\node[font=\small, above left, text=black] at (\n.north west) {\i};
 				\node[font=\tiny, below right, text=black] at (\n.south east) {\l};
 			}
 
 		% Compact Legend
-		\node[legend, fill=yellow!20, below right=0.5cm and 1cm of final] (user_legend) {User Operation};
+		\node[legend, fill=yellow!20,  right=1cm of final] (user_legend) {User Operation};
 		\node[legend, fill=blue!20, right=0.5cm of user_legend] (system_legend) {System Operation};
 
 	\end{tikzpicture}\caption{Single RenderingCode Creation Process}
 	\label{fig:element-creation}
 \end{figure}
 
-\section{Referencing input data}
+\section{Combining RenderingCode and JSON data}
+\xxx{Once the RenderingCode AST is created the system needs the ability to combine the RenderingCode elements with the data from the JSON AST.
+
+}
 \subsection{Structual referencing}
 \subsection{Selector based approach}
-
+\section{Summary}
