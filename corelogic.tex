@@ -5,8 +5,8 @@ This chapter describes the core logic of the programming system.
 Firstly, we describe the hole-based approach applied to the creation of elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
 Then, we describe mapping the input data types to specific types representing the UI elements.
-Lastly, we present two ways of combining the created UI elements with the corresponding data.
-
+Lastly, we describe how the system combines the input data and the corresponding UI elements.
+All program examples in this Chapter are written in the F\# programming language.
 
 \section{Hole-based Approach}
 \label{sec:hole-based}
@@ -30,7 +30,7 @@ The system could also analyze the existing UI elements and other operations.
 
 In this section, we describe the types which the system uses to represent the input data and types used to represent the created UI elements.
 We also define the mapping between the input data and the UI element representation.
-We use the F\# syntax for type definitions.
+
 
 \subsection{JSON Type}
 \label{sub:json}
@@ -38,19 +38,8 @@ The creation process starts by providing \emph{JSON} data to the system.
 In order to use this data, we parse it and create an internal representation.
 We define a discriminated union type named \emph{JSON}.
 This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
-The type is defined as follows:
-\begin{listing}[h]
-	\caption {JSON type}
-	\begin{lstlisting}
-  type Json =
-    | JNumber of float
-    | JString of string
-    | JBool of bool
-    | JNull
-    | JArray of Json list
-    | JObject of Map<string, Json>
-  \end{lstlisting}
-\end{listing}
+We can see the type definition in Program~\ref{program:json}.
+
 
 Each node represents a JSON value in the input data.
 The types of nodes can be divided into two categories:
@@ -65,6 +54,20 @@ The types of nodes can be divided into two categories:
 	\item \textbf{Primitives:} The second category contains types representing data primitives such as numerical values, boolean values,
 	      a string of text, or the null value.
 \end{itemize}
+
+\begin{listing}[h]
+	\label{program:json}
+	\caption {JSON type}
+	\begin{lstlisting}
+type Json =
+  | JNumber of float
+  | JString of string
+  | JBool of bool
+  | JNull
+  | JArray of Json list
+  | JObject of Map<string, Json>
+  \end{lstlisting}
+\end{listing}
 
 \subsection{RenderingCode Type}
 To facilitate the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
@@ -95,23 +98,23 @@ The case types are defined as follows:
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
 	      \begin{itemize}
 		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span). \item \emph{InnerValue}: Represents the content of the element defined as seen in Program~\ref{fig:inner}.
-		            \begin{listing}
-			            \caption{InnerValue type definition}
-			            \label{fig:inner}
-			            \begin{lstlisting}
-type InnerValue =
-  | Data 
-  | Empty
-  | Constant of string  
-
-                  \end{lstlisting}
-		            \end{listing}
 		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
 		            It consists of a string key and an InnerValue value. This representation allows for the selection of an attribute's value from the input data.
 		            }
 
 	      \end{itemize}
+	      \begin{listing}[h]
+		      \caption{InnerValue type definition}
+		      \label{fig:inner}
+		      \begin{lstlisting}
+type InnerValue =
+  | Data 
+  | Empty
+  | Constant of string  
+
+                  \end{lstlisting}
+	      \end{listing}
 
 	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
 	      \begin{itemize}
@@ -132,7 +135,7 @@ type InnerValue =
 
 	\item {\textbf{CustomWrapper:} //TODO:}
 
-	\item{\textbf{JavascriptCode:} //TODO:}
+	\item{\textbf{CustomElement:} //TODO:}
 
 \end{itemize}
 
