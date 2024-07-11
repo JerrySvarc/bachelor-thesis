@@ -22,11 +22,11 @@ In the context of creating web application UI elements, some data can be used on
 Another definition which could be used to describe our approach is the following:
 
 \begin{defn}[Data to UI]
-	Defined by \citet{Sahay_Indamutsa_Di} as "A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows."
+	Defined by~\citet{Sahay_Indamutsa_Di} as "A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows."
 \end{defn}
 
 This definition also includes the concepts of data modeling and specification of business logic rules and workflows but we only focus on the aspect of user interface creation in this thesis.
-The main difference between our programming system and other systems described by \citet{Sahay_Indamutsa_Di} as \emph{Data to UI} such as \citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
+The main difference between our programming system and other systems described by~\citet{Sahay_Indamutsa_Di} as \emph{Data to UI} such as~\citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
 Usually, the \emph{Data to UI} systems provide options to create pre-made UI elements, which may then reference and use the provided data.
 Whereas our proposed system creates the UI elements based on the data itself which then reference the provided data.
 
@@ -54,15 +54,13 @@ This data can then be provided to the system and used to create the desired web 
 The second design principle is the concept of a \emph{low-code editor}.
 Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
 The system provides contextual menus to aid in the creation of the application.
-Various existing low-code programming editors were presented previously in section \ref{sec:low-code}.
+Various existing low-code programming editors were presented previously in Section~\ref{sec:low-code}.
 
 The visual design and functionality of the system is inspired by the "what you see is what you get" (abbreviated as \emph{WYSIWYG}) editors presented by \citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
 This sub-category of low-code editors displays the application's output as if running inside its native environment.
 This design allows the system to update the output every time a change is made to the program and display its result, allowing for a more dynamic development loop \cite{output-directed-programming}.
 
-Our prototype system interweaves the contextual menus with the application's output, as seen in chapter \ref{chap:walktrough}.
-Each menu is placed next to the corresponding element, which it can modify.
-The developer can also hide these menus and show only the application's output.
+Our prototype system provides contextual menus based on the structure of the input data, as we will see in Chapter~\ref{chap:implementation} and Chapter~\ref{chap:walktrough}.
 The design of the contextual menus was influenced by menus in currently existing programming systems, such as property menus from the \emph{Visual studio} editor.
 
 \section{Code generation}

@@ -23,11 +23,11 @@ We then define the \emph{incremental creation process} as a \emph{sequence of di
 Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
 This discrete approach allows the system to perform different tasks after each operation.
 These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
-The system could also analyze the existing UI elements and other operations.
+The system can also analyze the existing UI elements and perform other operations at this time.
 
 
 \section{Type System and Mapping}
-
+\label{sec:types}
 In this section, we describe the types which the system uses to represent the input data and types used to represent the created UI elements.
 We also define the mapping between the input data and the UI element representation.
 
@@ -38,7 +38,7 @@ The creation process starts by providing \emph{JSON} data to the system.
 In order to use this data, we parse it and create an internal representation.
 We define a discriminated union type named \emph{JSON}.
 This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
-We can see the type definition in Program~\ref{program:json}.
+We can see the type definition in Program \ref{fig:json}.
 
 
 Each node represents a JSON value in the input data.
@@ -55,17 +55,17 @@ The types of nodes can be divided into two categories:
 	      a string of text, or the null value.
 \end{itemize}
 
-\begin{listing}[h]
-	\label{program:json}
+\begin{listing}[htbp]
 	\caption {JSON type}
+	\label{fig:json}
 	\begin{lstlisting}
 type Json =
-  | JNumber of float
-  | JString of string
-  | JBool of bool
+  | JNumber 
+  | JString 
+  | JBool
   | JNull
-  | JArray of Json list
-  | JObject of Map<string, Json>
+  | JArray 
+  | JObject 
   \end{lstlisting}
 \end{listing}
 
@@ -74,26 +74,33 @@ To facilitate the creation of UI elements based on the JSON type, we define a ty
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
 This type is the foundation for the \emph{Abstract Syntax Tree} representation of UI elements.
-\begin{listing}[h]
+We can see the type definition in Program~\ref{fig:renderingCode}.
+\begin{listing}[htbp]
 	\caption {RenderingCode type}
+	\label{fig:renderingCode}
 	\begin{lstlisting}
-  type RenderingCode =
-    | HtmlElement of
-        tag: Tag *
-        attrs: Attributes *
-        innerValue: InnerValue
-    | HtmlList of
-        listType: ListType *
-        elements: RenderingCode list
-    | HtmlObject of
-      objectType : ObjectType *
-      keys : string list
-      elements: RenderingCode list
-    | Hole
+type RenderingCode =
+  | HtmlElement of 
+      tag * 
+      attrs * 
+      innerValue * 
+      eventHandlers
+  | HtmlList of 
+      listType * 
+      itemCode * 
+      eventHandlers 
+  | HtmlObject of 
+      objectType *
+      keyOrdering * 
+      codes * 
+      eventHandlers 
+  | CustomWrapper of CustomWrapper
+  | CustomElement of CustomElement
+  | Hole of FieldHole
   \end{lstlisting}
 \end{listing}
-
-The case types are defined as follows:
+\newpage
+We define each case type and what it consists of as follows:
 \begin{itemize}
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
 	      \begin{itemize}
@@ -104,14 +111,14 @@ The case types are defined as follows:
 		            }
 
 	      \end{itemize}
-	      \begin{listing}[h]
+	      \begin{listing}[htbp]
 		      \caption{InnerValue type definition}
 		      \label{fig:inner}
 		      \begin{lstlisting}
 type InnerValue =
   | Data 
   | Empty
-  | Constant of string  
+  | Constant
 
                   \end{lstlisting}
 	      \end{listing}
@@ -133,12 +140,49 @@ type InnerValue =
 	      The Hole is a discriminated union type of either a \emph{Named}
 	      }
 
-	\item {\textbf{CustomWrapper:} //TODO:}
+	\item {\textbf{CustomWrapper:} Represents a wrapper element around an existing RenderingCode.
+	      We can see the type defined in Program~\ref{fig:customWrapper}.
+	      The motivation is to allow creation of custom elements next to existing RenderingCode elements.
+	      For example, imagine we created an HtmlElement representing a button. We can wrap this button in a form element and add other CustomElements next to it.
+	      }
 
-	\item{\textbf{CustomElement:} //TODO:}
+	\item{\textbf{CustomElement:} Represents a custom UI element that has not been created based on the input data.
+	      We can see the type defined in Program~\ref{fig:customElement}.
+	      All of its properties are user defined.}
 
 \end{itemize}
 
+\begin{listing}[htbp]
+	\caption {CustomElement type}
+	\label{fig:customElement}
+	\begin{lstlisting}
+type CustomElement= {
+    Tag
+    Attributes
+    CustomInnerValue // user defined inner value of the element
+    EventHandlers
+}
+  \end{lstlisting}
+\end{listing}
+
+\begin{listing}[htbp]
+	\caption {CustomWrapper type}
+	\label{fig:customWrapper}
+	\begin{lstlisting}
+type CustomWrapper = {
+    Tag: Tag
+    Attributes
+    WrappedCode
+    Children // list of custom elements
+    EventHandlers
+}
+  \end{lstlisting}
+\end{listing}
+
+Each RenderingCode type also provides the ability to add custom event handling.
+Each elements includes a list of user-defined event handlers.
+Each event handler consists of the name of the event, and a script that is executed.
+This script is implemented in JavaScript.
 
 \subsection{Data Mapping: JSON to RenderingCode}
 \label{sec:mapping}
@@ -156,12 +200,13 @@ We perform this creation lazyly and incorporate it into the mapping process.
 A \emph{Hole} element is created for each inner element of the collection types described in Section~\ref{sub:json}.
 
 
-We call this mapping process the \emph{recognition} of the JSON value and define the mapping function named \emph{recognizeJson} as follows:
+We call this mapping process the \emph{recognition} of the JSON value and define the mapping function named \emph{recognizeJson} in Program~\ref{fig:recognizeJson}.
 
-\begin{listing}[h]
+\begin{listing}[htbp]
 	\caption {JSON to RenderingCode mapping}
+	\label{fig:recognizeJson}
 	\begin{lstlisting}
-let recognizeJson (json: Json) =
+let recognizeJson (json) =
     match json with
     | JArray array -> 
         //create a hole for each element of the array
@@ -175,7 +220,7 @@ let recognizeJson (json: Json) =
 \end{listing}
 
 \section{Incremental Creation Process}
-
+\label{sec:creation}
 We described the \emph{incremental creation process} briefly in Section~\ref{sec:hole-based} as a sequence of discrete operations.
 In this Section, we extend this description and define the previously described operations in greater detail.
 We divide the operations into two categories:
@@ -219,7 +264,7 @@ User operations require finding a specific node inside the RenderingCode AST dur
 We define a dynamically generated \emph{Path} for all nodes during the traversal process to find this specific node.
 The \emph{Path} is a sequence of indices unique to every node in the AST.
 
-\begin{listing}[h]
+\begin{listing}[htbp]
 	\caption {Example: RenderingCode AST with corresponding paths}
 	\label{fig:paths}
 	\begin{lstlisting}
@@ -239,20 +284,39 @@ We see that the root node has an empty path.
 Then, we append the position of each element inside the collection to the Path.
 This allows us to traverse the AST based on the specified Path and find the correct element using a recursive search function.
 
-\xxx{
-	Because we also allow the creation of a CustomWrapper element containing an existing rendering code and an arbitrary number of different CustomElements,
-	we need the ability to create paths for these CustomElements as well.
-	We achieve this by adding a -1 index to each Path, followed by their index inside the CustomWrapper collection.}
+Because we also allow the creation of a CustomWrapper element containing an existing rendering code and an arbitrary number of different CustomElements,
+we need the ability to differentiate between paths continuing through the wrapper, or paths addressing the custom elements.
+We achieve this by adding a -1 index to each Path for CustomElements contained within the wrapper, followed by their index inside the CustomWrapper collection.
 
 Using the dynamically created paths, we can replace a RenderingCode by following its specified Path through the RenderingCode AST.
-We can see a potential implementation of the \emph{replace} function leveraging this indexing in Program~\ref{fig:replace}.
+We can see the \emph{replace} function leveraging this indexing in Program~\ref{fig:replace}.
 
 
-\xxx{//TODO: update replace function implementation}
-\begin{listing}
+\begin{listing}[htbp]
 	\caption {A function used to replace a RenderingCode inside the RenderingCode AST}
 	\label{fig:replace}
 	\begin{lstlisting}
+let rec replace 
+  (path: int list) 
+  (replacementElement : RenderingCode) 
+  (currentCode: RenderingCode) =
+  match path with
+  | [] -> replacementElement
+  | head :: tail ->
+      match currentCode with
+      | HtmlList(lt,  items, handlers) ->
+          // recursively call the function on an collection element with the index equal to head 
+          HtmlList(lt, newItems, handlers)
+      | HtmlObject( objType, keys, items, handlers) ->
+          // recursively call the function on an element with 
+          // the key located inside the keys collection, located on index equal to head
+          HtmlObject(objType, keys, newItems, handlers)
+      | CustomElement(customElement) ->
+          // recursively call the function on an element with the index equal to head 
+      | CustomWrapper(customWrapper) -> 
+          // if the head is equal to -1, recursively call the function on the custom elements
+          // otherwise, call it on the wrapped RenderingCode
+      | _ -> currentCode 
   \end{lstlisting}
 \end{listing}
 
@@ -271,7 +335,7 @@ After the user chooses to add the new RenderingCode element, the system uses the
 Following that, the system uses the \emph{replace} function to replace the existing Hole element at the specified path with the newly created RenderingCode.
 Lastly, the system traverses the modified RenderingCode AST and JSON AST as described in Section~\ref{sec:traversal} and performs operations such as displaying modification menus and element preview.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm and 1.5cm, auto,
 			user/.style={rectangle, draw=black, thick, fill=yellow!20,
@@ -315,9 +379,26 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 \end{figure}
 
 \subsection{Combining RenderingCode and JSON data}
-Once the RenderingCode AST is created, the system needs to combine the RenderingCode elements with the data from the JSON AST to display the preview of the RenderingCode elements.
+Once the RenderingCode AST is created, the system needs to combine the RenderingCode elements with the data from the JSON AST.
 We use \emph{Structural referencing} to combine a RenderingCode element with the corresponding JSON value.
-By \emph{Structural referencing} we describe a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
+By Structural referencing we describe a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
+We can do this easily, as the structure of the RenderingCode AST mirrors that of the JSON AST, with the exception of CustomWrappers and CustomElements,
+which are ignored during the process and we preserve the paths of wrapped RenderingCode elements.
+Thanks to the approach of Structural referencing, we can perform this process during our previously described traversal in Section~\ref{sec:traversal}.
 
-
+\newpage
 \section{Summary}
+
+In this Chapter, we described the the core logic and domain of our programming system.
+This core logic serves as the foundation of the prototype programming system, which we will describe in the following Chapter.
+\begin{itemize}
+	\item In Section~\ref{sec:hole-based} , we defined the Hole-based approach to creating UI elements based on concrete data.
+
+	\item In Section~\ref{sec:types}, we defined the Model of the application consisting of types representing the provided data and UI elements.
+	      We also described the mapping between the input data and our internal representation of created UI elements.
+
+	\item In Section~\ref{sec:creation}, we described the \emph{Incremental Creation Process} including the User and System operation.
+	      Then, we described the simultanious traversal of the JSON AST and RenderingCode AST.
+	      After that, we described the process of replacing and modifying the RenderingCode AST using a Path-based approach.
+	      Lastly, we described the process of combining the RenderingCode elements with correspond JSON values.
+\end{itemize}
