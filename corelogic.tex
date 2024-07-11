@@ -4,9 +4,9 @@
 This chapter describes the core logic of the programming system.
 Firstly, we describe the hole-based approach applied to the creation of elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
-Then, we describe mapping the input data types to specific types representing the UI elements.
+We describe mapping the input data types to specific types representing the UI elements.
 Lastly, we describe how the system combines the input data and the corresponding UI elements.
-All program examples in this Chapter are written in the F\# programming language.
+All example Programs in this Chapter are show in their simplified form written in the F\# programming language~.
 
 \section{Hole-based Approach}
 \label{sec:hole-based}
@@ -143,7 +143,7 @@ type InnerValue =
 	\item {\textbf{CustomWrapper:} Represents a wrapper element around an existing RenderingCode.
 	      We can see the type defined in Program~\ref{fig:customWrapper}.
 	      The motivation is to allow creation of custom elements next to existing RenderingCode elements.
-	      For example, imagine we created an HtmlElement representing a button. We can wrap this button in a form element and add other CustomElements next to it.
+	      For example, imagine we created a HtmlElement representing a \emph{Button}. We can wrap this \emph{Button} in a \emph{Form} element and add other CustomElements, such as elements representing \emph{Input fields}.
 	      }
 
 	\item{\textbf{CustomElement:} Represents a custom UI element that has not been created based on the input data.
@@ -170,7 +170,7 @@ type CustomElement= {
 	\label{fig:customWrapper}
 	\begin{lstlisting}
 type CustomWrapper = {
-    Tag: Tag
+    Tag
     Attributes
     WrappedCode
     Children // list of custom elements
