@@ -1,11 +1,34 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
+In this Chapter, we describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
+We will explore the technologies chosen, the system's architecture, and key implementation details of the Data-driven low-code programming system prototype.
+
+
 \section{Technologies}
+\label{sec:technologies}
+
+The programming system is a browser-based client-side application providing a graphical user interface.
+We decided to implement the system as a browser-based client-side application rather than a traditional desktop application.
+We made this decision to allow greater cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
+The system is implemented using the following key technologies:
+\begin{itemize}
+	\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
+	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
+	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building React user interface components in F\#.
+	\item \textbf{Elmish:} \citet{elmish} is a library used to allow the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
+	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application.
+\end{itemize}
 
 
+
+
+\subsection{F\# libraries}
+\subsection{JavaScript libraries}
 
 
 \section{Design}
+\label{sec:appDesign}
 \section{User interface}
+\label{sec:ui}
 \section{Summary}
