@@ -11,12 +11,13 @@ We will explore the technologies chosen, the system's architecture, and key impl
 The programming system is a browser-based client-side application providing a graphical user interface.
 We decided to implement the system as a browser-based client-side application rather than a traditional desktop application.
 We made this decision to allow greater cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
+We also wanted to implement the system using a programming language with functional programming capabilities and a strong ecosystem, which narrowed the number of possible technologies.
 The system is implemented using the following key technologies:
 \begin{itemize}
 	\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
 	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
 	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components in F\#.
-	\item \textbf{Elmish:} \citet{elmish} is a library used to allow the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
+	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
 	\item \textbf{Tailwind:} We use the \citet{tailwind} CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI.
 	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
 \end{itemize}
@@ -25,14 +26,18 @@ The system is implemented using the following key technologies:
 
 \section{System architecture}
 \label{sec:appArch}
-The implementation is comprised of different F\# \emph{modules}, each module implementing different funtionality of the system.
-We can divide the modules into three categories based on th functionality they provide:
-\begin{itemize}
-	\item Core logic modules
-	\item User interface modules
-	\item Utilities
-\end{itemize}
+The implementation consists of different F\# \emph{modules}, each implementing different system functionality.
+We can divide the modules into three categories based on the functionality they provide:
+\begin{enumerate}
+	\item \textbf{Core logic modules}
+	\item \textbf{User interface modules}
+	\item \textbf{Utility modules}
+\end{enumerate}
 
+Each module comprises different functions and or type definitions.
+In our implementation, we divide the type definitions and functions into separate modules, similar to the separation of \emph{Domain} and \emph{Infrastructure} layers of the \emph{Domain-driven} architecture.
+The modules containing the type definitions define the system's domain and have either none or a small number of external dependencies.
+The modules containing functions then provide functionality over this domain.
 
 
 \section{Core logic implementation}
