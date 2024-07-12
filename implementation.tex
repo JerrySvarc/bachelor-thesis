@@ -15,20 +15,30 @@ The system is implemented using the following key technologies:
 \begin{itemize}
 	\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
 	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
-	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building React user interface components in F\#.
+	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components in F\#.
 	\item \textbf{Elmish:} \citet{elmish} is a library used to allow the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
-	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application.
+	\item \textbf{Tailwind:} We use the \citet{tailwind} CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI.
+	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
+\end{itemize}
+
+\subsection{Alternatives}
+
+\section{System architecture}
+\label{sec:appArch}
+The implementation is comprised of different F\# \emph{modules}, each module implementing different funtionality of the system.
+We can divide the modules into three categories based on th functionality they provide:
+\begin{itemize}
+	\item Core logic modules
+	\item User interface modules
+	\item Utilities
 \end{itemize}
 
 
 
+\section{Core logic implementation}
 
-\subsection{F\# libraries}
-\subsection{JavaScript libraries}
-
-
-\section{Design}
-\label{sec:appDesign}
 \section{User interface}
 \label{sec:ui}
+
+\section{Challenges and Solutions}
 \section{Summary}
