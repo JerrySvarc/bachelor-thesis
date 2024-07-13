@@ -362,7 +362,8 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 		\path [line] (replace) -- (recognize);
 		\path [line] (recognize) -- (update);
 		\path [line] (update) -- (final);
-
+		% Add a border around the entire diagram
+		\node [fit=(concrete) (hole) (holemenu) (replace) (recognize) (update) (final), inner sep=0.8cm, draw] {};
 		% Add step numbers and labels
 		\foreach [count=\i] \n/\l in {concrete/System, hole/System, holemenu/System, replace/User,recognize/System, update/System,  final/System}
 			{
