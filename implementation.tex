@@ -24,7 +24,7 @@ The system is implemented using the following key technologies:
 
 
 \subsection{Alternatives}
-While we selected the technologies mentioned in the previous Section for our implementation, several alternative options exist:
+While we selected the technologies mentioned in the previous Section for our implementation, for several of them we considered using alternative technologies:
 \begin{itemize}
 	\item \textbf{Programming Language:} Instead of F\#, we could have used other functional programming languages such as Haskell or OCaml.
 	      These languages also offer strong type systems and functional programming capabilities.
@@ -35,29 +35,31 @@ While we selected the technologies mentioned in the previous Section for our imp
 
 	\item \textbf{JSON Parsing:} Instead of Fable.SimpleJson, we could have used the closest alternative library called \citet{thoth}.
 	      The main strenght of this library is the ability to create custom JSON \emph{encoders} and \emph{decoders}.
-	      However, as we need to be able to parse JSON data of abitrary strucuture, SimpleJson's lightweight nature and the way it represents the parsed data made it our preffered choice.
+	      However, as we need the ability to parse JSON data of abitrary strucuture, SimpleJson's lightweight nature and its internal representation of the parsed data made it our preffered choice.
 \end{itemize}
 While these alternatives have their strengths, our chosen technologies provided the best balance of functional programming capabilities, browser compatibility, and ecosystem support for our specific requirements.
 
 
 \section{System architecture}
 \label{sec:appArch}
-Before we describe the implementation specifics, we must first describe the \emph{architecture} and \emph{design} of the implementation.
-Our main goal was to make the system extensible and maintainable.
-The architecture was inspired by the \emph{Domain-driven} architecture.
+Before we describe the implementation specifics, we must first describe the \emph{architecture} of the implementation.
 The implementation consists of different F\# \emph{modules}, each providing different functionality.
-We can divide the modules into two categories based on their roles as seen in Figure~\ref{fig:architecture}.
-The two main categories are the following:
+We define two main modules named \emph{CoreLogic} and \emph{Editor}, which contain sub-modules implementing the specific functionality.
+The contents of these modules can be described as follows:
 \begin{enumerate}
-	\item \textbf{Core logic modules:} Modules implementing the Core logic described in Chapter~\ref{chap:corelogic}.
-	\item \textbf{Editor modules:} Modules focused on implementing the user interface of the programming system and its functionality.
+	\item \textbf{Core logic module:} Contains modules responsible for implementing the Core logic described in Chapter~\ref{chap:corelogic}.
+	\item \textbf{Editor module:} Modules focused on implementing the user interface of the programming system and its functionality.
+	      They use and depend on the functionality provided by the Corelogic module.
 \end{enumerate}
 
-Each module comprises various functions or type definitions.
+We can see the strucuture of the application illustrated in Figure~\ref{fig:architecture}.
+We will describe the main modules in greater detail in the following Sections.
+
+Each sub-module comprises various functions or type definitions.
 In our implementation, we separate type definitions and functions into distinct modules, similarly to the separation of \emph{Domain} and \emph{Infrastructure} layers of the \emph{Domain-driven} architecture.
 The modules containing the type definitions define the system's domain and have either none or a small number of external dependencies.
 The modules containing the functions implement the behaviors and operations that manipulate and utilize the domain types.
-
+This approach makes the architecture extensible, as
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[
@@ -70,16 +72,11 @@ The modules containing the functions implement the behaviors and operations that
 		\node [block, text width=10em] (app) {Data-driven UI Application};
 
 		% Module types
-		\node [block, below left=of app] (core) {Core Logic Modules};
-		\node [block, below=of app] (editor) {Editor Modules};
-
+		\node [block, below = of app] (editor) {Editor Modules};
+		\node [block, left=of editor] (core) {Core Logic Modules};
 		% Draw arrows
 		\path [line] (app) -- (core);
 		\path [line] (app) -- (editor);
-
-
-		% Add a border around the entire diagram
-		\node [fit=(app) (core) (editor) , inner sep=0.5cm, draw] {};
 
 	\end{tikzpicture}
 	\caption{Types of Modules in the Data-driven UI Application}
@@ -87,18 +84,60 @@ The modules containing the functions implement the behaviors and operations that
 \end{figure}
 
 
+\section{CoreLogic module}
+To implement the \emph{Data-driven UI} system, we must first define and implement the types and operations described in Chapter~\ref{chap:corelogic}.
+The following sub-modules provide this functionality:
+\begin{itemize}
+	\item \textbf{Types.RenderingTypes:} Contains type definitions of types such as the previously described \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
+	\item \textbf{Operations.RenderingCode:} Implements operations such as \emph{replace} for replacing a RenderingCode inside a RenderingCode AST and other miscellaneous operations on the RenderingCode and related types.
+	\item \textbf{Operations.DataRecognition:} Implements the mapping process between the input data and the internal representation of UI elements, such as the \emph{recognizeJson} function defined in Section~\ref{sec:mapping}.
+	\item \textbf{Operations.CodeGeneration:} Implements code generation functionality for creating a textual representation of a created web application in the form of an input RenderingCode AST.
+\end{itemize}
 
-\section{Core logic}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[
+			node distance = 1cm and 1.2cm,
+			block/.style = {rectangle, draw, fill=blue!20,
+					text width=8em, text centered, rounded corners, minimum height=3em},
+			line/.style = {draw, -stealth},
+		]
+		% Main Core Logic node
+		\node [block, text width=8em] (core) {Core Logic};
 
-The
-\section{Editor}
+		% Module types
+		\node [block, left=of core] (types) {Types.\\RenderingTypes};
+		\node [block, below=of types] (rendering) {Operations.\\RenderingCode};
+		\node [block,  right=of rendering] (recognition) {Operations.\\DataRecognition};
+		\node [block, right=of recognition] (generation) {Operations.\\CodeGeneration};
+
+		% Draw arrows
+		\path [line] (core) -- (types);
+		\path [line] (core) -- (rendering);
+		\path [line] (core) -- (recognition);
+		\path [line] (core) -- (generation);
+
+	\end{tikzpicture}
+	\caption{ Core Logic Module Structure}
+
+\end{figure}
+
+
+\section{Editor module}
 \label{sec:ui}
 
-\section{Utilities}
+
+\subsection{}
+\subsection{Utilities}
 
 
 \section{Challenges and Solutions}
 
-\section{Testing}
+\section{Building and Deployment}
 
+\section{Testing}
+To test our implementation, we created a separate project named \emph{Tests}.
+We implemented \emph{Unit tests} for various functions from the Core logic category of modules, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and various functions from the \emph{CoreLogic.Operations.CodeGeneration} module.
+
+To write the tests, we use the \citet{mocha} library which provides
 \section{Summary}

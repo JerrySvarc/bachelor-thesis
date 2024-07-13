@@ -289,8 +289,8 @@ we need the ability to differentiate between paths continuing through the wrappe
 We achieve this by adding a -1 index to each Path for CustomElements contained within the wrapper, followed by their index inside the CustomWrapper collection.
 
 Using the dynamically created paths, we can replace a RenderingCode by following its specified Path through the RenderingCode AST.
-We can see the \emph{replace} function leveraging this indexing in Program~\ref{fig:replace}.
-
+We define a recursive function named \emph{replace} which navigates the AST using the provided path to locate and replace a specific element with a new one.
+We can see a description of the potential implementation in Program~\ref{fig:replace}.
 
 \begin{listing}[htbp]
 	\caption {A function used to replace a RenderingCode inside the RenderingCode AST}
@@ -298,21 +298,19 @@ We can see the \emph{replace} function leveraging this indexing in Program~\ref{
 	\begin{lstlisting}
 let rec replace 
   (path: int list) 
-  (replacementElement : RenderingCode) 
+  (replacementCode: RenderingCode) 
   (currentCode: RenderingCode) =
   match path with
   | [] -> replacementElement
   | head :: tail ->
       match currentCode with
-      | HtmlList(lt,  items, handlers) ->
-          // recursively call the function on an collection element with the index equal to head 
-          HtmlList(lt, newItems, handlers)
-      | HtmlObject( objType, keys, items, handlers) ->
+      | HtmlList ->
+          // recursively call the function on a collection element with the index equal to head 
+          // return new HtmlList
+      | HtmlObject ->
           // recursively call the function on an element with 
-          // the key located inside the keys collection, located on index equal to head
-          HtmlObject(objType, keys, newItems, handlers)
-      | CustomElement(customElement) ->
-          // recursively call the function on an element with the index equal to head 
+          // the key located inside the keys collection, that has index equal to head
+          // return new HtmlObject
       | CustomWrapper(customWrapper) -> 
           // if the head is equal to -1, recursively call the function on the custom elements
           // otherwise, call it on the wrapped RenderingCode
@@ -362,8 +360,6 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 		\path [line] (replace) -- (recognize);
 		\path [line] (recognize) -- (update);
 		\path [line] (update) -- (final);
-		% Add a border around the entire diagram
-		\node [fit=(concrete) (hole) (holemenu) (replace) (recognize) (update) (final), inner sep=0.8cm, draw] {};
 		% Add step numbers and labels
 		\foreach [count=\i] \n/\l in {concrete/System, hole/System, holemenu/System, replace/User,recognize/System, update/System,  final/System}
 			{
