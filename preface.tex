@@ -1,20 +1,25 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-Since the advent of the \emph{World Wide Web}, developers have created web applications mainly by writing and modifying text-based code.
-Today, this process is made more accessible by using different tools, languages, frameworks, and programming systems.
+Since the advent of the \emph{World Wide Web}, developers have been creating web applications mainly by writing and modifying text-based code.
+Today, this process is made more accessible by using different tools, libraries, frameworks, and programming systems.
+For example, tools such as the \citet{react} library or the \citet{vuejs} framework make it possible to compose web applications from reusable components.
 
-On the other hand, some programming systems allow an alternative approach of \emph{Low-code} software development.
-\citet{Pinho_Aguiar_Amaral_2023} define \emph{Low-code programming systems} as "systems that aim to significantly reduce the amount of code needed to create specific applications."
+Some programming systems allow an alternative approach of \emph{Low-code} software development.
+\citet{Pinho_Aguiar_Amaral_2023} define \emph{Low-code programming systems} as ``systems that aim to significantly reduce the amount of code needed to create specific applications.''
 The popularity of these systems has been increasing in recent years, as stated by \citet{Sahay_Indamutsa_Di}.
 Regarding creating web applications, systems such as~\citet{mendix}~or~\citet{darklang} specialize in providing a comprehensive Low-code development platform for creating specific components of web applications.
 Other programming systems, such as \emph{Sketch-n-Sketch} presented by~\citet{sketch-and-sketch}, combine the Low-code approach
 with other programming techniques to enhance the system's functionality and development process.
 
-This thesis aims to combine the Low-code programming approach with a \emph{Data-driven} approach to creating software applications.
-By Data-driven, we mean that creating a particular software artifact is based on concrete data provided to the system.
-We aim to apply the Data-driven approach to creating the client-side portion of web applications.
+Another alternative approach is that of \emph{Data-driven} software development.
+By \emph{Data-driven}, we mean that the creation of a particular software artifact is based on concrete data provided to the system.
+Web content management systems such as \citet{wordpress} employ this approach and allow the creation of dynamic websites where the structure and
+website's content are primarily determined by data stored in a database.
 
+This thesis aims to combine the \emph{Low-code} approach to software development with the \emph{Data-driven} approach within a single programming system.
+We aim to apply both of these approaches to the process of creating client-side web applications, providing an alternative to traditional development methods.
+To understand how our proposed system differs, it is helpful to first consider the standard development process.
 We can generalize the standard development process into four major steps:
 \begin{enumerate}
 	\item Creating User Interface elements.
@@ -22,13 +27,14 @@ We can generalize the standard development process into four major steps:
 	\item Implementing custom behavior of the elements.
 	\item Styling the elements.
 \end{enumerate}
+
 We aim to design and implement a \emph{prototype} Low-code programming system, where steps 1 and 2 are combined into a single step, as the UI elements are created based on concrete data and automatically populated by it.
 In other words, the data serves as the web application's content and inspires the structure of the UI itself.
 The approach involves first providing data to the application, which will guide the creation of the UI elements.
 The programming system will then aid the developer in modifying the user interface by providing context menus based on the data's structure and type.
-After creating the application, the developer will be able to preview the created application and download the text-based representation of the application.
+After creating the application, the developer will be able to preview the created application and download its text-based representation.
 
-Lastly, we will \emph{benchmark} the prototype system on different tasks.
+To evaluate the presented system, we will \emph{benchmark} the prototype system on several different tasks.
 Based on the definition of Low-code programming systems, we will evaluate the results based on the number of lines of code (LOC) needed to be written by the user to implement the selected tasks.
 We will test the programming systems on the following tasks:
 \begin{itemize}
@@ -63,14 +69,14 @@ The main goals of this thesis are the following:
 			            \item Show a preview of the user-created parts of the web application.
 			            \item Allow the user to download the created web application in a text-based form.
 		            \end{itemize}
+	      \end{itemize}
+	\item Benchmark the prototype application on the following task:
+	      \begin{itemize}
+		      \item Counter task from the 7GUIs Benchmark
+		      \item Temperature converter task from the 7GUIs Benchmark
+		      \item CRUD task from the 7GUIs Benchmark
+		      \item Simple To-do list application
 
-		      \item Benchmark the prototype application on the following task:
-		            \begin{itemize}
-			            \item Counter task from the 7GUIs Benchmark
-			            \item Temperature converter task from the 7GUIs Benchmark
-			            \item CRUD task from the 7GUIs Benchmark
-			            \item Simple To-do list application
-		            \end{itemize}
 	      \end{itemize}
 \end{enumerate}
 

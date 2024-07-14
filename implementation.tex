@@ -1,7 +1,7 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
-In this Chapter, we describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
+In this Chapter, we briefly describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
 We explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI}.
 
 
@@ -20,6 +20,7 @@ The system is implemented using the following key technologies:
 	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
 	\item \textbf{Tailwind:} We use the \citet{tailwind} CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
 	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
+  \item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#. 
 \end{itemize}
 
 
@@ -49,11 +50,9 @@ We define two main modules named \emph{Core Logic} and \emph{Editor}, which cont
 The contents of these modules can be described as follows:
 \begin{enumerate}
 	\item \textbf{Core Logic module:} Contains modules responsible for implementing the Core logic described in Chapter~\ref{chap:corelogic}.
-	\item \textbf{Editor module:} Modules focused on implementing the user interface of the programming system and its functionality.
+	\item \textbf{Editor module:} Modules focused on implementing the user interface of the programming system and its functionality following the Elmish architecture described in Section~\ref{sub:elmish}.
 	      They use and depend on the functionality provided by the CoreLogic module.
 \end{enumerate}
-
-The application's structure is illustrated in Figure~\ref{fig:architecture}.
 We will describe the main modules in greater detail in the following Sections.
 
 Each sub-module comprises various functions or type definitions.
@@ -61,64 +60,38 @@ In our implementation, we separate type definitions and functions into distinct 
 The modules containing the type definitions define the system's domain and have either none or a small number of external dependencies.
 The modules containing the functions implement the behaviors and operations that manipulate and utilize the domain types.
 This approach makes the application extensible.
-For example, we can add new functionality to the editor sub-modules without changing the implementation of the CoreLogic sub-modules.
-\begin{figure}[htbp]
-	\centering
-	\begin{tikzpicture}[
-			node distance = 0.5cm and 0.5cm,
-			mainblock/.style = {rectangle, draw, fill=gray!20,
-					text width=10em, text centered, rounded corners, minimum height=4em},
-			subblock/.style = {rectangle, draw, fill=blue!20,
-					text width=6em, text centered, rounded corners, minimum height=3em},
-			line/.style = {draw, -stealth, thick},
-		]
-		% Main application node
-		\node [mainblock] (app) {Data-driven UI Application};
-
-		% Module types
-		\node [subblock, below left=of app] (editor) {Editor Module};
-		\node [subblock, below right=of app] (core) {Core Logic Module};
-
-		% Draw arrows
-		\path [line] (app.south west) -- (editor.north);
-		\path [line] (app.south east) -- (core.north);
-
-
-	\end{tikzpicture}
-	\caption{Two main modules implementing the Data-driven UI Application}
-	\label{fig:architecture}
-\end{figure}
+For example, we can add new functionality to the Editor without changing the implementation of the CoreLogic sub-modules.
 
 
 \section{Core Logic Module}
 The Core Logic module forms the foundation of our \emph{Data-driven UI} system, implementing the types and operations described in Chapter~\ref{chap:corelogic}.
 Figure~\ref{fig:core-logic-structure} illustrates the overall structure of this module.
 We divide the implementation into the following sub-modules:
-\begin{description}
-	\item[Types:] This category encompasses modules that define the fundamental data structures of our system:
-	      \begin{description}
-		      \item[RenderingTypes:] Contains definitions for key types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
+\begin{itemize}
+	\item \textbf{Types:} This module encompasses sub-modules that define the fundamental data structures of our system:
+	      \begin{itemize}
+		      \item \textbf{RenderingTypes:} Contains definitions for key types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
 		            These types form the backbone of our UI representation system.
-	      \end{description}
+	      \end{itemize}
 
-	\item[Operations:] This category includes modules that implement various operations on the types defined in the Types module:
-	      \begin{description}
-		      \item[RenderingCode:] Implements crucial operations such as the \emph{replace} function, which modifies the RenderingCode AST.
+	\item \textbf{Operations:} This module includes sub-modules that implement various operations on the types defined in the Types module:
+	      \begin{itemize}
+		      \item \textbf{RenderingCode:} Implements crucial operations such as the \emph{replace} function, which modifies the RenderingCode AST.
 		            This module is central to manipulating our UI representation.
 
-		      \item[DataRecognition:] Handles the mapping process between input data and our internal UI element representation.
+		      \item \textbf{DataRecognition:}  Handles the mapping process between input data and our internal UI element representation.
 		            It includes the \emph{recognizeJson} function, detailed in Section~\ref{sec:mapping}, which is key to our data-driven approach.
 
-		      \item[CodeGeneration:] Provides functionality to generate textual representations of created web applications from RenderingCode ASTs.
+		      \item\textbf{CodeGeneration:} Provides functionality to generate textual representations of created web applications from RenderingCode ASTs.
 		            This module bridges our internal representations with output code.
-	      \end{description}
-\end{description}
+	      \end{itemize}
+\end{itemize}
 
 
 \begin{figure}[htbp]
 	\centering
 	\begin{tikzpicture}[
-			node distance = .5cm and 0.5cm,
+			node distance = 0.5cm and 0.5cm,
 			mainblock/.style = {rectangle, draw, fill=gray!20,
 					text width=6em, text centered, rounded corners, minimum height=3em},
 			typeblock/.style = {rectangle, draw, fill=blue!20,
@@ -162,37 +135,109 @@ The Editor module is the second main module of the \emph{Data-driven UI's} imple
 It is responsible for implementing the programming system's UI and functionality.
 It facilitates tools from the Core Logic module and technologies described in Section~\ref{sec:technologies} such as Elmish, to provide an interactive low-code editor environment.
 We divide the implementation into the following sub-modules:
-\begin{description}
-	\item[Types:] This category encompasses modules that define data types and data structures used for representing the state and operations of an Elmish-style application as described in Section~\ref{sub:elmish}.
-	      \begin{description}
-		      \item[EditorModel:] Definitions of the domain types representing the internal state of the application.
-		      \item[PageEditorModel:] Definitions of the domain types representing the internal state of a Page editor component.
-	      \end{description}
 
-	\item[Utilities:] Implements miscellanious functionality such as importing Icons, handling of file uploads, and parsing of the JSON data from its textual representation using the \citet{simpleJson} library.
-	\item[Operations:]
-	      \begin{description}
-		      \item[CustomRendering:]
-	      \end{description}
+\begin{itemize}
+    \item \textbf{Types:} This module defines the core data structures that represent the state and support the operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
+        \begin{itemize}
+            \item \textbf{EditorModel:} Encapsulates the domain types that represent the comprehensive internal state of the Data-driven UI application, including user interface states and data manipulation contexts.
+            \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component, capturing element hierarchies and editing contexts.
+        \end{itemize}
 
-	\item[Components:]
-	      \begin{description}
-		      \item[EditorComponents:] Contains definitions for key types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
-		            These types form the backbone of our UI representation system.
-		      \item[PageEditorComponents:] Contains definitions for key types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
-		            These types form the backbone of our UI representation system.
+    \item \textbf{Utilities:} Provides a collection of essential helper functions that support various aspects of the application:
+        \begin{itemize}
+            \item Efficient icon importing and management
+            \item Robust file upload handling and processing
+            \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library for optimal performance
+        \end{itemize}
 
-	      \end{description}
-\end{description}
+    \item \textbf{Operations:} Houses sub-modules that implement core functionalities central to the editor's capabilities:
+        \begin{itemize}
+            \item \textbf{CustomRendering:} Implements sophisticated algorithms for dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
+        \end{itemize}
 
+    \item \textbf{Components:} Implements a suite of custom React components that form the interactive user interface:
+        \begin{itemize}
+            \item \textbf{EditorComponents:} Provides a set of versatile components that deliver general editor functionality, including an advanced tab management system inspired by industry-standard editors like Visual Studio Code.
+            \item \textbf{PageEditorComponents:} Offers specialized components designed for intuitive creation, real-time preview, and efficient modification of the RenderingCode AST, enabling a seamless editing experience.
+        \end{itemize}
+\end{itemize}
 
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance = 1cm,
+        mainblock/.style = {rectangle, draw, fill=gray!20,
+                text width=8em, text centered, rounded corners, minimum height=3em},
+        subblock/.style = {rectangle, draw, fill=blue!20,
+                text width=7em, text centered, rounded corners, minimum height=2.5em},
+        subsubblock/.style = {rectangle, draw, fill=green!20,
+                text width=6em, text centered, rounded corners, minimum height=2em},
+        line/.style = {draw, -stealth},
+    ]
+        % Main Editor Module node
+        \node [mainblock] (editor) {Editor Module};
+        
+        % Main sub-modules
+        \node [subblock, above=of editor] (types) {Types};
+        \node [subblock, left=of editor] (utilities) {Utilities};
+        \node [subblock, right=of editor] (operations) {Operations};
+        \node [subblock, below=of editor] (components) {Components};
+        
+        % Types sub-modules
+        \node [subsubblock, above left=of types] (editormodel) {Editor\\Model};
+        \node [subsubblock, above right=of types] (pageeditormodel) {Page\\Editor Model};
+        
+        % Operations sub-module
+        \node [subsubblock, above=of operations] (customrendering) {Custom\\Rendering};
+        
+        % Components sub-modules
+        \node [subsubblock, below left=of components] (editorcomponents) {Editor\\Components};
+        \node [subsubblock, below right=of components] (pageeditorcomponents) {Page\\Editor Components};
+        
+        % Draw arrows
+        \foreach \i in {types,utilities,operations,components}
+            \path [line] (editor) -- (\i);
+        \path [line] (types) -- (editormodel);
+        \path [line] (types) -- (pageeditormodel);
+        \path [line] (operations) -- (customrendering);
+        \path [line] (components) -- (editorcomponents);
+        \path [line] (components) -- (pageeditorcomponents);
+    \end{tikzpicture}
+    \caption{Editor Module Structure}
+    \label{fig:editor-module-structure}
+\end{figure}
 
-\subsection{Utilities}
 
 
 \section{Challenges and Solutions}
 
 \section{Building and Deployment}
+
+Now that we have described the implementation of the \emph{Data-driven UI} system, we must describe how the application is built and deployed. 
+As we mentioned in Section~\ref{sec:technologies}, we use the \emph{Build} project provided by the \citet{safestack} template.
+The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building 
+the \emph{Shared} and \emph{Server} projects, as our programming system only consists of a client-side application.
+
+\subsection{Build Tools and Libraries}
+
+The two main tools used by the \emph{Build} project are the following:
+\begin{itemize}
+ \item \textbf{FAKE (F\# Make):} A build automation tool for projects written in F\#, used to define build targets and their individual build steps.
+  \item \textbf{Vite:} A web development tool for building JavaScript client-side applications, which provides a development server environment with Hot Module Replacement capability.
+\end{itemize}
+
+\subsection{Build targets}
+
+The \emph{Build} project contains  targets:
+
+\begin{itemize}
+    \item \textbf{Development Server:} Configuration for running a local development server with HMR capabilities.
+    \item \textbf{Asset Bundling:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
+    \item \textbf{Testing:} Configuration for running our unit and integration tests.
+    
+\end{itemize}
+
+
 
 \section{Testing}
 To test our implementation, we created a separate project named \emph{Tests}.
