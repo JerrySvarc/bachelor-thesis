@@ -20,7 +20,7 @@ The system is implemented using the following key technologies:
 	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
 	\item \textbf{Tailwind:} We use the \citet{tailwind} CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
 	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
-  \item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#. 
+	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
 \end{itemize}
 
 
@@ -137,74 +137,74 @@ It facilitates tools from the Core Logic module and technologies described in Se
 We divide the implementation into the following sub-modules:
 
 \begin{itemize}
-    \item \textbf{Types:} This module defines the core data structures that represent the state and support the operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
-        \begin{itemize}
-            \item \textbf{EditorModel:} Encapsulates the domain types that represent the comprehensive internal state of the Data-driven UI application, including user interface states and data manipulation contexts.
-            \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component, capturing element hierarchies and editing contexts.
-        \end{itemize}
+	\item \textbf{Types:} This module defines the core data structures that represent the state and support the operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
+	      \begin{itemize}
+		      \item \textbf{EditorModel:} Encapsulates the domain types that represent the comprehensive internal state of the Data-driven UI application, including user interface states and data manipulation contexts.
+		      \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component, capturing element hierarchies and editing contexts.
+	      \end{itemize}
 
-    \item \textbf{Utilities:} Provides a collection of essential helper functions that support various aspects of the application:
-        \begin{itemize}
-            \item Efficient icon importing and management
-            \item Robust file upload handling and processing
-            \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library for optimal performance
-        \end{itemize}
+	\item \textbf{Utilities:} Provides a collection of essential helper functions that support various aspects of the application:
+	      \begin{itemize}
+		      \item Efficient icon importing and management
+		      \item Robust file upload handling and processing
+		      \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library for optimal performance
+	      \end{itemize}
 
-    \item \textbf{Operations:} Houses sub-modules that implement core functionalities central to the editor's capabilities:
-        \begin{itemize}
-            \item \textbf{CustomRendering:} Implements sophisticated algorithms for dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
-        \end{itemize}
+	\item \textbf{Operations:} Houses sub-modules that implement core functionalities central to the editor's capabilities:
+	      \begin{itemize}
+		      \item \textbf{CustomRendering:} Implements sophisticated algorithms for dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
+	      \end{itemize}
 
-    \item \textbf{Components:} Implements a suite of custom React components that form the interactive user interface:
-        \begin{itemize}
-            \item \textbf{EditorComponents:} Provides a set of versatile components that deliver general editor functionality, including an advanced tab management system inspired by industry-standard editors like Visual Studio Code.
-            \item \textbf{PageEditorComponents:} Offers specialized components designed for intuitive creation, real-time preview, and efficient modification of the RenderingCode AST, enabling a seamless editing experience.
-        \end{itemize}
+	\item \textbf{Components:} Implements a suite of custom React components that form the interactive user interface:
+	      \begin{itemize}
+		      \item \textbf{EditorComponents:} Provides a set of versatile components that deliver general editor functionality, including an advanced tab management system inspired by industry-standard editors like Visual Studio Code.
+		      \item \textbf{PageEditorComponents:} Offers specialized components designed for intuitive creation, real-time preview, and efficient modification of the RenderingCode AST, enabling a seamless editing experience.
+	      \end{itemize}
 \end{itemize}
 
 \begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        node distance = 1cm,
-        mainblock/.style = {rectangle, draw, fill=gray!20,
-                text width=8em, text centered, rounded corners, minimum height=3em},
-        subblock/.style = {rectangle, draw, fill=blue!20,
-                text width=7em, text centered, rounded corners, minimum height=2.5em},
-        subsubblock/.style = {rectangle, draw, fill=green!20,
-                text width=6em, text centered, rounded corners, minimum height=2em},
-        line/.style = {draw, -stealth},
-    ]
-        % Main Editor Module node
-        \node [mainblock] (editor) {Editor Module};
-        
-        % Main sub-modules
-        \node [subblock, above=of editor] (types) {Types};
-        \node [subblock, left=of editor] (utilities) {Utilities};
-        \node [subblock, right=of editor] (operations) {Operations};
-        \node [subblock, below=of editor] (components) {Components};
-        
-        % Types sub-modules
-        \node [subsubblock, above left=of types] (editormodel) {Editor\\Model};
-        \node [subsubblock, above right=of types] (pageeditormodel) {Page\\Editor Model};
-        
-        % Operations sub-module
-        \node [subsubblock, above=of operations] (customrendering) {Custom\\Rendering};
-        
-        % Components sub-modules
-        \node [subsubblock, below left=of components] (editorcomponents) {Editor\\Components};
-        \node [subsubblock, below right=of components] (pageeditorcomponents) {Page\\Editor Components};
-        
-        % Draw arrows
-        \foreach \i in {types,utilities,operations,components}
-            \path [line] (editor) -- (\i);
-        \path [line] (types) -- (editormodel);
-        \path [line] (types) -- (pageeditormodel);
-        \path [line] (operations) -- (customrendering);
-        \path [line] (components) -- (editorcomponents);
-        \path [line] (components) -- (pageeditorcomponents);
-    \end{tikzpicture}
-    \caption{Editor Module Structure}
-    \label{fig:editor-module-structure}
+	\centering
+	\begin{tikzpicture}[
+			node distance = 1cm,
+			mainblock/.style = {rectangle, draw, fill=gray!20,
+					text width=8em, text centered, rounded corners, minimum height=3em},
+			subblock/.style = {rectangle, draw, fill=blue!20,
+					text width=7em, text centered, rounded corners, minimum height=2.5em},
+			subsubblock/.style = {rectangle, draw, fill=green!20,
+					text width=6em, text centered, rounded corners, minimum height=2em},
+			line/.style = {draw, -stealth},
+		]
+		% Main Editor Module node
+		\node [mainblock] (editor) {Editor Module};
+
+		% Main sub-modules
+		\node [subblock, above=of editor] (types) {Types};
+		\node [subblock, left=of editor] (utilities) {Utilities};
+		\node [subblock, right=of editor] (operations) {Operations};
+		\node [subblock, below=of editor] (components) {Components};
+
+		% Types sub-modules
+		\node [subsubblock, above left=of types] (editormodel) {Editor\\Model};
+		\node [subsubblock, above right=of types] (pageeditormodel) {Page\\Editor Model};
+
+		% Operations sub-module
+		\node [subsubblock, above=of operations] (customrendering) {Custom\\Rendering};
+
+		% Components sub-modules
+		\node [subsubblock, below left=of components] (editorcomponents) {Editor\\Components};
+		\node [subsubblock, below right=of components] (pageeditorcomponents) {Page\\Editor Components};
+
+		% Draw arrows
+		\foreach \i in {types,utilities,operations,components}
+		\path [line] (editor) -- (\i);
+		\path [line] (types) -- (editormodel);
+		\path [line] (types) -- (pageeditormodel);
+		\path [line] (operations) -- (customrendering);
+		\path [line] (components) -- (editorcomponents);
+		\path [line] (components) -- (pageeditorcomponents);
+	\end{tikzpicture}
+	\caption{Editor Module Structure}
+	\label{fig:editor-module-structure}
 \end{figure}
 
 
@@ -213,17 +213,17 @@ We divide the implementation into the following sub-modules:
 
 \section{Building and Deployment}
 
-Now that we have described the implementation of the \emph{Data-driven UI} system, we must describe how the application is built and deployed. 
+Now that we have described the implementation of the \emph{Data-driven UI} system, we must describe how the application is built and deployed.
 As we mentioned in Section~\ref{sec:technologies}, we use the \emph{Build} project provided by the \citet{safestack} template.
-The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building 
+The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building
 the \emph{Shared} and \emph{Server} projects, as our programming system only consists of a client-side application.
 
 \subsection{Build Tools and Libraries}
 
 The two main tools used by the \emph{Build} project are the following:
 \begin{itemize}
- \item \textbf{FAKE (F\# Make):} A build automation tool for projects written in F\#, used to define build targets and their individual build steps.
-  \item \textbf{Vite:} A web development tool for building JavaScript client-side applications, which provides a development server environment with Hot Module Replacement capability.
+	\item \textbf{FAKE (F\# Make):} A build automation tool for projects written in F\#, used to define build targets and their individual build steps.
+	\item \textbf{Vite:} A web development tool for building JavaScript client-side applications, which provides a development server environment with Hot Module Replacement capability.
 \end{itemize}
 
 \subsection{Build targets}
@@ -231,10 +231,10 @@ The two main tools used by the \emph{Build} project are the following:
 The \emph{Build} project contains  targets:
 
 \begin{itemize}
-    \item \textbf{Development Server:} Configuration for running a local development server with HMR capabilities.
-    \item \textbf{Asset Bundling:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
-    \item \textbf{Testing:} Configuration for running our unit and integration tests.
-    
+	\item \textbf{Development Server:} Configuration for running a local development server with HMR capabilities.
+	\item \textbf{Asset Bundling:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
+	\item \textbf{Testing:} Configuration for running our unit and integration tests.
+
 \end{itemize}
 
 

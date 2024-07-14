@@ -14,7 +14,7 @@ We focus mainly on visual programming tools employing the defined low-code appro
 
 Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
 the development domain. It provides tools to create and modify software elements.
-In the following sections, we describe several existing low-code visual programming systems.
+In the following sections, we describe several existing low-code visual programming systems that served as direct inspiration for the work presented in this thesis.
 
 \subsection{Hypercard}
 \emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
@@ -44,7 +44,7 @@ Users can choose from five different user levels:
 	\item \textbf{Scripting:} Adds the ability to use the HyperTalk scripting language to modify the behavior of the different elements inside the cards.
 \end{enumerate}
 This allows the system to be adopted by a wide range of users, as less experienced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
-On the other hand, advanced users can set the highest user level and use the program in its entirety from the start.
+Advanced users can set the highest user level and use the program in its entirety from the start.
 
 \subsection{Darklang}
 \label{sec:darklang}
@@ -110,11 +110,11 @@ It is a functional interpretation of the Morphic GUI Framework providing direct-
 	\label{fig:sketch}
 \end{figure}
 
-\section{Web development}
-
-This section serves as a description of web development technologies and tools.
-We will present the Elm programming language,
-and describe tools which enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler Fable and the Elmish architecture.
+\section{Web Development}
+As this thesis focuses on the development of a browser-based low-code programming system for creating client-side web applications,
+it is essential to review the existing web development technologies and tools that have either influenced or been utilized in our implementation.
+In this section, we will introduce the Elm programming language,
+and describe tools that enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler Fable and the Elmish architecture.
 
 \subsection{JSON}
 \xxx{//TODO: Nasel jsem tuto specifikaci https://www.rfc-editor.org/rfc/rfc8259}
@@ -122,11 +122,11 @@ and describe tools which enable the development of browser-based applications in
 \subsection{Elm}
 \citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
 It allows the creation of responsive graphical user interfaces by employing the
-\emph{functional reactive programming} approach. The functional reactive programming
-approach applies pure functional programming paradigms to time-varying values.
+\emph{functional reactive programming} approach.
+The functional reactive programming approach applies pure functional programming paradigms to time-varying values, as described by \citet{Elliott_Hudak_1997}.
 Time-varying values can represent the input and output of the GUI or other information
 channels, such as server requests. The applications to time-varying values are known
-as \emph{signals}. Elm improves upon other functional reactive programming languages
+as \emph{signals}. Elm simplifies the approach of functional reactive programming,
 by assuming that the signals are discrete. This means that it avoids unnecessary
 recomputation when the signals are unchanged. Discrete change of a signal is called
 an event. Events trigger the recomputation and the application is updated. Elm also
@@ -143,38 +143,70 @@ Elm provides a range of primitive signals such as ”Mouse.clicks” which trigg
 mouse click. Some primitive signals may require arguments for their constructor such
 as the ”Window.dimensions” signal.
 
-\subsection{Fable}
+\subsection{F\# and Fable}
 \label{sub:Fable}
-\citet{fable} is a compiler capable of compiling programs written in F\# to multiple
-target languages. One of the available target languages is JavaScript and the compiler
-produces human-readable and formatted JavaScript code. This enables the creation of
-web applications in a type-safe functional programming language while also enabling
-the use of tools and libraries from the wider JavaScript ecosystem.
 
-The compiler supports the use of some types from .NET Base Class and FSharp.Core
-libraries \cite{fable-comp} and tries to compile the types to native JavaScript whenever possible.
+\citet{fsharp} is a functional-first programming language running on the .NET platform.
+It combines functional programming with imperative and object-oriented paradigms, offering strong type inference, data-rich programming, and concurrency support.
+We chose F\# for implementing our low-code programming system due to its strong type system, functional programming capabilities, and seamless integration with the .NET ecosystem.
+The reasons for this choice are further elaborated in Chapter~\ref{chap:implementation}.
+
+\citet{fable} is a compiler capable of compiling programs written in F\# to multiple target languages.
+One of the available target languages is JavaScript, and the compiler produces human-readable and formatted JavaScript code.
+This enables the creation of web applications in a type-safe functional programming language while also enabling the use of tools and libraries from the wider JavaScript ecosystem.
+
+The Fable compiler supports the use of some types from .NET Base Class and FSharp.Core libraries \cite{fable-comp} and attempts to compile these types to native JavaScript whenever possible.
+This feature allows developers to leverage their existing knowledge of F\# and .NET while building web applications.
+
+By using F\# with Fable, we can develop our low-code programming system using a statically-typed functional language while targeting the JavaScript runtime environment of web browsers,
+and also allowing us to use tools from the wider JavaScript ecosystem.
 
 \subsection{Elmish}
 \label{sub:elmish}
 
 \emph{Elmish} or \emph{The Elm Architecture}\cite{eml-arch} is an architecture for building applications inspired
 by the Elm programming language. The architecture follows the \emph{Model-View-Update}
-pattern or \emph{MVU}. The main emphasis of the architecture is to extensibily, type-safely,
-and declaratively create reactive applications with graphical user interface.
+pattern or \emph{MVU}. The main emphasis of the architecture is on extensibility, type-safety,
+and declarative creation of reactive applications with graphical user interface.
+
+In Figure~\ref{fig:elm}, we can see a diagram representing the architecture.
+The architecture consists of the following components:
+\begin{itemize}
+	\item \textbf{Model:} The \emph{Model} is a data-structure which keeps the state of the entire application. It
+	      holds data and other necessary values that the application uses.
+	      The data-structure is usually immutable.
+	      This means that making changes to the state results in a creation
+	      of an updated copy of the state which becomes the new state.
+
+	\item \textbf{View:} View is a function which takes the current state of the application and creates a
+	      graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.
+
+	\item \textbf{Update:} Update is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
+	      Messages are similar to events in the Elm language. Each message represents a certain change to the model.
+	      The update function updates the model based on the provided message and the current application state.
+	      The message type is usually represented as a \emph{disciminated-union}.
+	      This enables the update function to use pattern-matching expressions to efficiently update the model.
+\end{itemize}
+\begin{figure}[htbp]
+	\caption{Diagram of the Elm architecture}
+	\label{fig:elm}
+	\begin{tikzpicture}[
+			node distance = 2cm,
+			box/.style = {draw, rectangle, minimum width=2cm, minimum height=1cm},
+			arrow/.style = {->, thick},
+			dashed arrow/.style = {->, dashed, thick}
+		]
+
+		% Nodes
+		\node[box] (update) {Update};
+		\node[box, below left=of update] (model) {Model};
+		\node[box, below right=of update] (view) {View};
+
+		% Arrows
+		\draw[arrow] (update) -- node[above left] {Update Model} (model);
+		\draw[arrow] (view) -- node[above right] {Send Message} (update);
+		\draw[dashed arrow] (model) -- node[below] {Update UI} (view);
 
 
-The \emph{Model} is a data-structure which keeps the state of the entire application. It
-holds data and other necessary values that the application uses.
-The data-structure is usually immutable.
-This means that making changes to the state results in a creation
-of an updated copy of the state which becomes the new state.
-
-\emph{View} is a function which takes the current state of the application and creates a
-graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.
-
-\emph{Update} is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
-Messages are similar to events in the Elm language. Each message represents a certain change to the model.
-The update function updates the model based on the provided message and the current application state.
-The message type is usually represented as a \emph{disciminated-union}.
-This enables the update function to use pattern-matching expressions to efficiently update the model.
-
+	\end{tikzpicture}
+\end{figure}
