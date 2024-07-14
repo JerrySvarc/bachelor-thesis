@@ -43,17 +43,17 @@ We can see the type definition in Program \ref{fig:json}.
 
 Each node represents a JSON value in the input data.
 The types of nodes can be divided into two categories:
-\begin{itemize}
+\begin{description}
 	\item {\textbf{Collections:} The first category contains types representing a \emph{collection} of other values. This category includes the types \emph{JObject} and \emph{JArray}.
 	      We define the two collection types as follows:
-	      \begin{itemize}
+	      \begin{description}
 		      \item \textbf{JObject:} It is based on the JSON Object type and represents a collection of different JSON types. The original ordering of the inner elements is \emph{ignored}.
 		      \item \textbf{JArray:} It is based on the JSON List type and represents a collection of JSON values of the \emph{same type and structure}. The original ordering of the inner elements is \emph{preserved}.
-	      \end{itemize}
+	      \end{description}
 	      }
 	\item \textbf{Primitives:} The second category contains types representing data primitives such as numerical values, boolean values,
 	      a string of text, or the null value.
-\end{itemize}
+\end{description}
 
 \begin{listing}[htbp]
 	\caption {JSON type}
@@ -101,16 +101,16 @@ type RenderingCode =
 \end{listing}
 \newpage
 We define each case type and what it consists of as follows:
-\begin{itemize}
+\begin{description}
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
-	      \begin{itemize}
+	      \begin{description}
 		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span). \item \emph{InnerValue}: Represents the content of the element defined as seen in Program~\ref{fig:inner}.
 		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
 		            It consists of a string key and an InnerValue value. This representation allows for the selection of an attribute's value from the input data.
 		            }
 
-	      \end{itemize}
+	      \end{description}
 	      \begin{listing}[htbp]
 		      \caption{InnerValue type definition}
 		      \label{fig:inner}
@@ -124,17 +124,17 @@ type InnerValue =
 	      \end{listing}
 
 	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
-	      \begin{itemize}
+	      \begin{description}
 		      \item \emph{ListType}: Specifies the list type (e.g., unordered, ordered, table).
 		      \item \emph{itemCodes}: A list of RenderingCode elements representing list items.
 
-	      \end{itemize}
+	      \end{description}
 
 	\item \textbf{HtmlObject:} Represents a collection of diverse HTML elements derived from JSON object. It consists of:
-	      \begin{itemize}
+	      \begin{description}
 		      \item \emph{ObjectType}: Defines the type of the object (e.g., div, span, Section).
 		      \item \emph{Elements}: A list of RenderingCode elements representing the object's contents.
-	      \end{itemize}
+	      \end{description}
 
 	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
 	      The Hole is a discriminated union type of either a \emph{Named}
@@ -150,7 +150,7 @@ type InnerValue =
 	      We can see the type defined in Program~\ref{fig:customElement}.
 	      All of its properties are user defined.}
 
-\end{itemize}
+\end{description}
 
 \begin{listing}[htbp]
 	\caption {CustomElement type}
