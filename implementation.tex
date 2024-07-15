@@ -68,10 +68,10 @@ The Core Logic module forms the foundation of our \emph{Data-driven UI} system, 
 Figure~\ref{fig:core-logic-structure} illustrates the overall structure of this module.
 We divide the implementation into the following sub-modules:
 \begin{itemize}
-	\item \textbf{Types:} This module encompasses sub-modules that define the fundamental data structures of our system:
+	\item \textbf{Types:} This module comprises sub-modules that define the fundamental data structures of our system:
 	      \begin{itemize}
-		      \item \textbf{RenderingTypes:} Contains definitions for key types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
-		            These types form the backbone of our UI representation system.
+		      \item \textbf{RenderingTypes:} Contains definitions for types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
+
 	      \end{itemize}
 
 	\item \textbf{Operations:} This module includes sub-modules that implement various operations on the types defined in the Types module:
@@ -105,10 +105,10 @@ We divide the implementation into the following sub-modules:
 
 		% Types
 		\node [typeblock, below left=of core] (types) {Types};
-		\node [typeblock, below=of types] (renderingtypes) {Rendering\\Types};
+		\node [opblock, below=of types] (renderingtypes) {Rendering\\Types};
 
 		% Operations
-		\node [opblock, below right=of core] (operations) {Operations};
+		\node [typeblock, below right=of core] (operations) {Operations};
 		\node [opblock, below left=of operations] (rendering) {Rendering\\Code};
 		\node [opblock, below=of operations] (recognition) {Data\\Recognition};
 		\node [opblock, below right=of operations] (generation) {Code\\Generation};
@@ -134,25 +134,26 @@ It improves the extensibility and maintainablity of the Core Logic module.
 The Editor module is the second main module of the \emph{Data-driven UI's} implementation.
 It is responsible for implementing the programming system's UI and functionality.
 It facilitates tools from the Core Logic module and technologies described in Section~\ref{sec:technologies} such as Elmish, to provide an interactive low-code editor environment.
-We divide the implementation into the following sub-modules:
+Figure~\ref{fig:editor-module-structure} illustrates the structure of the module.
 
+We divide the module into the following sub-modules:
 \begin{itemize}
-	\item \textbf{Types:} This module defines the core data structures that represent the state and support the operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
+	\item \textbf{Types:} This module defines the core data structures that represent the state and operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
 	      \begin{itemize}
-		      \item \textbf{EditorModel:} Encapsulates the domain types that represent the comprehensive internal state of the Data-driven UI application, including user interface states and data manipulation contexts.
-		      \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component, capturing element hierarchies and editing contexts.
+		      \item \textbf{EditorModel:} Encapsulates the domain types that represent the internal state of the Data-driven UI application.
+		      \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component..
 	      \end{itemize}
 
 	\item \textbf{Utilities:} Provides a collection of essential helper functions that support various aspects of the application:
 	      \begin{itemize}
-		      \item Efficient icon importing and management
-		      \item Robust file upload handling and processing
-		      \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library for optimal performance
+		      \item Icon importing and management.
+		      \item File upload handling and processing.
+		      \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library.
 	      \end{itemize}
 
-	\item \textbf{Operations:} Houses sub-modules that implement core functionalities central to the editor's capabilities:
+	\item \textbf{Operations:} Comprises sub-modules that implement core functionalities central to the editor's capabilities:
 	      \begin{itemize}
-		      \item \textbf{CustomRendering:} Implements sophisticated algorithms for dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
+		      \item \textbf{CustomRendering:} Implements dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
 	      \end{itemize}
 
 	\item \textbf{Components:} Implements a suite of custom React components that form the interactive user interface:
@@ -161,6 +162,8 @@ We divide the implementation into the following sub-modules:
 		      \item \textbf{PageEditorComponents:} Offers specialized components designed for intuitive creation, real-time preview, and efficient modification of the RenderingCode AST, enabling a seamless editing experience.
 	      \end{itemize}
 \end{itemize}
+
+\subsection{Custom Rendering}
 
 \begin{figure}[htbp]
 	\centering
@@ -183,25 +186,9 @@ We divide the implementation into the following sub-modules:
 		\node [subblock, right=of editor] (operations) {Operations};
 		\node [subblock, below=of editor] (components) {Components};
 
-		% Types sub-modules
-		\node [subsubblock, above left=of types] (editormodel) {Editor\\Model};
-		\node [subsubblock, above right=of types] (pageeditormodel) {Page\\Editor Model};
-
-		% Operations sub-module
-		\node [subsubblock, above=of operations] (customrendering) {Custom\\Rendering};
-
-		% Components sub-modules
-		\node [subsubblock, below left=of components] (editorcomponents) {Editor\\Components};
-		\node [subsubblock, below right=of components] (pageeditorcomponents) {Page\\Editor Components};
-
 		% Draw arrows
 		\foreach \i in {types,utilities,operations,components}
 		\path [line] (editor) -- (\i);
-		\path [line] (types) -- (editormodel);
-		\path [line] (types) -- (pageeditormodel);
-		\path [line] (operations) -- (customrendering);
-		\path [line] (components) -- (editorcomponents);
-		\path [line] (components) -- (pageeditorcomponents);
 	\end{tikzpicture}
 	\caption{Editor Module Structure}
 	\label{fig:editor-module-structure}
@@ -227,14 +214,14 @@ The two main tools used by the \emph{Build} project are the following:
 \end{itemize}
 
 \subsection{Build targets}
+To run the build for a specific target use a command-line interface
 
-The \emph{Build} project contains  targets:
-
+The \emph{Build} project contains the follwing targets:
 \begin{itemize}
-	\item \textbf{Development Server:} Configuration for running a local development server with HMR capabilities.
-	\item \textbf{Asset Bundling:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
-	\item \textbf{Testing:} Configuration for running our unit and integration tests.
-
+	\item \textbf{Run:} Configuration for running a local development server with HMR capabilities.
+	\item \textbf{Bundle:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
+	\item \textbf{RunTests:} Configuration for running our unit and integration tests.
+	\item \textbf{Format:} Configuration for running our unit and integration tests.
 \end{itemize}
 
 
@@ -244,4 +231,8 @@ To test our implementation, we created a separate project named \emph{Tests}.
 We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and various functions from the \emph{CoreLogic.Operations.CodeGeneration} module.
 
 We use the \citet{mocha} library which provides
+
 \section{Summary}
+
+
+

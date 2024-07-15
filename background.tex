@@ -6,7 +6,7 @@
 In this section, we describe the \emph{low-code development approach} and several systems employing it.
 Low-code development approach can be defined as follows:
 \begin{defn}[Low-code development approach]
-	Defined by \citet{Pinho_Aguiar_Amaral_2023} as "An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written."
+	Defined by \citet{Pinho_Aguiar_Amaral_2023} as ``An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written.''
 \end{defn}
 This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
 integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
@@ -169,24 +169,6 @@ by the Elm programming language. The architecture follows the \emph{Model-View-U
 pattern or \emph{MVU}. The main emphasis of the architecture is on extensibility, type-safety,
 and declarative creation of reactive applications with graphical user interface.
 
-In Figure~\ref{fig:elm}, we can see a diagram representing the architecture.
-The architecture consists of the following components:
-\begin{itemize}
-	\item \textbf{Model:} The \emph{Model} is a data-structure which keeps the state of the entire application. It
-	      holds data and other necessary values that the application uses.
-	      The data-structure is usually immutable.
-	      This means that making changes to the state results in a creation
-	      of an updated copy of the state which becomes the new state.
-
-	\item \textbf{View:} View is a function which takes the current state of the application and creates a
-	      graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.
-
-	\item \textbf{Update:} Update is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
-	      Messages are similar to events in the Elm language. Each message represents a certain change to the model.
-	      The update function updates the model based on the provided message and the current application state.
-	      The message type is usually represented as a \emph{disciminated-union}.
-	      This enables the update function to use pattern-matching expressions to efficiently update the model.
-\end{itemize}
 \begin{figure}[htbp]
 	\caption{Diagram of the Elm architecture}
 	\label{fig:elm}
@@ -210,3 +192,22 @@ The architecture consists of the following components:
 
 	\end{tikzpicture}
 \end{figure}
+
+In Figure~\ref{fig:elm}, we can see a diagram representing the architecture.
+The architecture consists of the following components:
+\begin{itemize}
+	\item \textbf{Model:} The \emph{Model} is a data-structure which keeps the state of the entire application. It
+	      holds data and other necessary values that the application uses.
+	      The data-structure is usually immutable.
+	      This means that making changes to the state results in a creation
+	      of an updated copy of the state which becomes the new state.
+
+	\item \textbf{View:} View is a function which takes the current state of the application and creates a
+	      graphical user interface. The interface usually consists of multiple GUI elements displaying the application state.
+
+	\item \textbf{Update:} Update is a function which updates the model based on the inputs from the graphical user interface which calls the update function with a certain \emph{Message}.
+	      Messages are similar to events in the Elm language. Each message represents a certain change to the model.
+	      The update function updates the model based on the provided message and the current application state.
+	      The message type is usually represented as a \emph{disciminated-union}.
+	      This enables the update function to use pattern-matching expressions to efficiently update the model.
+\end{itemize}

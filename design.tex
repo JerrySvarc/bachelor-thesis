@@ -1,14 +1,19 @@
 \chapter{Design principles}
 \label{chap:design}
+This thesis aims to bring together the benefits of existing systems, such as the usability demonstrated by \emph{Hypercard},
+the responsive development loop of  \emph{Darklang}, and the ability to generate textual representation of programs based on
+interactions with a low-code programming interface, as demonstrated by \emph{Sketch-and-Sketch}.
 
-This chapter describes the main design principles behind the data-driven low-code programming system for creating web applications.
-
-The main design principles discussed include:
+Unlike many commercially developed low-code programming systems that focus mainly on supporting specific usage scenarios, we want to approach the design by identifying design principles and following them as closely as possible during our implementation..
+The main design principles are the following:
 \begin{enumerate}
-	\item Data-driven approach
-	\item Low-code editing
-	\item Code generation capability
+	\item \textbf{Data-driven approach}
+	\item \textbf{Low-code editing}
+	\item \textbf{Code generation capability}
 \end{enumerate}
+
+Our work is then an exploration of a particular point in the design space of low-code programming systems.
+We want to show what a minimal, but cleanly designed system satisfying those principles would look like.
 
 \section{Data-driven approach}
 
@@ -19,11 +24,12 @@ We define the general approach as follows:
 \end{defn}
 
 Meaning that the development process is tied to the specific data provided.
+\citet{darklang} partly satisfies this definition, although it was not explicitly designed to be data-driven
 In the context of creating web application UI elements, some data can be used only for certain UI elements as to maintain the correct semantic meaning and functionality of the elements.
 Another definition which could be used to describe our approach is the following:
 
 \begin{defn}[Data to UI]
-	Defined by~\citet{Sahay_Indamutsa_Di} as "A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows."
+	Defined by~\citet{Sahay_Indamutsa_Di} as ``A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows.''
 \end{defn}
 
 This definition also includes the concepts of data modeling and specification of business logic rules and workflows but we only focus on the aspect of user interface creation in this thesis.
