@@ -81,19 +81,8 @@ We can see the type definition in Program~\ref{fig:renderingCode}.
 	\begin{lstlisting}
 type RenderingCode =
   | HtmlElement of 
-      tag * 
-      attrs * 
-      innerValue * 
-      eventHandlers
   | HtmlList of 
-      listType * 
-      itemCode * 
-      eventHandlers 
   | HtmlObject of 
-      objectType *
-      keyOrdering * 
-      codes * 
-      eventHandlers 
   | CustomWrapper of CustomWrapper
   | CustomElement of CustomElement
   | Hole of FieldHole
