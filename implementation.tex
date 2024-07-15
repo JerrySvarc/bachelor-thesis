@@ -1,8 +1,11 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
-In this Chapter, we briefly describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
-We explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI}.
+Transitioning from concepts to reality is a complex process involving many steps and decisions.
+As we explore the implementation of our \emph{Data-driven UI} prototype programming system, we aim to provide a comprehensive view of how the concepts described in previous chapters materialize in practice.
+
+We will describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
+We will explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI} programming system.
 
 
 \section{Technologies}
@@ -45,9 +48,9 @@ While these alternatives have their strengths, our chosen technologies provided 
 \section{System architecture}
 \label{sec:appArch}
 Before we describe the implementation specifics, we must first describe the \emph{architecture} of the implementation.
-The implementation consists of different F\# \emph{modules}, each providing different functionality.
+The implementation is divided between different F\# \emph{modules}, each providing different functionality.
 We define two main modules named \emph{Core Logic} and \emph{Editor}, which contain sub-modules implementing the specific functionality.
-The contents of these modules can be described as follows:
+These modules can be described as follows:
 \begin{enumerate}
 	\item \textbf{Core Logic module:} Contains modules responsible for implementing the Core logic described in Chapter~\ref{chap:corelogic}.
 	\item \textbf{Editor module:} Modules focused on implementing the user interface of the programming system and its functionality following the Elmish architecture described in Section~\ref{sub:elmish}.
@@ -59,12 +62,13 @@ Each sub-module comprises various functions or type definitions.
 In our implementation, we separate type definitions and functions into distinct modules, similarly to the separation of \emph{Domain} and \emph{Infrastructure} layers of the \emph{Domain-driven} architecture.
 The modules containing the type definitions define the system's domain and have either none or a small number of external dependencies.
 The modules containing the functions implement the behaviors and operations that manipulate and utilize the domain types.
-This approach makes the application extensible.
-For example, we can add new functionality to the Editor without changing the implementation of the CoreLogic sub-modules.
 
+This approach inherently makes the application more easily extensible.
+For example, we can add new functionality to the Editor module without the need to change the implementation of the Core Logic sub-modules.
 
-\section{Core Logic Module}
-The Core Logic module forms the foundation of our \emph{Data-driven UI} system, implementing the types and operations described in Chapter~\ref{chap:corelogic}.
+\subsection{Core Logic Module}
+The Core Logic module is the first main module of the \emph{Data-driven UI's} implementation.
+It forms the foundation of our \emph{Data-driven UI} system, implementing the types and operations described in detail in Chapter~\ref{chap:corelogic}.
 Figure~\ref{fig:core-logic-structure} illustrates the overall structure of this module.
 We divide the implementation into the following sub-modules:
 \begin{itemize}
@@ -128,9 +132,9 @@ We divide the implementation into the following sub-modules:
 \end{figure}
 
 This modular structure allows for clear separation of concerns, with types and operations distinctly categorized.
-It improves the extensibility and maintainablity of the Core Logic module.
+It improves the extensibility and maintainablity of the Core Logic functionality.
 
-\section{Editor module}
+\subsection{Editor module}
 The Editor module is the second main module of the \emph{Data-driven UI's} implementation.
 It is responsible for implementing the programming system's UI and functionality.
 It facilitates tools from the Core Logic module and technologies described in Section~\ref{sec:technologies} such as Elmish, to provide an interactive low-code editor environment.
@@ -140,8 +144,8 @@ We divide the module into the following sub-modules:
 \begin{itemize}
 	\item \textbf{Types:} This module defines the core data structures that represent the state and operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
 	      \begin{itemize}
-		      \item \textbf{EditorModel:} Encapsulates the domain types that represent the internal state of the Data-driven UI application.
-		      \item \textbf{PageEditorModel:} Defines specialized domain types focused on representing the internal state of the Page Editor component..
+		      \item \textbf{EditorDomain:} Encapsulates the domain types that represent the internal state of the Data-driven UI application.
+		      \item \textbf{PageEditorDomain:} Defines specialized domain types focused on representing the internal state of the Page Editor component.
 	      \end{itemize}
 
 	\item \textbf{Utilities:} Provides a collection of essential helper functions that support various aspects of the application:
@@ -163,7 +167,6 @@ We divide the module into the following sub-modules:
 	      \end{itemize}
 \end{itemize}
 
-\subsection{Custom Rendering}
 
 \begin{figure}[htbp]
 	\centering
@@ -195,44 +198,237 @@ We divide the module into the following sub-modules:
 \end{figure}
 
 
+\section{Main Features}
+\label{sec:features}
+Now that we have defined the implementation's modular architecture and structure, we can describe the specifics of the implementation.
+As the implementation comprises many different type definitions and functions of various complexity,
+we will briefly describe the system's \emph{main features} that implement the design principles described in Chapter~\ref{chap:design}.
 
-\section{Challenges and Solutions}
+\subsection{User interface}
+
+The integral component of our programming system is the low-code user interface, as it realizes one of the design principles described in Chapter~\ref{chap:design}.
+It provides tools for creation and modification of UI elements through the use of context menus.
+It also shows the preview of the already created UI elements.
+
+To implement the programming system, we use tools and technologies previously described in Section~\ref{sec:technologies}.
+One of these tools is the \citet{feliz} library, used for creating composable React UI components in F\#.
+Another important tool is the \citet{elmish} library, which provides abstractions that enable the creation of \emph{Elmish-style} applications in F\#.
+We can also create React components that use the Elmish-style architecture as part of their internal representation of state and operations
+by using the \emph{React.useElmish} hook provided by the \emph{Feliz.UseElmish} library.
+
+\subsubsection{Application-Level Elm Architecture}
+
+At the top level, our application follows the Elm architecture described in Section~\ref{sub:elmish}.
+The primary application state is represented by the \emph{Model} type, and we define corresponding \emph{View} and \emph{Update} functions to manage this state.
+We can see the \emph{Model} type representing the entire application's state in Program~\ref{fig:appmodel}.
+
+\begin{listing}[htbp]
+	\caption{The Model type representing the state of the \emph{Data-driven UI} system.}
+	\label{fig:appmodel}
+	\begin{lstlisting}
+type Model = {
+    Pages: Map<Guid, Page>
+    OpenTabs: Tab list
+    ActiveTabId: Guid option
+    IsSidebarOpen: bool
+}
+    \end{lstlisting}
+\end{listing}
+
+The representation shows that we provide tabbing functionality similar to existing programming systems, such as \emph{Visual studio code}.
+This means the user can create and edit multiple Pages simultaneously, switching between them as needed.
+
+\subsubsection{Component-Level Elmish Architecture}
+
+For specific components that require more complex, localized state management,
+we utilize the previously described Feliz.UseElmish library.
+This approach allows us to create Elmish-style React components
+that have their own local state, update logic, and view functions while still being part of the greater Elm-style application.
+
+For example, the \emph{PageEditor} components use the \emph{Feliz.UseElmish} library to manage their internal state.
+This structure allows the PageEditor to maintain its own state and update logic,
+making it more modular and accessible to reason about while still communicating with the main application when necessary through the use of Elmish \emph{Commands}.
+We can see the \emph{PageEditorModel} representing the state of the PageEditor React component in Program~\ref{fig:editorModel}.
+
+\begin{listing}[htbp]
+	\caption{The PageEditorModel type representing the state a PageEditor component.}
+	\label{fig:editorModel}
+	\begin{lstlisting}
+type PageEditorModel = {
+    PageData: Page
+    FileUploadError: bool
+    IsPreview: bool
+}
+    \end{lstlisting}
+\end{listing}
+
+\subsubsection{User Interface layout}
+
+\xxx{//TODO: Screenshot of the user interface}
+
+The user interface is composed of multiple React components some managed by the top-level Elmish application, while others employing the
+component-level architecture.
+
+We can see the layout of the \emph{Data-driven UI's} interface in \xxx{Figure~\ref{fig:}}
+Located on the left is a collapsable side-menu used to open created pages for editing.
+On the top we can see a panel displaying tabs for currently open pages.
+The state and operations of these components is managed by the main Elmish application.
+
+Under the tab panel we can see the main editor window.
+The left side of the window is used to provide the modification and preview functionality explained in more detail in the following Section.
+On the right side we see a window for creating and modifying custom JavaScript handler functions.
+The state and operations of these components is managed by the individual PageEditor components.
+
+\subsection{Custom Rendering}
+
+To implement the Low-code approach described in Chapter~\ref{chap:design} combined with the Data-driven approach described in Chapter~\ref{chap:corelogic},
+we define a \emph{Higher-order} recursive function named \emph{renderingCodeToReactElement}.
+This function performs the simultaneous traversal of the RenderingCode and JSON ASTs described in Chapter~\ref{chap:corelogic}.
+
+The arguments of the \emph{renderingCodeToReactElement} function are the following:
+\begin{itemize}
+	\item \emph{code}: The RenderingCode to be rendered
+	\item \emph{path}: The current path in the RenderingCode AST
+	\item \emph{json}: The corresponding JSON data
+	\item \emph{name}: A string identifier for the current element corresponding to a JSON field of the same path
+	\item \emph{dispatch}: A function to dispatch messages to the Elmish update function
+\end{itemize}
+
+The function recursively traverses the RenderingCode AST, matching each type of RenderingCode to its appropriate rendering function.
+We then define a rendering function for each type of RenderingCode.
+Each rendering function combines the RenderingCode structure with the corresponding JSON data to create a preview of the element.
+The function also interweaves option menus with the rendered elements when, allowing for editing of the rendered structure.
+Error handling is implemented throughout the rendering process to handle mismatches between the RenderingCode and JSON structures.
+
+This function provides the main functionality of our implementation and effectively combines the functionality from the Core logic module,
+with the low-code approach.
+
+\subsection{Code generation}
+
+One of our core design principles, as outlined in Chapter~\ref{chap:design},
+is the ability to generate a textual representation of the created application.
+
+To implement this functionality, we define a recursive function named \emph{generateHtml}.
+This function operates in a manner similar to the \emph{renderingCodeToReactElement} function described in the previous section,
+performing a simultaneous traversal of the RenderingCode and JSON ASTs as detailed in Chapter~\ref{chap:corelogic}.
+
+For each type of RenderingCode, the function generates appropriate HTML:
+\begin{itemize}
+	\item \texttt{HtmlElement} is translated into its corresponding HTML element
+	\item \texttt{HtmlList} generates HTML lists based on the list type
+	\item \texttt{HtmlObject} creates a structured representation of the object's properties and based on the object type
+	\item \texttt{Hole} elements are represented as comments in the generated HTML, maintaining the structure for potential future updates
+	\item \texttt{CustomWrapper} and \texttt{CustomElement} types are handled to generat the user-defined elements
+\end{itemize}
+
+A key feature of this function is its ability to automatically populate the generated HTML elements with the corresponding JSON data,
+ensuring that the textual representation accurately reflects both the structure and content of the created application.
+
+The generated HTML is formatted with proper indentation for readability,
+making it easier for developers to understand and potentially modify the code outside of the low-code environment.
+This approach not only facilitates the transition from low-code to traditional development when necessary but also promotes transparency in the development process.
 
 \section{Building and Deployment}
-
+\label{sec:build}
 Now that we have described the implementation of the \emph{Data-driven UI} system, we must describe how the application is built and deployed.
 As we mentioned in Section~\ref{sec:technologies}, we use the \emph{Build} project provided by the \citet{safestack} template.
 The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building
 the \emph{Shared} and \emph{Server} projects, as our programming system only consists of a client-side application.
 
 \subsection{Build Tools and Libraries}
-
+The SAFE stack \emph{Build} project eploys different specialized tools to make building F\# application easier.
 The two main tools used by the \emph{Build} project are the following:
 \begin{itemize}
 	\item \textbf{FAKE (F\# Make):} A build automation tool for projects written in F\#, used to define build targets and their individual build steps.
 	\item \textbf{Vite:} A web development tool for building JavaScript client-side applications, which provides a development server environment with Hot Module Replacement capability.
 \end{itemize}
 
-\subsection{Build targets}
-To run the build for a specific target use a command-line interface
 
-The \emph{Build} project contains the follwing targets:
+The pre-requisites are needed to build the application:
 \begin{itemize}
-	\item \textbf{Run:} Configuration for running a local development server with HMR capabilities.
-	\item \textbf{Bundle:} Rules for bundling and optimizing our application assets, including JavaScript, CSS, and static files.
-	\item \textbf{RunTests:} Configuration for running our unit and integration tests.
-	\item \textbf{Format:} Configuration for running our unit and integration tests.
+	\item \textbf{.NET Core SDK}
+	\item \textbf{Node 20}
 \end{itemize}
 
+\subsection{Build targets}
+The \emph{Build} project provides multiple different build targets.
+Each provides a different build result and comprises a different sequence of build steps.
+
+The \emph{Build} project defines the follwing targets:
+\begin{itemize}
+	\item \textbf{Run:} Configuration for running a local development server with HMR capabilities.
+	      Uses the Fable compiler to compile the source code into JavaScript and uses Vite to run the development server.
+	\item \textbf{Bundle:} Target used for bundling of the application for deployment.
+	      Uses the Fable compiler to compile the source code into JavaScript and uses Vite to
+	      bundle and optimize the application assets, including the JavaScript program, CSS, and static files.
+	\item \textbf{RunTests:} Configuration for running the unit tests.
+	\item \textbf{Format:} Uses the \emph{Fantomas} F\# code formatter, to format the source code.
+\end{itemize}
+In order to build a specific target, we use the following command:
+\begin{lstlisting}[language=bash]
+  $ dotnet run [Target] 
+\end{lstlisting}
+It consists of the \emph{dotnet run} command, followed by the name of the target we wish to build.
+It is important to mention, that the target names are case-sensitive.
 
 
 \section{Testing}
-To test our implementation, we created a separate project named \emph{Tests}.
-We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and various functions from the \emph{CoreLogic.Operations.CodeGeneration} module.
+\label{sec:testing}
+To decide if the implemented operations perform as expected, we decided to create a separate project named \emph{Tests}.
+We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and the code generation capability from the \emph{CoreLogic.Operations.CodeGeneration} module.
 
-We use the \citet{mocha} library which provides
+We use the testing library named \citet{mocha}, which provides useful tools to implement the testing functionality.
+It provides a browser-based testing environment with a graphical user interface displaying the individual test cases and their results.
+It also allows composing related \emph{test cases} into \emph{test lists}, improving the readability and maintainablity of the tests.
+
+The structure of the individual test cases follows the \emph{Arange Act Assert} (AAA) unit test pattern.
+It involves preparing the required data, then performing some operation using this data, and then asserting that the operation has the expected result.
+We can see an example test case in Program~\ref{fig:test}.
+We can see the name of the test case and its implementation which follows the \emph{AAA} pattern.
+
+\begin{listing}[htbp]
+	\caption{An example test case testing the functionality of the \emph{replace} function.}
+	\label{fig:test}
+	\begin{lstlisting}
+testCase "Replace Hole"
+  <| fun _ ->
+      let original = Hole(Named "placeholder")
+      let replacement = HtmlElement(Div, [], Empty, [])
+      let result = replace [] replacement original
+      Expect.equal result replacement "Should replace Hole at root level"
+  \end{lstlisting}
+\end{listing}
+
 
 \section{Summary}
+
+In this chapter, we described the practical implementation of our Data-driven UI programming system,
+translating the theoretical concepts and core logic into a functional prototype.
+The key points covered in this chapter are:
+
+\begin{itemize}
+	\item In Section~\ref{sec:technologies}, we outlined the technologies used in our implementation, including F\#, Fable, React, Elmish, and others.
+	      We also discussed alternative technologies considered and our rationale for our choices.
+
+	\item In Section~\ref{sec:appArch}, we presented the system architecture,
+	      detailing the modular structure of our implementation.
+	      We described the Core Logic and Editor modules, explaining how they interact and their respective responsibilities.
+
+	\item In Section~\ref{sec:features}, we explored the main features of our system, focusing on:
+	      \begin{itemize}
+		      \item The user interface, which combines an application-level Elm architecture with component-level Elmish architecture for more complex elements.
+		      \item The custom rendering system, which implements the low-code and data-driven approaches through the \texttt{renderingCodeToReactElement} function.
+		      \item The code generation capability, which translates our internal representations into HTML and JavaScript.
+	      \end{itemize}
+
+	\item In Section~\ref{sec:build}, we described the build and deployment process, detailing the tools used and the available build targets.
+
+	\item In Section~\ref{sec:testing}, we outlined our testing approach, explaining how we use unit tests to verify the correctness of our core operations.
+\end{itemize}
+
+This implementation is a proof of concept for our data-driven, low-code approach to web application development and
+it demonstrates how a functional system can realize the design principles and core logic described in previous chapters.
+
 
 
 
