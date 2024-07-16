@@ -153,17 +153,16 @@ We divide the module into the following sub-modules:
 		      \item Icon importing and management.
 		      \item File upload handling and processing.
 		      \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library.
+		      \item Importing the libraries necessary to use the \citet{codemirror} editor component.
 	      \end{itemize}
 
-	\item \textbf{Operations:} Comprises sub-modules that implement core functionalities central to the editor's capabilities:
-	      \begin{itemize}
-		      \item \textbf{CustomRendering:} Implements dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
-	      \end{itemize}
 
 	\item \textbf{Components:} Implements a suite of custom React components that form the interactive user interface:
 	      \begin{itemize}
-		      \item \textbf{EditorComponents:} Provides a set of versatile components that deliver general editor functionality, including an advanced tab management system inspired by industry-standard editors like Visual Studio Code.
-		      \item \textbf{PageEditorComponents:} Offers specialized components designed for intuitive creation, real-time preview, and efficient modification of the RenderingCode AST, enabling a seamless editing experience.
+		      \item \textbf{CustomRendering:} Implements dynamically rendering previews of the RenderingCode AST, coupled with interactive modification menus that adapt to the current editing context.
+		      \item \textbf{OptionComponents:} Provides components serving as context menus to allow editing functionality for the individual RenderingCode elements.
+		      \item \textbf{EditorComponents:} Provides a set of versatile components that deliver general editor functionality, including a tab management system inspired by industry-standard editors like Visual Studio Code.
+		      \item \textbf{PageEditorComponents:} Offers specialized components designed for creation, real-time preview, and efficient modification of the RenderingCode AST.
 	      \end{itemize}
 \end{itemize}
 
