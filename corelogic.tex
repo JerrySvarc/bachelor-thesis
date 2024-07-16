@@ -80,15 +80,15 @@ We can see the type definition in Program~\ref{fig:renderingCode}.
 	\label{fig:renderingCode}
 	\begin{lstlisting}
 type RenderingCode =
-  | HtmlElement of 
-  | HtmlList of 
-  | HtmlObject of 
+  | HtmlElement 
+  | HtmlList 
+  | HtmlObject 
   | CustomWrapper of CustomWrapper
   | CustomElement of CustomElement
   | Hole of FieldHole
   \end{lstlisting}
 \end{listing}
-\newpage
+
 We define each case type and what it consists of as follows:
 \begin{itemize}
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
