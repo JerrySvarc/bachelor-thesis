@@ -184,14 +184,15 @@ We divide the module into the following sub-modules:
 		\node [mainblock] (editor) {Editor Module};
 
 		% Main sub-modules
-		\node [subblock, above=of editor] (types) {Types};
-		\node [subblock, left=of editor] (utilities) {Utilities};
-		\node [subblock, right=of editor] (operations) {Operations};
-		\node [subblock, below=of editor] (components) {Components};
+
+		\node [subblock, below=of editor] (utilities) {Utilities};
+		\node [subblock, left=of utilities] (types) {Types};
+		\node [subblock, right=of utilities] (components) {Components};
 
 		% Draw arrows
-		\foreach \i in {types,utilities,operations,components}
+		\foreach \i in {types,utilities,components}
 		\path [line] (editor) -- (\i);
+
 	\end{tikzpicture}
 	\caption{Editor Module Structure}
 	\label{fig:editor-module-structure}
@@ -318,7 +319,7 @@ For each type of RenderingCode, the function generates appropriate HTML:
 	\item \texttt{HtmlList} generates HTML lists based on the list type
 	\item \texttt{HtmlObject} creates a structured representation of the object's properties and based on the object type
 	\item \texttt{Hole} elements are represented as comments in the generated HTML, maintaining the structure for potential future updates
-	\item \texttt{CustomWrapper} and \texttt{CustomElement} types are handled to generat the user-defined elements
+	\item \texttt{CustomWrapper} and \texttt{CustomElement} types are handled to generate the user-defined elements
 \end{itemize}
 
 A key feature of this function is its ability to automatically populate the generated HTML elements with the corresponding JSON data,
