@@ -86,12 +86,11 @@ The potential limitations are the following:
 
 In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{Data-driven UI} programming system.
 The motivation for creating this prototype system was to show what a minimal but cleanly designed system satisfying design principles defined in Chapter~\ref{chap:design} looks like.
-
 In this section, we evaluate the \emph{Data-driven UI} prototype and discuss its positive and negative aspects in implementing the functionality of the data-driven low-code approach.
 
 \subsection{Positive aspects of the implementation}
-During our benchmarking process described in Chapter~\ref{chap:walktrough}, we identified several positive aspects of the prototype system.
-The positive aspects of the implementation are the following:
+During our benchmarking process described in Chapter~\ref{chap:walktrough}, we identified several positive aspects of the prototype system as follows:
+
 \begin{enumerate}
 	\item \textbf{High-speed UI element creation and modification:}
 	      The development system allows for the fast creation of desired UI elements, as the elements are created based on the structure of the provided concrete data.
@@ -102,15 +101,17 @@ The positive aspects of the implementation are the following:
 	      The system provides a live preview of the created elements and
 	      automatically populates them with the corresponding data.
 	      The preview is automatically updated after each modification, making the changes immediately visible.
-
 	      The system also provides a sandboxed preview of the created web application.
 	      This allows the user to test their implementation of custom behavior.
 	\item \textbf{Code generation:}
-	      The system automatically generates a textual representation of the created UI elements.
+	      The system automatically generates a textual representation of the created web application, incorporates the user-defined custom behavior,
+	      and generates the necessary HTML elements.
 \end{enumerate}
 
 
 \subsection{Limitations of the implementation}
+
+Limitations of the system are mainly related to the design of the user interface.
 \begin{enumerate}
 	\item \textbf{Creation process with deeply nested input data:}
 	\item \textbf{Low-code menus:}
