@@ -2,7 +2,7 @@
 \label{chap:discussion}
 
 Every approach to software development has associated benefits and limitations.
-For example, \citet{Pinho_Aguiar_Amaral_2023} identified several benefits and pitfalls associated with existing Low-code programming systems.
+For example, \citet{Pinho_Aguiar_Amaral_2023} identified several benefits and pitfalls associated with existing programming systems employing the Low-code programming approach.
 Some of the common benefits and limitations of existing Low-code programming systems are the following:
 \begin{itemize}
 	\item Common Benefits:
@@ -27,30 +27,29 @@ better evaluate the potential feasibility of the approach itself.
 
 \section{Benefits of the approach}
 
-In our work, we identify several benefits of the Data-driven Low-code approach to creating client-side web applications.
-Each benefit directly results from our specific design principles as described in Chapter~\ref{chap:design}.
+Our work identifies several benefits of the Data-driven Low-code approach to creating client-side web applications.
+Each benefit directly results from our specific design principles described in Chapter~\ref{chap:design}.
 The benefits are the following:
 \begin{enumerate}
 	\item \textbf{Guided UI element creation:} The Data-driven Hole-based approach allows for a guided process of creating the desired UI elements.
 	      The input data inspires the created elements and their resulting structure.
 	      This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
 	      of element and places it at the correct place in the internal representation of UI elements.
+
 	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from an opaque internal representation of the created software artifacts,
 	      and the system does not allow the conversion of this internal representation to a more widely used representation.
-	      This means that the user cannot easily use a different tool.
+	      This means the user cannot easily use a different tool to modify or extend the created software artifacts.
 
 	      Our design mitigates this problem, as the ability to generate a textual representation of the created software artifact is a core requirement
 	      for systems implementing our approach.
 	\item \textbf{Mitigates Interoperability issues:} Another issue that our approach mitigates is that of lack of interoperability.
-	      Our system accepts a standard representation of data as a JSON object.
-	      The programming system can be used alongside other existing systems, mainly those focused on data manipulation and retrieval,
-	      that can generate data of the same type.
+	      Our system accepts a widely used standard data representation as a JSON object.
+	      The programming system can then be used alongside other existing systems, mainly those focused on data manipulation and retrieval, to generate data of the same type.
 
 	      Also, the ability to generate a textual representation of the created program using a standard representation allows the use of other tools that accept the standard representation.
 \end{enumerate}
 
-The described benefits may serve as a motivation to either implement new systems employing our described approach,
-or to incorporate our approach into existing systems.
+The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
 
 \section{Limitations of the approach}
 
@@ -58,7 +57,7 @@ The potential limitations are the following:
 \begin{itemize}
 	\item \textbf{Necessity to prepare data in advance:}
 	\item \textbf{Potentially resource intensive:}
-	\item \textbf{Low-code interface design:}
+	\item \textbf{Limited modification of behavior:}
 \end{itemize}
 
 \section{Limitations of the implementation}
