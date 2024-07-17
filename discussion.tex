@@ -29,24 +29,28 @@ better evaluate the potential feasibility of the approach itself.
 
 Our work identifies several benefits of the Data-driven Low-code approach to creating client-side web applications.
 Each benefit directly results from our specific design principles described in Chapter~\ref{chap:design}.
-The benefits are the following:
+The main benefits are the following:
 \begin{enumerate}
 	\item \textbf{Guided UI element creation:} The Data-driven Hole-based approach allows for a guided process of creating the desired UI elements.
 	      The input data inspires the created elements and their resulting structure.
 	      This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
 	      of element and places it at the correct place in the internal representation of UI elements.
 
-	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from an opaque internal representation of the created software artifacts,
-	      and the system does not allow the conversion of this internal representation to a more widely used representation.
+	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from a system's opaque internal representation of the created software artifacts
+	      and the system not allowing the conversion of this internal representation to a more widely used representation.
 	      This means the user cannot easily use a different tool to modify or extend the created software artifacts.
 
 	      Our design mitigates this problem, as the ability to generate a textual representation of the created software artifact is a core requirement
-	      for systems implementing our approach.
-	\item \textbf{Mitigates Interoperability issues:} Another issue that our approach mitigates is that of lack of interoperability.
-	      Our system accepts a widely used standard data representation as a JSON object.
-	      The programming system can then be used alongside other existing systems, mainly those focused on data manipulation and retrieval, to generate data of the same type.
+	      for systems implementing our approach, mitigating the possibility of Vendor lock-in issues.
 
-	      Also, the ability to generate a textual representation of the created program using a standard representation allows the use of other tools that accept the standard representation.
+
+	\item \textbf{Mitigates Interoperability issues:}
+	      Another issue our approach mitigates is the lack of interoperability with other existing systems.
+	      Our system accepts input data in a widely used JSON format.
+	      The programming system can then be used alongside existing systems, mainly those focused on data manipulation and retrieval.
+	      An example of a programming system that could achieve a perfect synergy with systems implementing our approach is \citet{graphql}.
+
+	      Another aspect of our approach that improves interoperability is the ability to generate a textual representation of the created program using a standard representation, which allows the use of other tools that accept the standard representation.
 \end{enumerate}
 
 The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
@@ -54,14 +58,18 @@ The described benefits may serve as a motivation to implement new systems employ
 \section{Limitations of the approach}
 Even though our approach provides several previously described benefits, we also identify several potential limitations.
 Some of these limitations are a direct result of our design principles described in Chapter~\ref{chap:design}, while others are
-a side-effect of our core logic described in Chapter~\ref{chap:corelogic}.
+a side-effect of our definition of the core logic described in Chapter~\ref{chap:corelogic}.
 The potential limitations are the following:
-\begin{itemize}
-	\item \textbf{Necessity to prepare data in advance:}
-	\item \textbf{Rigid element structure:}
-	\item \textbf{Potentially resource intensive:}
+\begin{enumerate}
+	\item \textbf{Potentially time and resource intensive:} The incremental creation process described in Chapter~\ref{chap:corelogic} involves simultaneously traversing the Abstract Syntax Trees representing the created UI elements and the input data.
+	      We must visit each node of the ASTs during our travel to provide correct modification menus and previews for every created UI element.
+	      This means the time to traverse the created ASTs grows linearly with the number of elements they contain.
+	      This approach to updating the preview and modification menus could pose a problem when modifying large ASTs, as we perform the traversal after each update of the UI elements. This means that the delay between changing a UI element and seeing the updated result could become too large.
+
+	      This problem can be mitigated by employing a more targeted approach to re-rendering, such as re-rendering only the modified element and its children nodes.
 	\item \textbf{Limited modification of behavior:}
-\end{itemize}
+	\item \textbf{Creation process with deeply nested input data:}
+\end{enumerate}
 
 \section{Positive aspects of the implementation}
 \section{Limitations of the implementation}
