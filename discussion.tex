@@ -64,16 +64,19 @@ The potential limitations are the following:
 	\item \textbf{Necessity to prepare data in advance:} As defined in Chapter~\ref{chap:design}, the data-driven approach first involves providing concrete data to the system.
 	      By some users, this can be seen as a potential negative, as creation of a simple page mandates creating the structured contents of it first.
 	      This high upfront cost could be lowered by providing simple data templates which the user could modify according to their needs.
+
 	\item \textbf{Rigid element structure:} The creation process described in Chapter~\ref{chap:corelogic} defines a structured way
 	      of creating elements based on concrete data.
 	      We also define the concept of \emph{structual referencing}, which enables us to dynamically create \emph{Holes} and efficiently combine the created UI elements with corresponding data.
-	      However, this also means that we must maintain the exact structure of the created UI elements as the corresponding data.
-	      This prevents us from modifying the structure of the created UI elements, resulting in a very rigid structure.
+	      However, we must keep the representations' structures exactly the same to ensure the correct structural mapping.
+	      This prevents us from modifying the structure of the created UI elements independently from the corresponding data, resulting in a very rigid structure.
 
-	      To mitigate this issue, we added the \emph{CustomWrapper} and \emph{CusomElement} types, which provide some ability to add new elements independent of the
-	      structure of the data.
+	      To mitigate this issue, we could explore other options for referencing the data from the UI elements, such as \emph{Selector-based} referencing.
+	      This approach involves creating UI elements independently of the input data's structure and referencing it directly.
+	      However, we did not explore this option because we wanted to evaluate the purely data-driven approach.
+
 	\item \textbf{Potentially time and resource intensive:} The incremental creation process described in Chapter~\ref{chap:corelogic} involves simultaneously traversing the Abstract Syntax Trees representing the created UI elements and the input data.
-	      We must visit each node of the ASTs during our travel to provide correct modification menus and previews for every created UI element.
+	      We must visit each node of the ASTs during our traversal to provide correct modification menus and previews for every created UI element.
 	      This means the time to traverse the created ASTs grows linearly with the number of elements they contain.
 	      This approach to updating the preview and modification menus could pose a problem when modifying large ASTs, as we perform the traversal after each update of the UI elements.
 	      This means that the delay between changing a UI element and seeing the updated result could become too large.
@@ -85,40 +88,62 @@ The potential limitations are the following:
 \section{Evaluation of the implementation}
 
 In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{Data-driven UI} programming system.
-The motivation for creating this prototype system was to show what a minimal but cleanly designed system satisfying design principles defined in Chapter~\ref{chap:design} looks like.
+The motivation for creating this prototype system was to show a minimal but cleanly designed system satisfying design principles defined in Chapter~\ref{chap:design}.
 In this section, we evaluate the \emph{Data-driven UI} prototype and discuss its positive and negative aspects in implementing the functionality of the data-driven low-code approach.
 
 \subsection{Positive aspects of the implementation}
-During our benchmarking process described in Chapter~\ref{chap:walktrough}, we identified several positive aspects of the prototype system as follows:
-
+During our benchmarking process described in Chapter~\ref{chap:walktrough},
+we identified several positive aspects of the \emph{Data-driven UI} prototype system.
+These strengths demonstrate the potential of our data-driven low-code approach and provide a foundation for future development.
+The key positive aspects are as follows:
 \begin{enumerate}
 	\item \textbf{High-speed UI element creation and modification:}
-	      The development system allows for the fast creation of desired UI elements, as the elements are created based on the structure of the provided concrete data.
-	      After the user creates all desired elements, the system provides a modification menu for each created UI element.
-	      The menus provide the functionality to quickly change the properties of the corresponding element through mouse-based or keyboard-based operations.
-	      The properties are automatically updated after each modification, allowing for a fast and interactive development loop.
-	\item \textbf{Live preview:}
-	      The system provides a live preview of the created elements and
-	      automatically populates them with the corresponding data.
-	      The preview is automatically updated after each modification, making the changes immediately visible.
-	      The system also provides a sandboxed preview of the created web application.
-	      This allows the user to test their implementation of custom behavior.
-	\item \textbf{Code generation:}
-	      The system automatically generates a textual representation of the created web application, incorporates the user-defined custom behavior,
-	      and generates the necessary HTML elements.
+	      The system facilitates rapid creation of UI elements based on the structure of provided concrete data.
+	      For each created element, the system offers a modification menu enabling quick property changes through mouse-based or keyboard-based operations.
+	      Properties update automatically after each modification, allowing a fast and interactive development loop.
+	\item \textbf{Live preview with dynamic updates:}
+	      The system provides a real-time preview of created elements, automatically populated with corresponding data.
+	      This preview updates instantly with each modification, offering immediate visual feedback.
+	      Additionally, a sandboxed preview of the entire web application allows users to test and refine custom behaviors.
+	\item \textbf{Comprehensive code generation:}
+	      The system automatically generates a complete textual representation of the created web application.
+	      This includes incorporating user-defined custom behaviors and generating all necessary HTML elements,
+	      providing a seamless transition from the low-code environment to traditional code if needed.
 \end{enumerate}
+
 
 
 \subsection{Limitations of the implementation}
-
-Limitations of the system are mainly related to the design of the user interface.
+While the Data-driven UI system demonstrates the potential of our approach,
+the prototype implementation has several limitations that should be addressed by future research:
 \begin{enumerate}
-	\item \textbf{Creation process with deeply nested input data:}
-	\item \textbf{Low-code menus:}
-	\item \textbf{Limited capabilities:}
-\end{enumerate}
+	\item \textbf{Handling of deeply nested data structures:}
+	      The current implementation struggles with efficiently displaying the preview and modification menus of deeply nested data structures.
+	      This limitation can make it challenging for users to work with complex JSON inputs.
+	\item \textbf{Limited set of available UI components:} The current implementation supports a limited set of HTML elements and UI components.
+	      This restriction may not adequately cover all use cases for web application development, particularly for more complex or specialized applications.
+	\item \textbf{Performance with large datasets:}
+	      As noted in the approach limitations,
+	      the system's performance may degrade with very large JSON inputs due to the traversal method used.
+	      This implementation-specific issue could be mitigated with more optimized rendering and update algorithms.
+	\item \textbf{Lack of persistent storage:}
+	      Our prototype system does not implement any persistent storage functionality.
+	      This means that all data is kept in memory, and is lost upon refreshing the page.
 
+\end{enumerate}
+These limitations primarily stem from the prototype nature of the implementation and the focus on demonstrating the core concepts of the data-driven low-code approach.
 
 \section{Future work}
-This work serves as an intro
-We identify several avenues for potential future reseach.
+In this thesis, we laid the foundation for the data-driven low-code approach to creating client-side web applications.
+However, there are several areas where further research and development could significantly enhance the capabilities and applicability of this approach:
+\begin{enumerate}
+	\item \textbf{Empirical user studies:} Conducting comprehensive user studies to evaluate the effectiveness of this approach compared to traditional development methods and other low-code platforms would provide valuable insights for further improvement.
+	\item \textbf{Solving the issue of rigid element structure:} Research focusing on the issue of strong coupling between the representations of UI elements and input data could enhance the overall functionality of the approach.
+	\item \textbf{Improved handling of complex data structures:} Research into more efficient algorithms for traversing and rendering large or deeply nested data structures could improve the system's performance and usability.
+	\item \textbf{Expanded UI component library:} Developing a more comprehensive set of UI components and patterns would increase the system's versatility.
+	\item \textbf{Modification of behavior through a low-code interface:} In our implementation, defining custom behavior of elements involves writing code in JavaScript.
+	      Future research could focus on defining and implementing comprehensive low-code interface for implementing the custom behavior without the need to write code.
+	\item \textbf{Combining data-driven low-code programming with other approaches:} Combining our approach with other existing approaches, such as \citet{output-directed-programming}, could improve the functionality of the overall system.
+	\item \textbf{Performance optimization:} Further research into optimizing the rendering and update algorithms could improve the system's performance with large datasets and complex applications.
+\end{enumerate}
+These areas of future work aim to address the current limitations of the system while also exploring new possibilities opened up by this data-driven, low-code approach.

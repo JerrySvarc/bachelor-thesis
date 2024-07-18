@@ -1,6 +1,7 @@
 \chapter{Core Logic}
 \label{chap:corelogic}
 
+
 This chapter describes the core logic of the programming system.
 Firstly, we describe the hole-based approach applied to the creation of elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
@@ -83,9 +84,7 @@ type RenderingCode =
   | HtmlElement 
   | HtmlList 
   | HtmlObject 
-  | CustomWrapper of CustomWrapper
-  | CustomElement of CustomElement
-  | Hole of FieldHole
+  | Hole 
   \end{lstlisting}
 \end{listing}
 
@@ -94,7 +93,7 @@ We define each case type and what it consists of as follows:
 	\item \textbf{HtmlElement:} Represents a single HTML element. It consists of:
 	      \begin{itemize}
 		      \item \emph{Tag}: Denotes the HTML tag (e.g., div, p, span). \item \emph{InnerValue}: Represents the content of the element defined as seen in Program~\ref{fig:inner}.
-		            Where \emph{Data} indicates dynamic content from JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
+		            Where \emph{Data} indicates dynamic content from input JSON, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 		      \item {\emph{Attributes}: A collection of key-value pairs representing HTML attributes.
 		            It consists of a string key and an InnerValue value. This representation allows for the selection of an attribute's value from the input data.
 		            }
@@ -108,11 +107,10 @@ type InnerValue =
   | Data 
   | Empty
   | Constant
-
                   \end{lstlisting}
 	      \end{listing}
 
-	\item \textbf{HtmlList:} Represents a collection of similar HTML elements corresponding to JSON arrays. It includes:
+	\item \textbf{HtmlList:} Represents a collection of HTML elements of the same type corresponding to JSON arrays. It includes:
 	      \begin{itemize}
 		      \item \emph{ListType}: Specifies the list type (e.g., unordered, ordered, table).
 		      \item \emph{itemCodes}: A list of RenderingCode elements representing list items.
@@ -126,52 +124,14 @@ type InnerValue =
 	      \end{itemize}
 
 	\item {\textbf{Hole:} Represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
-	      The Hole is a discriminated union type of either a \emph{Named}
 	      }
-
-	\item {\textbf{CustomWrapper:} Represents a wrapper element around an existing RenderingCode.
-	      We can see the type defined in Program~\ref{fig:customWrapper}.
-	      The motivation is to allow creation of custom elements next to existing RenderingCode elements.
-	      For example, imagine we created a HtmlElement representing a \emph{Button}. We can wrap this \emph{Button} in a \emph{Form} element and add other CustomElements, such as elements representing \emph{Input fields}.
-	      }
-
-	\item{\textbf{CustomElement:} Represents a custom UI element that has not been created based on the input data.
-	      We can see the type defined in Program~\ref{fig:customElement}.
-	      All of its properties are user defined.}
-
 \end{itemize}
 
-\begin{listing}[htbp]
-	\caption {CustomElement type}
-	\label{fig:customElement}
-	\begin{lstlisting}
-type CustomElement= {
-    Tag
-    Attributes
-    CustomInnerValue // user defined inner value of the element
-    EventHandlers
-}
-  \end{lstlisting}
-\end{listing}
 
-\begin{listing}[htbp]
-	\caption {CustomWrapper type}
-	\label{fig:customWrapper}
-	\begin{lstlisting}
-type CustomWrapper = {
-    Tag
-    Attributes
-    WrappedCode
-    Children // list of custom elements
-    EventHandlers
-}
-  \end{lstlisting}
-\end{listing}
-
-Each RenderingCode type also provides the ability to add custom event handling.
+Each RenderingCode type, with the exception of the type \emph{Hole}, also provides the ability to add custom event handling.
 Each elements includes a list of user-defined event handlers.
 Each event handler consists of the name of the event, and a script that is executed.
-This script is implemented in JavaScript.
+This script is user-defined and implemented in JavaScript.
 
 \subsection{Data Mapping: JSON to RenderingCode}
 \label{sec:mapping}
@@ -273,10 +233,6 @@ We see that the root node has an empty path.
 Then, we append the position of each element inside the collection to the Path.
 This allows us to traverse the AST based on the specified Path and find the correct element using a recursive search function.
 
-Because we also allow the creation of a CustomWrapper element containing an existing rendering code and an arbitrary number of different CustomElements,
-we need the ability to differentiate between paths continuing through the wrapper, or paths addressing the custom elements.
-We achieve this by adding a -1 index to each Path for CustomElements contained within the wrapper, followed by their index inside the CustomWrapper collection.
-
 Using the dynamically created paths, we can replace a RenderingCode by following its specified Path through the RenderingCode AST.
 We define a recursive function named \emph{replace} which navigates the AST using the provided path to locate and replace a specific element with a new one.
 We can see a description of the potential implementation in Program~\ref{fig:replace}.
@@ -300,10 +256,7 @@ let rec replace
           // recursively call the function on an element with 
           // the key located inside the keys collection, that has index equal to head
           // return new HtmlObject
-      | CustomWrapper(customWrapper) -> 
-          // if the head is equal to -1, recursively call the function on the custom elements
-          // otherwise, call it on the wrapped RenderingCode
-      | _ -> currentCode 
+      | _ -> currentCode // remaining path, but the current element is not a collection
   \end{lstlisting}
 \end{listing}
 
@@ -372,7 +325,7 @@ We can do this easily, as the structure of the RenderingCode AST mirrors that of
 which are ignored during the process and we preserve the paths of wrapped RenderingCode elements.
 Thanks to the approach of Structural referencing, we can perform this process during our previously described traversal in Section~\ref{sec:traversal}.
 
-\newpage
+
 \section{Summary}
 
 In this Chapter, we described the the core logic and domain of our programming system.
