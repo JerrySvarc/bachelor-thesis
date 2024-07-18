@@ -163,8 +163,71 @@
 %%% source code, data files, interactive charts, etc.). Electronic attachments
 %%% should be uploaded to SIS. Allowed file formats are specified in provision
 %%% of the rector no. 72/2017. Exceptions can be approved by faculty's coordinator.
-%%%\appendix
-%%\chapter{Appendix}
+\appendix
+\chapter{Appendix}
+\section{Benchmarking results}
+
+
+\begin{listing}[htbp]
+	\caption{Counter task implemeneted using \emph{Data-Driven UI} prototype system.}
+	\label{fig:counter-res}
+	\begin{lstlisting}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Data-Driven App</title>
+</head>
+<body class="bg-gray-100 p-4">
+    <div id="app" class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md"></div>
+    <script id="appData" type="application/json">
+     {
+        "label": 0,
+        "button": "count"
+     }
+
+    </script>
+    <script>
+    function plusOne(event, data) {
+      data.label++;
+      renderApp(data);
+    }
+
+
+    function renderApp(data) {
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div >
+        <div data-key="label">
+          <label   >${data.label}</label>
+        </div>
+        <div data-key="button">
+          <button  id="plusOneButton" >${data.button}</button>
+        </div>
+        </div>
+      `;
+      setupEventListeners(data);
+    }
+
+
+    function setupEventListeners(data) {
+      const plusOneButton = document.getElementById('plusOneButton');
+      if (plusOneButton) plusOneButton.addEventListener('click', (event) => plusOne(event, data));
+    }
+
+
+    let appData;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      appData = JSON.parse(document.getElementById('appData').textContent);
+      renderApp(appData);
+    });
+    </script>
+</body>
+</html>
+    \end{lstlisting}
+\end{listing}
 
 %%\section{Replace function implementation}
 
