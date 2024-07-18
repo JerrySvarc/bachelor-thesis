@@ -205,7 +205,7 @@ Now that we have defined the implementation's modular architecture and structure
 As the implementation comprises many different type definitions and functions of various complexity,
 we will briefly describe the system's \emph{main features} that implement the design principles described in Chapter~\ref{chap:design}.
 
-\subsection{User interface}
+\subsection{User interface implementation}
 
 The integral component of our programming system is the low-code user interface, as it realizes one of the design principles described in Chapter~\ref{chap:design}.
 It provides tools for creation and modification of UI elements through the use of context menus.
@@ -263,14 +263,19 @@ type PageEditorModel = {
     \end{lstlisting}
 \end{listing}
 
-\subsubsection{User Interface layout}
+\subsection{User Interface layout}
 
-\xxx{//TODO: Screenshot of the user interface}
+
 
 The user interface is composed of multiple React components some managed by the top-level Elmish application, while others employing the
 component-level architecture.
-
-We can see the layout of the \emph{Data-driven UI's} interface in \xxx{Figure~\ref{fig:}}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=1\linewidth]{img/UIExample.pdf}
+	\caption{Example of \emph{Data-driven UI's} user interface}
+	\label{fig:ui}
+\end{figure}
+We can see the layout of the \emph{Data-driven UI's} interface in Figure~\ref{fig:ui}
 Located on the left is a collapsable side-menu used to open created pages for editing.
 On the top we can see a panel displaying tabs for currently open pages.
 The state and operations of these components is managed by the main Elmish application.

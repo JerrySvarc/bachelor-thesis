@@ -110,6 +110,7 @@ It is a functional interpretation of the Morphic GUI Framework providing direct-
 	\label{fig:sketch}
 \end{figure}
 
+
 \section{Web Development}
 As this thesis focuses on the development of a browser-based low-code programming system for creating client-side web applications,
 it is essential to review the existing web development technologies and tools that have either influenced or been utilized in our implementation.
@@ -118,8 +119,12 @@ In this section, we will introduce the \emph{Elm} programming language,
 and describe tools that enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler \emph{Fable} and the \emph{Elmish architecture}.
 
 \subsection{The JavaScript Object Notation format}
-\citet{rfc8259} defines the JavaScript Object Notation as ``a text format for the serialization of structured data.''
+The JavaScript Object Notation is defined by \citet{rfc8259} as a lightweight, text-based data interchange format.
+It is language-independent and easy for both humans to read and write and machines to parse and generate.
+JSON supports the following data types: \emph{Objects}, \emph{Arrays}, \emph{Numbers}, \emph{Strings}, \emph{Booleans}, and the \emph{null} type.
 
+It is widely used in web development for transmitting data between the server and client-side web applications,
+or used for configuration of different development tools.
 
 \subsection{Elm}
 \citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
