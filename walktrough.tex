@@ -1,36 +1,37 @@
 \chapter{Benchmarks}
 \label{chap:walktrough}
 
-In this chapter, we evaluate our Data-driven UI prototype system on several tasks. Our primary goal is to assess whether we can implement these tasks according to their specifications using only our prototype system, and to determine if our approach successfully reduces the amount of code that needs to be written, as per the definition of low-code programming systems by \citet{Pinho_Aguiar_Amaral_2023}.
+This chapter evaluates our Data-driven UI prototype system on two tasks from the \citet{7GUIs-web}.
+Our primary goal is to assess whether we can implement these tasks according to their
+specifications by using only our prototype system and to determine if our approach successfully
+reduces the amount of code that needs to be written,
+as per the definition of low-code programming systems by \citet{Pinho_Aguiar_Amaral_2023}.
 
 \section{Methodology}
 We will evaluate our prototype system based on the following criteria:
 \begin{itemize}
 	\item \textbf{Successful implementation of all specified functionality:}
 	      We must implement the exact functionality described by each task.
-	      If we cannot implement a specific task as specified, this allows us to reason about our system's limitations, and potentially
+	      If we cannot implement a specific task as specified, we can reason about our system's limitations and potentially
 	      identify problems with our implementation or design.
 
 	\item \textbf{Number of lines of code written:}
-	      We will compare the number of lines of code required in our system versus the referential provided solution.
+	      We will compare the number of lines of code required in our system versus the referential solution provided by \citet.
 	      We will only consider \emph{physical lines of code} as defined by~\citet{Park_1992}.
-	      Because our system requires concrete data before we can begin building the desired application, we will also include the
-	      number of lines of code needed to be written for the data preparation.
-	      We will also ignore all lines of code ralated to styling the elements and focus only on implementing the specified functionality and UI structure.
-
+	      Because our system requires concrete data before we can begin building the desired application, we will also include the Number of lines of code needed to be written for the data preparation.
+	      We will also ignore all lines of code related to styling the elements and focus only on implementing the specified functionality and UI structure.
 \end{itemize}
 
-For each specific task, we will:
+For each successfully comleted task, we will:
 \begin{enumerate}
 	\item Describe the task requirements
 	\item Outline the implementation process using our Data-driven UI system
 	\item Present the resulting application or describe what functionality cannot be implemented
-	\item Analyze the number of lines of code written
-	\item Discuss any challenges or limitations encountered
+	\item Analyze the Number of lines of code written
 \end{enumerate}
 
 \section{Counter Task (7GUIs)}
-The Counter is defined by \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only textfield T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
+The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only textfield T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
 
 \subsection {Creation process}
 
@@ -41,13 +42,13 @@ The steps of the creation process are the following:
 	\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
 	\item \textbf{Replace holes with new elements:} This step involves clicking on a provided button menu for each Hole element.
 	\item \textbf{Modify the elements using the context menus:} We use the provided context menus to change the tag of each element.
-	      We select the label tag for the label element, and button for the button element.
+	      We select the label tag for the label element and the button for the button element.
 	\item \textbf{Implementation of custom behavior:} We select the \emph{Custom Handlers} menu.
 	      We type the name of our custom function into the provided input field and
 	      we name the function as \texttt{plusOne}.
-	      Then using JavaScript, we implement the desired behavior of increasing the value of the label field by one
+	      Then, using JavaScript, we implement the desired behavior of increasing the value of the label field by one
 	      every time this function is called.
-	      Into the editor window we input the following: \texttt{data.label++;}.
+	      Into the editor window, we input the following: \texttt{data.label++;}.
 	      We do not need to write anything else, as the system automatically generates the function's body and other event handlers.
 	\item \textbf{Add the "onClick" handler to the button element:} We use the menu for the \emph{button} element to add an event handler
 	      which calls the \texttt{plusOne} function when triggered.
@@ -61,34 +62,53 @@ The steps of the creation process are the following:
 {
   "label": 0,
   "button": "count"
- }
+}
     \end{lstlisting}
 \end{listing}
 
 \subsection{Results}
-We have successfully created the desired application and its specified functionality and UI elements.
-We can observe the working application in the code generated by the prototype system in Appendix~\ref{fig:counter-res}.
-We can see the HTML and JavaScript code
-
-
+We \emph{successfully} created the desired application, its specified functionality, and UI elements.
+We can see the textual representation generated by the prototype system in Program~\ref{fig:counter-res}.
 
 \subsection{Analysis}
+The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
+
+We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
+\begin{itemize}
+	\item In Step 1, we created the input data and wrote a total of 4 LOC.
+	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
+	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+\end{itemize}
+We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
 
 
 \section{Temperature Converter Task (7GUIs)}
- [Follow the same structure as the Counter task]
+Temperature Converter task by the \citet{7GUIs-web} involves creating a user interface with two input fields for Celsius and Fahrenheit temperatures,
+implementing bidirectional conversion between the two fields when valid numerical input is provided.
+We were not successful creating the described application using our \emph{Data-driven UI} prototype system.
 
-\section{To-do Application}
- [Describe the requirements for a simple to-do application]
- [Outline the steps taken to implement it in Data-driven UI]
- [Show screenshots or code snippets of the implementation]
- [Analyze the lines of code written]
- [Discuss any challenges or limitations]
+The primary challenge we faced was mainly implementing the validation of the provided input data,
+as the prototype system currently lacks input validation mechanisms and the ability
+to perform complex calculations within the UI components themselves.
+Implementing the validation inside the programming system itself would require significant amount of custom validaton code written in pure JavaScript
+with no access to external libraries.
+
+Another complex aspect for which our system lacks support, is bidirectional communication between two UI components.
+Our system only allows for a unidirection communication between our data representation and the UI elements.
+The bidirectional support could be implemented using special handlers, but in the context of this task we are limited by the architecture itself.
+
 
 \section{Evaluation}
-In this section, we'll summarize our findings from the benchmark tasks:
-[Discuss overall success in implementing the tasks]
-[Compare lines of code written in our system vs traditional approaches]
-[Highlight strengths of the Data-driven UI approach]
-[Address any common limitations or challenges encountered]
-[Reflect on how well the system meets the definition of a low-code programming system]
+In this section, we summarize our findings from the benchmark tasks.
+Our evaluation process involved attempting to implement two distinct tasks using the Data-driven UI prototype system:
+the Counter task and Temperature Converter task from the 7GUIs benchmark
+
+We successfully implemented the Counter task from the \citet{7GUIs-web}.
+This task, while simple, demonstrated our system's ability to handle basic user interactions and state management.
+It showcased the strengths of our data-driven approach in rapidly creating a functional UI with minimal code.
+However, we encountered challenges with the more complex Temperature Converter task.
+The bidirectional data flow and real-time calculation requirements of this task exposed
+limitations in our current implementation, particularly in handling complex state changes and performing calculations based on user input.
+
+

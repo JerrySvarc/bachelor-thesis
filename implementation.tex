@@ -22,7 +22,7 @@ The system is implemented using the following key technologies:
 	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
 	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
 	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
-	\item \textbf{Tailwind:} We use the \citet{tailwind} CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
+	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
 	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
 	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
 \end{itemize}
@@ -154,7 +154,7 @@ We divide the module into the following sub-modules:
 		      \item Icon importing and management.
 		      \item File upload handling and processing.
 		      \item JSON data parsing and serialization, leveraging the \citet{simpleJson} library.
-		      \item Importing the libraries necessary to use the \citet{codemirror} editor component.
+		      \item Importing the libraries necessary to use the Codemirror editor component.
 	      \end{itemize}
 
 
@@ -322,7 +322,7 @@ For each type of RenderingCode, the function generates appropriate HTML:
 \begin{itemize}
 	\item \texttt{HtmlElement} is translated into its corresponding HTML element
 	\item \texttt{HtmlList} generates HTML lists based on the list type
-	\item \texttt{HtmlObject} creates a structured representation of the object's properties and based on the object type
+	\item \texttt{HtmlObject} creates a structured representation of the object based on its properties and object type
 	\item \texttt{Hole} elements are represented as comments in the generated HTML, maintaining the structure for potential future updates
 \end{itemize}
 
@@ -371,11 +371,23 @@ The \emph{Build} project defines the follwing targets:
 \end{itemize}
 In order to build a specific target, we use the following command:
 \begin{lstlisting}[language=bash]
-  $ dotnet run [Target] 
+  dotnet run [Target] 
 \end{lstlisting}
 It consists of the \emph{dotnet run} command, followed by the name of the target we wish to build.
 It is important to mention, that the target names are case-sensitive.
 
+\subsection{Deployment}
+We provide a deployment solution in a form of a \texttt{Dockerfile}.
+To run or deploy the \emph{Data-driven UI} docker image, we must first build it using the following command inside the root of the project:
+\begin{lstlisting}[language=bash]
+  docker build -t data-driven-ui .  
+\end{lstlisting}
+
+After the build process is finished, we can run the docker container by running the following command:
+
+\begin{lstlisting}[language=bash]
+   docker run -p 8080:80 data-driven-ui  
+\end{lstlisting}
 
 \section{Testing}
 \label{sec:testing}
