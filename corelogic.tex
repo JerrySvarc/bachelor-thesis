@@ -1,4 +1,4 @@
-\chapter{Core Logic}
+\chapter{Core Logic - Domain and Operations}
 \label{chap:corelogic}
 
 
@@ -20,14 +20,14 @@ To address this need, we define a type named \emph{Hole} as follows:
 	A Hole is a placeholder type representing a UI element that is yet to be created despite its existing corresponding data. It serves as a temporary stand-in during the incremental construction of a user interface.
 \end{defn}
 
-We then define the \emph{incremental creation process} as a \emph{sequence of discrete opreations}.
+We then define the \emph{incremental creation process} as a \emph{sequence of opreations}.
 Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
-This discrete approach allows the system to perform different tasks after each operation.
+This approach allows the system to perform different tasks after each operation.
 These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
 The system can also analyze the existing UI elements and perform other operations at this time.
 
 
-\section{Type System and Mapping}
+\section{Domain model and Mapping}
 \label{sec:types}
 In this section, we describe the types which the system uses to represent the input data and types used to represent the created UI elements.
 We also define the mapping between the input data and the UI element representation.
