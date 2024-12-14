@@ -29,12 +29,12 @@ jobs:
     name: Verify PDF/A
     runs-on: ubuntu-latest
     needs: build
-    container: { image: 'ghcr.io/mff-cuni-cz/cuni-thesis-validator' }
-
+    container: 
+      image: ghcr.io/mff-cuni-cz/cuni-thesis-validator:latest
     steps:
-      - name: Install GLIBC
+      - name: Install Required Libraries
         run: |
-          apt-get update && apt-get install -y --no-install-recommends libc6 libc6-dev
+          apt-get update && apt-get install -y --no-install-recommends libc6
       - name: Get PDFs
         uses: actions/download-artifact@v4
         with:
@@ -42,4 +42,3 @@ jobs:
       - name: Run VeraPDF
         run: |
           verify Thesis/*.pdf | tee /dev/stderr | grep -qE 'nonCompliant="0" failedJobs="0"'
-
