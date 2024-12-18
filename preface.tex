@@ -3,37 +3,30 @@
 
 Since the advent of the \emph{World Wide Web}, developers have been creating web applications mainly by writing and modifying text-based code.
 Today, this process is made more accessible by using different tools, libraries, frameworks, and programming systems.
-For example, tools such as the \citet{react} library or the \citet{vuejs} framework make it possible to compose web applications from reusable components.
+For example, tools such as the \citet{react} library or the \citet{vuejs} framework make it possible to compose web applications from reusable components but still require the user to write and modify text-based code.
 
-Some programming systems allow an alternative approach of \emph{Low-code} software development.
-\citet{Pinho_Aguiar_Amaral_2023} define \emph{Low-code programming systems} as ``systems that aim to significantly reduce the amount of code needed to create specific applications.''
+Some programming systems allow an alternative approach of \emph{low-code} software development.
+\citet{Pinho_Aguiar_Amaral_2023} define \emph{low-code programming systems} as ``systems that aim to significantly reduce the amount of code needed to create specific applications.''
+These systems employ an alternative way of creating and modifying the software components by providing a \emph{Graphical User interface (GUI)} and modification tools that aid the user during the creation process.
 The popularity of these systems has been increasing in recent years, as stated by \citet{Sahay_Indamutsa_Di}.
-Regarding creating web applications, systems such as~\citet{mendix}~or~\citet{darklang} specialize in providing a comprehensive Low-code development platform for creating specific components of web applications.
-Other programming systems, such as \emph{Sketch-n-Sketch} presented by~\citet{sketch-and-sketch}, combine the Low-code approach
-with other programming techniques, such as \emph{Output-directed programming}~\cite{output-directed-programming}, to enhance the system's functionality and development process.
 
-Another alternative approach is that of \emph{Data-driven} software development.
-By \emph{Data-driven}, we mean that the creation of a particular software artifact is based on concrete data provided to the system.
+\citet{Sahay_Indamutsa_Di} identify that low-code systems provide two main approaches to creating software applications, and they are \textbf{UI to Data} and \textbf{Data to UI}.
+\emph{UI to Data} involves creating the application's UI and populating it with data, whereas \emph{Data to UI} is a data-driven approach where the UI is created after modeling necessary data.
+Systems such as~\citet{mendix}~or~\citet{darklang} specialize in providing a comprehensive low-code development platform for creating specific components of web applications.
+Other programming systems, such as \emph{Sketch-n-Sketch} presented by~\citet{sketch-and-sketch}, combine the low-code approach
+with other programming techniques, such as \emph{output-directed programming}~\cite{output-directed-programming}, to enhance the system's functionality and development process.
 
-This thesis aims to combine the \emph{Low-code} approach to software development with the \emph{Data-driven} approach within a single programming system.
-We aim to apply both of these approaches to the process of creating client-side web applications, providing an alternative to traditional development methods.
-To understand how our proposed system differs, it is helpful to first consider the standard development process.
-We can generalize the standard development process into four major steps:
-\begin{enumerate}
-	\item Creating User Interface elements.
-	\item Populating the User Interface elements with data.
-	\item Implementing custom behavior of the elements.
-	\item Styling the elements.
-\end{enumerate}
+This thesis will focus mainly on the \emph{data to UI} low-code approach.
+We aim to explore the \emph{data to UI} approach in the context of creating \emph{client-side web applications}, providing an alternative to traditional text-based development methods.
+We will design and implement a \emph{prototype} low-code programming system named \textbf{InterfaceSmith}.
+The \emph{data to UI} process will be influenced by the type of data provided to the system and its structure.
+The programming system will then aid the developer in modifying the user interface by providing relevant context menus.
+After creating and modifying the UI elements, the system will provide behavior modification options inspired by~\citet{eml} and the~Elmish~architecture\cite{elmish}.
+After finishing the implementation process, the developer will be able to preview the created application and download its text-based representation.
 
-We aim to design and implement a \emph{prototype} Low-code programming system named \textbf{Data DrUId}, where steps 1 and 2 are combined into a single step, as the UI elements are created based on concrete data and automatically populated by it.
-In other words, the data serves as the web application's content and inspires the structure of the UI itself.
-The approach involves first providing data to the application, which will guide the creation of the UI elements.
-The programming system will then aid the developer in modifying the user interface by providing context menus based on the data's structure and type.
-After creating the application, the developer will be able to preview the created application and download its text-based representation.
 
-To evaluate the presented system, we will \emph{benchmark} the \emph{Data DrUId} prototype system on several different tasks.
-Based on the definition of Low-code programming systems, we will evaluate the results based on the number of lines of code (LOC) needed to be written by the user to implement the selected tasks.
+To evaluate the presented system, we will \emph{benchmark} the \emph{InterfaceSmith} prototype system on several different tasks.
+Based on the definition of low-code programming systems, we will evaluate the results based on the number of lines of code (LOC) that the user needs to write to implement the selected tasks and whether the functionality of the desired task has been successfully implemented.
 We will test the programming system on the following tasks:
 \begin{itemize}
 	\item Counter task from the 7GUIs Benchmark
@@ -41,12 +34,15 @@ We will test the programming system on the following tasks:
 	\item Simple To-do list application
 \end{itemize}
 
+\xxx{Screenshot of the app with a description}
+
+
 \section*{Goals}
 The main goals of this thesis are the following:
 \begin{enumerate}
 	\item Explore the applicability of the low-code programming system employing the data-driven approach to the creation of UI elements of web applications:
 	      \begin{itemize}
-		      \item Define the \emph{Data-driven} approach.
+		      \item Define the \emph{data-driven} approach.
 		      \item Define the approach in the context of creating web applications based on concrete data.
 		      \item Describe the design principles behind the approach.
 		      \item Present a description of creating UI elements based on the input data.
@@ -60,7 +56,7 @@ The main goals of this thesis are the following:
 			            \item Allow the user to upload JSON data and show its preview.
 			            \item Provide context menus based on the provided data and aid the user in creating the UI elements.
 			            \item Show a preview of the user-created parts of the web application.
-			            \item Allow the user to define custom behavior of the elements.
+			            \item Allow the user to define the custom behavior of the elements.
 			            \item Allow the user to download the created web application in a text-based form.
 		            \end{itemize}
 	      \end{itemize}
@@ -71,6 +67,7 @@ The main goals of this thesis are the following:
 		      \item Simple To-do list application
 	      \end{itemize}
 \end{enumerate}
+
 
 \newpage
 \section* {Contributions and Outline}
