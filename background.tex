@@ -1,20 +1,30 @@
 \chapter{Background}
 \label{chap:background}
-
 \section{Low-code development systems}
 \label{sec:low-code}
-In this section, we describe the \emph{low-code development approach} and several systems employing it.
-Low-code development approach can be defined as follows:
+
+In the previous chapter, we briefly described that our thesis aims to create a \emph{low-code data-driven} programming system.
+We will describe several existing systems that employ the low-code development approach to understand better how our resulting application fits into the low-code programming system landscape.
+The low-code development approach can be defined as follows:
 \begin{defn}[Low-code development approach]
 	Defined by \citet{Pinho_Aguiar_Amaral_2023} as ``An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written.''
 \end{defn}
-This definition accommodates a broad spectrum of tools and development practices, such as visual programming tools,
-integrated development environments with code generation capabilities, development tools powered by artificial intelligence, and generators that generate source code based on template files.
-We focus mainly on visual programming tools employing the defined low-code approach.
+This definition accommodates a broad spectrum of tools and development systems.
+The main category of these tools is \emph{visual programming tools} such as \citet{darklang} or \citet{mendix}.
+The visual programming tools provide a Graphical User Interface (GUI), which allows users to create and modify software by interacting with the interface.
+They differ in the style of UI, provided functionality, their intended use case, and other features, such as automatic deployment of the created software.
 
-Visual programming tools present a graphical user interface to the user. This graphical user interface serves as an abstraction over
-the development domain. It provides tools to create and modify software elements.
-In the following sections, we describe several existing low-code visual programming systems that served as direct inspiration for the work presented in this thesis.
+The next category of low-code development tools is \emph{Integrated development environments (IDEs)} with code generation capabilities.
+For example, \citet{Rider} provides advanced context-aware code auto-completion alongside tools to generate boilerplate code and project scaffolding.
+Code generation can also be provided by integrating \emph{Large Language Models (LLMs)} into existing IDEs, such as the~\citet{copilot} extension for the \citet{vscode} editor.
+
+The last large category of low-code development tools is \emph{Static site generators (SSGs)}, which transform files written in a simple markup language into a static website.
+A popular example of SSGs is the \citet{hugo} static site generator, which also provides tools for customizing the transformation process and supports custom templating.
+
+To better understand the \emph{InterfaceSmith} system, we will describe three programming systems that greatly influenced its design.
+We explain how these particular systems inspired the design of our system in chapter~\ref{chap:design}.
+The \emph{Hypercard}, \emph{Darklang}, and \emph{Sketch-and-Sketch} are three different systems belonging to the visual programming category of tools.
+Each system has a different intended use case, User Interface, and capabilities.
 
 \subsection{Hypercard}
 \emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
@@ -23,7 +33,7 @@ The popularity of the program ensured that similar programs and clones of Hyperc
 
 The following summary of functionality is based on a manual for the Hypercard system written by~\citet{goodman_hypertext}.
 The fundamental elements that the user creates are called \emph{cards}. Cards can hold data as text, have custom graphics, contain buttons, and implement custom behavior.
-Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A stack is a collection of cards with the same type of information.
+Users can implement the custom behavior using a scripting language called \emph{HyperTalk}. Then, users can group cards into \emph{stacks}. A~stack is a collection of cards with the same type of information.
 The program saves a stack as a single file to the disk. Finally, users can distribute and modify these stacks.
 Creation and modification of the card is done through the low-code interface. The program provides several options for the different card elements.
 \begin{figure}[htbp]
@@ -34,7 +44,7 @@ Creation and modification of the card is done through the low-code interface. Th
 \end{figure}
 
 The program offers users a choice of a user level, as seen in figure \ref{fig:f}. The program changes the user interface's capabilities based on the selected user level.
-The higher the selected user level, the more options the program enables and displays. A selected level enables all previous-level options alongside other options and functionality.
+The higher the selected user level, the more options the program enables and displays. A~selected level enables all previous-level options alongside other options and functionality.
 Users can choose from five different user levels:
 \begin{enumerate}
 	\item \textbf{Browsing:} Enables no modification of cards and is mainly intended to be used to view the different cards inside a stack.
@@ -79,7 +89,7 @@ The system automatically redeploys the entire application after the user creates
 This allows for an interactive style of development where changes made to the system are almost immediately visible.
 
 
-\subsection{Output-directed programming}
+\subsection{Sketch-and-Sketch - Output-directed programming}
 \label{sec:odp}
 \emph{Output-directed programming} is described by \citet{sketch-and-sketch} as
 a programming paradigm where users construct plain text programs using mouse-based operations on the program's output.
@@ -112,11 +122,11 @@ It is a functional interpretation of the Morphic GUI Framework providing direct-
 
 
 \section{Web Development}
-As this thesis focuses on the development of a browser-based low-code programming system for creating client-side web applications,
-it is essential to review the existing web development technologies and tools that have either influenced or been utilized in our implementation.
-
-In this section, we will introduce the \emph{Elm} programming language,
-and describe tools that enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler \emph{Fable} and the \emph{Elmish architecture}.
+\xxx{
+	As this thesis focuses on the development of a browser-based low-code programming system for creating client-side web applications,
+	it is essential to review the existing web development technologies and tools that have either influenced or been utilized in our implementation.
+	In this section, we will introduce the \emph{Elm} programming language,
+	and describe tools that enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler \emph{Fable} and the \emph{Elmish architecture}.}
 
 \subsection{The JavaScript Object Notation format}
 The JavaScript Object Notation is defined by \citet{rfc8259} as a lightweight, text-based data interchange format.
@@ -171,32 +181,25 @@ and also allowing us to use tools from the wider JavaScript ecosystem.
 \subsection{Elmish}
 \label{sub:elmish}
 
-\emph{Elmish} or \emph{The Elm Architecture}\cite{eml-arch} is an architecture for building applications inspired
-by the Elm programming language. The architecture follows the \emph{Model-View-Update}
-pattern or \emph{MVU}. The main emphasis of the architecture is on extensibility, type-safety,
-and declarative creation of reactive applications with graphical user interface.
-
 \begin{figure}[htbp]
-	\caption{Diagram of the Elm architecture}
+	\caption{Diagram of the Elmish Architecture}
 	\label{fig:elm}
 	\begin{tikzpicture}[
-			node distance = 2cm,
-			box/.style = {draw, rectangle, minimum width=2cm, minimum height=1cm},
-			arrow/.style = {->, thick},
-			dashed arrow/.style = {->, dashed, thick}
+			node distance = 3cm,
+			data/.style = {draw, rectangle, minimum width=2.5cm, minimum height=1cm},
+			func/.style = {->, >=stealth, thick},
+			every node/.style = {font=\small}
 		]
+		% Slightly increased node width and consistent naming
+		\node[data] (model) {Model};
+		\node[data, right=4cm of model] (ui) {User Interface};
+		\node[data, below=3cm of ui] (msg) {Message};
 
-		% Nodes
-		\node[box] (update) {Update};
-		\node[box, below left=of update] (model) {Model};
-		\node[box, below right=of update] (view) {View};
-
-		% Arrows
-		\draw[arrow] (update) -- node[above left] {Update Model} (model);
-		\draw[arrow] (view) -- node[above right] {Send Message} (update);
-		\draw[dashed arrow] (model) -- node[below] {Update UI} (view);
-
-
+		% More consistent arrow labels
+		\draw[func] (model) -- node[above] {View: renders the UI} (ui);
+		\draw[func] (ui) -- node[right] {UI event: creates a Message} (msg);
+		\draw[func] (msg) -- node[below left, align=center]
+		{Update:\\modifies Model based on the Message} (model);
 	\end{tikzpicture}
 \end{figure}
 

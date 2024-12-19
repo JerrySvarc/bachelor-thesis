@@ -11,7 +11,7 @@ These systems employ an alternative way of creating and modifying the software c
 The popularity of these systems has been increasing in recent years, as stated by \citet{Sahay_Indamutsa_Di}.
 
 \citet{Sahay_Indamutsa_Di} identify that low-code systems provide two main approaches to creating software applications, and they are \textbf{UI to Data} and \textbf{Data to UI}.
-\emph{UI to Data} involves creating the application's UI and populating it with data, whereas \emph{Data to UI} is a data-driven approach where the UI is created after modeling necessary data.
+\emph{UI to Data} involves creating the application's UI and populating it with data, whereas \emph{Data to UI} is a data-driven approach where the UI is created \emph{after} modeling necessary data.
 Systems such as~\citet{mendix}~or~\citet{darklang} specialize in providing a comprehensive low-code development platform for creating specific components of web applications.
 Other programming systems, such as \emph{Sketch-n-Sketch} presented by~\citet{sketch-and-sketch}, combine the low-code approach
 with other programming techniques, such as \emph{output-directed programming}~\cite{output-directed-programming}, to enhance the system's functionality and development process.
@@ -19,33 +19,34 @@ with other programming techniques, such as \emph{output-directed programming}~\c
 This thesis will focus mainly on the \emph{data to UI} low-code approach.
 We aim to explore the \emph{data to UI} approach in the context of creating \emph{client-side web applications}, providing an alternative to traditional text-based development methods.
 We will design and implement a \emph{prototype} low-code programming system named \textbf{InterfaceSmith}.
-The \emph{data to UI} process will be influenced by the type of data provided to the system and its structure.
+The \emph{data to UI} process will be influenced by the \emph{type} of data provided to the system and also its \emph{structure}.
+The application's UI elements will then be created through a sequence of steps, mirroring the structure of the provided data.
 The programming system will then aid the developer in modifying the user interface by providing relevant context menus.
 After creating and modifying the UI elements, the system will provide behavior modification options inspired by~\citet{eml} and the~Elmish~architecture\cite{elmish}.
-After finishing the implementation process, the developer will be able to preview the created application and download its text-based representation.
-
+After the developer finishes the implementation process, they can preview the created application and download its text-based representation.
 
 To evaluate the presented system, we will \emph{benchmark} the \emph{InterfaceSmith} prototype system on several different tasks.
 Based on the definition of low-code programming systems, we will evaluate the results based on the number of lines of code (LOC) that the user needs to write to implement the selected tasks and whether the functionality of the desired task has been successfully implemented.
 We will test the programming system on the following tasks:
-\begin{itemize}
-	\item Simple To-do list application
-	\item Counter task from the 7GUIs Benchmark
-	\item Temperature converter task from the 7GUIs Benchmark
-\end{itemize}
+\begin{enumerate}
+	\item A simple \textbf{To-do list} application inspired by the \emph{TodoMVC benchmark}~\citet{TodoMVC}.
+	\item \textbf{Counter} task from the \citet{7GUIs-web}.
+	\item \textbf{Temperature converter} task from the \citet{7GUIs-web}.
+\end{enumerate}
+\xxx{
+	The main output of this thesis is the InterfaceSmith application shown in Figure~\ref{fig:prototype-teaser}.
+	The user interface is inspired by \citet{darklang} and consists of a movable canvas containing various draggable elements.
+	The main element is the UI modification and preview element, which shows a preview of the application's created parts alongside modification menus and is also resizable, simulating a browser window.
+	Other elements include a view of the uploaded data, elements for creating and modifying the behavior of the UI elements, and elements for creating handler JS functions.
+	The resulting code is generated based on the created elements. The system creates an Elmish-like application in pure JavaScript, but it could be extended to target other technologies.}
 
-\xxx{Screenshot of the app with a description}
-
-The main output of this Thesis is the InterfaceSmith application shown in Figure~\ref{fig:prototype-teaser}.
-It consists of a
-
-\begin{figure}
+\begin{figure}[htbp]
 	\begin{center}
 		\includegraphics[width=0.95\textwidth]{img/UIExample.pdf}
 	\end{center}
-	\caption{}\label{fig:prototype-teaser}
+	\caption{InterfaceSmith's UI example }
+	\label{fig:prototype-teaser}
 \end{figure}
-
 
 
 \section*{Goals}
@@ -59,34 +60,21 @@ The main goals of this thesis are the following:
 		      \item Present a description of creating UI elements based on the input data.
 		      \item Evaluate the feasibility of this approach in the context of the prototype application.
 	      \end{itemize}
-	\item Create a working \textbf{prototype programming system} implementing the data-driven approach:
-	      \begin{itemize}
-		      \item Create the prototype application that should:
-		            \begin{itemize}
-			            \item Provide a low-code interface.
-			            \item Allow the user to upload JSON data and show its preview.
-			            \item Provide context menus based on the provided data and aid the user in creating the UI elements.
-			            \item Show a preview of the user-created parts of the web application.
-			            \item Allow the user to define the custom behavior of the elements.
-			            \item Allow the user to download the created web application in a text-based form.
-		            \end{itemize}
-	      \end{itemize}
-	\item Benchmark the prototype application on the following tasks:
-	      \begin{itemize}
-		      \item Counter task from the 7GUIs Benchmark
-		      \item Temperature converter task from the 7GUIs Benchmark
-		      \item Simple To-do list application
-	      \end{itemize}
+	\item Create a working \textbf{prototype programming system} implementing the data-driven approach according to the requirements described in Chapter~\ref{chap:design}.
+	\item Benchmark the prototype application on the previously specified tasks.
 \end{enumerate}
 
-
+\newpage
 \section* {Contributions and Outline}
+This thesis contributes to the field of software development, specifically web development systems employing a data-driven low-code approach.
 \begin{itemize}
-	\item In Chapter \ref{chap:design}, we describe the main design principles that influenced the design of the proposed programming system.
-	\item {In Chapter \ref{chap:corelogic}, we describe the core logic of our programming system.\\
-	      We introduce the hole-based approach to creating UI elements, describe the type systems and operations on these types,
+	\item In Chapter \ref{chap:design}, we describe the main design principles that influenced the design of the
+	      proposed programming system and the functional and non-functional requirements for the \emph{InterfaceSmith} prototype application.
+	\item {In Chapter \ref{chap:corelogic}, we describe the core logic of our programming system.
+	      We introduce the data-driven hole-based approach to creating UI elements, describe the domain model and essential operations,
 	      and describe the incremental creation process.}
-	\item In Chapter \ref{chap:implementation}, we describe the implementation specifics of the prototype application, including its architecture, technologies used, and the design of its user interface.
+	\item In Chapter \ref{chap:implementation}, we describe the implementation specifics of the \emph{InterfaceSmith} application, including its architecture, technologies used, and the design of its user interface.
 	\item In Chapter \ref{chap:walktrough}, we showcase the creation of a user interface for a simple to-do list application and several other tasks from \citet{7GUIs-web}.
-	\item In Chapter \ref{chap:discussion}, we discuss the
+	\item In Chapter \ref{chap:discussion}, we discuss the benefits and limitations of our proposed programming system, and we evaluate our \emph{InterfaceSmith} application.
+	      We also provide several future avenues of research.
 \end{itemize}
