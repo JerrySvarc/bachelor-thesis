@@ -1,28 +1,29 @@
 \chapter{Implementation}
 \label{chap:implementation}
 \xxx{
-	We will describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
+	We will describe the implementation according to the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
 	We will explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI} programming system.
 }
 
 
 \section{Technologies}
 \label{sec:technologies}
-To provide context for the implementation, we'll first examine the technologies used in developing the \emph{Data-driven UI} system, as our technological choices significantly shaped the design and functionality of the resulting application.
-
-We decided to create the \emph{Data-driven UI} editor in a from of a browser-based client-side application providing a graphical user interface, rather than a traditional desktop application.
-We made this decision to allow greater cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
-We also wanted to implement the system using a programming language with functional programming capabilities and a strong ecosystem, which narrowed our range of suitable options.
-The system is implemented using the following key technologies:
-\begin{itemize}
-	\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
-	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
-	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
-	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
-	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
-	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
-	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
-\end{itemize}
+To provide context for the implementation, we'll first examine the technologies used in developing the \emph{Data-driven UI} system.
+\xxx{
+	We decided to create the \emph{Data-driven UI} editor in a from of a browser-based client-side application providing a graphical user interface, rather than a traditional desktop application.
+	We made this decision to allow greater cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
+	We also wanted to implement the system using a programming language with functional programming capabilities and a strong ecosystem, which narrowed our range of suitable options.
+	The system is implemented using the following key technologies:
+	\begin{itemize}
+		\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
+		\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
+		\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
+		\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
+		\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
+		\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
+		\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
+	\end{itemize}
+}
 
 \subsection{Alternatives}
 While we selected the technologies mentioned in the previous Section for our implementation, for several of them we considered using alternative technologies:
