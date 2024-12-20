@@ -1,12 +1,9 @@
 \chapter{Implementation}
 \label{chap:implementation}
-
-Transitioning from concepts to reality is a complex process involving many steps and decisions.
-As we explore the implementation of our \emph{Data-driven UI} prototype programming system, we aim to provide a comprehensive view of how the concepts described in previous chapters materialize in practice.
-
-We will describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
-We will explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI} programming system.
-
+\xxx{
+	We will describe the practical realization of the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
+	We will explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI} programming system.
+}
 
 
 \section{Technologies}
@@ -27,7 +24,6 @@ The system is implemented using the following key technologies:
 	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
 \end{itemize}
 
-
 \subsection{Alternatives}
 While we selected the technologies mentioned in the previous Section for our implementation, for several of them we considered using alternative technologies:
 \begin{itemize}
@@ -43,7 +39,6 @@ While we selected the technologies mentioned in the previous Section for our imp
 	      However, as we need the ability to parse JSON data of abitrary strucuture, SimpleJson's lightweight nature and its internal representation of the parsed data made it our preffered choice.
 \end{itemize}
 While these alternatives have their strengths, our chosen technologies provided the best balance of functional programming capabilities, browser compatibility, and ecosystem support for our specific requirements.
-
 
 
 \section{System architecture}
@@ -91,7 +86,6 @@ We divide the implementation into the following sub-modules:
 		            This module bridges our internal representations with output code.
 	      \end{itemize}
 \end{itemize}
-
 
 \begin{figure}[htbp]
 	\centering

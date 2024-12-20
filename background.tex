@@ -4,7 +4,7 @@
 \label{sec:low-code}
 
 In the previous chapter, we briefly described that our thesis aims to create a \emph{low-code data-driven} programming system.
-We will describe several existing systems that employ the low-code development approach to understand better how our resulting application fits into the low-code programming system landscape.
+In this section, we describe several existing systems that employ the low-code development approach to understand better how our resulting application fits into the low-code programming system landscape.
 The low-code development approach can be defined as follows:
 \begin{defn}[Low-code development approach]
 	Defined by \citet{Pinho_Aguiar_Amaral_2023} as ``An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written.''
@@ -103,12 +103,10 @@ It is a browser-based application that provides a bimodal programming environmen
 The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
 After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values} as seen in Figure~\ref{fig:sketch}.
 
-
 \emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it.
 \emph{Intermediate values} are values produced at the intermediate execution steps of the program.
 The program provides widgets for different types of intermediate values such as \emph{offset}, \emph{point}, or \emph{list} widgets.
 Widgets can take the form of draggable boxes or input fields.
-
 
 Another programming system implementing the direct manipulation paradigm is \emph{Transformic} introduced by \citet{Schreiber_Krahn_Ingalls_Hirschfeld_2017}.
 It is a functional interpretation of the Morphic GUI Framework providing direct-manipulation functionality.
@@ -122,11 +120,18 @@ It is a functional interpretation of the Morphic GUI Framework providing direct-
 
 \newpage
 \section{Web Development}
-\xxx{
-	As this thesis focuses on the development of a browser-based low-code programming system for creating client-side web applications,
-	it is essential to review the existing web development technologies and tools that have either influenced or been utilized in our implementation.
-	In this section, we will introduce the \emph{Elm} programming language,
-	and describe tools that enable the development of browser-based applications in F\#, such as the F\# to JavaScript compiler \emph{Fable} and the \emph{Elmish architecture}.}
+In the previous section, we described the low-code development approach and several existing low-code development systems.
+In this section, we introduce web development tools and technologies that we use for the \emph{InterfaceSmith} programming system or that influence its design and implementation.
+
+To create a data-driven programming system, we must select a data representation format that is easy for users to obtain, understand, and modify.
+We choose the \emph{JavaScript Object Notation format} for our input data representation, as it is widely used in web development, is easy to write and understand, and can be easily parsed by the program.
+
+Our programming system provides a GUI, and technologies such as the \citet{eml} functional programming language influenced the nature of our implementation.
+We do not use Elm directly, but we model our implementation after the \citet{elmish} or the \emph{Model View Update} architecture, which is a simplified form of the programming model used by Elm.
+
+To implement our programming system, we use the \citet{fsharp} programming language alongside the \citet{fable}, which compiles the application to \emph{JavaScript}, which allows the application to run in a browser-based environment.
+
+We describe the technologies used for our implementation in greater detail in Chapter~\ref{chap:implementation}.
 
 \subsection{The JavaScript Object Notation format}
 The JavaScript Object Notation is defined by \citet{rfc8259} as a lightweight, text-based data interchange format.
@@ -178,7 +183,7 @@ This feature allows developers to leverage their existing knowledge of F\# and .
 By using F\# with Fable, we can develop our low-code programming system using a statically-typed functional language while targeting the JavaScript runtime environment of web browsers,
 and also allowing us to use tools from the wider JavaScript ecosystem.
 
-\subsection{Elmish}
+\subsection{The Elmish architecture}
 \label{sub:elmish}
 
 \begin{figure}[htbp]
@@ -220,4 +225,14 @@ The architecture consists of the following components:
 	      The update function updates the model based on the provided message and the current application state.
 	      The message type is usually represented as a \emph{disciminated-union}.
 	      This enables the update function to use pattern-matching expressions to efficiently update the model.
+\end{itemize}
+
+
+
+\begin{itemize}
+	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
+	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
+	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
+	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
+	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
 \end{itemize}
