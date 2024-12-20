@@ -14,12 +14,12 @@ jobs:
     container: { image: 'aergus/latex' }
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build the thesis
         run: |
           latexmk thesis && latexmk abstract-cs && latexmk abstract-en
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Thesis
           path: |
@@ -32,9 +32,6 @@ jobs:
     container: 
       image: ghcr.io/mff-cuni-cz/cuni-thesis-validator:latest
     steps:
-      - name: Install Required Libraries
-        run: |
-          apt-get update && apt-get install -y --no-install-recommends libc6
       - name: Get PDFs
         uses: actions/download-artifact@v4
         with:
