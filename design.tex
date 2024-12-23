@@ -1,32 +1,33 @@
-\chapter{Design principles and Requirements}
+\chapter{Design principles and Features}
 \label{chap:design}
 
-This thesis aims to bring together the benefits of existing systems, such as the usability demonstrated by \emph{Hypercard},
+In the previous chapter, we explored several existing low-code programming system, each one providing different functionality and user interface.
+In this chapter, we aim to bring together the benefits of the previously described systems,
+such as the ability to create UI elements based on existing data demonstrated by \emph{AppForge}\cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008},
 the responsive development loop of \citet{darklang}, and the ability to generate textual representation of programs based on
 interactions with a low-code programming interface, as demonstrated by \emph{Sketch-and-Sketch}\cite{sketch-and-sketch}.
 
 Unlike many commercially developed low-code programming systems that focus mainly on supporting specific usage scenarios,
 we want to approach the design by identifying design principles and following them as closely as possible during our implementation.
-The main design principles are the following:
-\begin{enumerate}
-	\item \textbf{Data-driven approach}
-	\item \textbf{Low-code editing}
-	\item \textbf{Code generation capability}
-\end{enumerate}
+Our work then explores a particular point in the design space of low-code programming systems.
+We want to show a minimal but cleanly designed system that satisfies those principles.
 
-Our work is then an exploration of a particular point in the design space of low-code programming systems.
-We want to show what a minimal, but cleanly designed system satisfying those principles would look like.
+We extrapolated three main design principles which we aim to follow during our implementation:
+\begin{enumerate}
+	\item \textbf{Data-driven approach:} The approach inspired by \emph{AppForge} and \emph{Darklang}.
+	\item \textbf{Low-code editing:}  All described systems provide a certain form of low-code editing.
+	\item \textbf{Code generation capability:} The ability to generate text-based representation of the program is mainly inspired by \emph{Sketch-and-Sketch}.
+\end{enumerate}
 
 \section{Data-driven approach}
 
 The main general design principle of the proposed programming system is the \emph{data-driven} approach in context of creating web application UI elements.
 We define the general approach as follows:
 \begin{defn}[Data-driven approach]
-	A software development approach where the creation of a particular software artifact is dependant on \textbf{concrete data} provided to the system.
+	A software development approach where the creation of a particular software artifact is dependant on \textbf{concrete data}.
 \end{defn}
 
-Meaning that the development process is tied to the specific data provided.
-\citet{darklang} partly satisfies this definition, although it was not explicitly designed to be data-driven
+\emph{Darklang} and \emph{AppForge} are great examples of systems employing this approach as Darklang can create new workers based on existing Cron jobs, or the AppForge system can create a new View based on an existing database table.
 In the context of creating web application UI elements, some data can be used only for certain UI elements as to maintain the correct semantic meaning and functionality of the elements.
 Another definition which could be used to describe our approach is the following:
 
@@ -34,7 +35,11 @@ Another definition which could be used to describe our approach is the following
 	Defined by~\citet{Sahay_Indamutsa_Di} as ``A data-driven approach that starts from data modeling and then builds the user interface of the application followed by the specification of business logic rules and workflows.''
 \end{defn}
 
-This definition also includes the concepts of data modeling and specification of business logic rules and workflows but we only focus on the aspect of user interface creation in this thesis.
+This definition also includes the concept of data modeling but we assume that the data the user provides is already modeled.
+For example, the developer can use the proposed system employing this approach together with existing technologies such as \citet{graphql}.
+Using GraphQL, the developer can specify the data they wish to use and its structure.
+This data can then be provided to the system and used to create the desired web application.
+
 The main difference between our programming system and other systems described by~\citet{Sahay_Indamutsa_Di} as \emph{Data to UI} such as~\citet{mendix} is that creating the user interface is directly tied to the data provided to the application.
 Usually, the \emph{Data to UI} systems provide options to create pre-made UI elements, which may then reference and use the provided data.
 Whereas our proposed system creates the UI elements based on the data itself which then reference the provided data.
@@ -50,24 +55,19 @@ One option is that the system performs the analysis once after the developer pro
 Alternatively, the system can perform it continuously throughout the development process and provide development options based on the already created application elements, similar to Output-directed programming described in Section~\ref{sec:odp}.
 The system could also use various machine-learning techniques to improve the data analysis.
 
-Another valuable property of systems employing this approach is their ability to be used in conjunction with other existing technologies, mainly those focused on data modeling and retrieval.
-For example, the developer can use the proposed system employing this approach together with existing technologies such as \citet{graphql}.
-Using GraphQL, the developer can specify the data they wish to use and its structure.
-This data can then be provided to the system and used to create the desired web application.
 
-\section{Low-code editor}
+\section{Low-code editing}
 
-The second design principle is the concept of a \emph{low-code editor}.
+The second design principle is the concept of a \emph{low-code editing}.
 Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
 The system provides contextual menus to aid in the creation of the application.
 Various existing low-code programming editors were presented previously in Section~\ref{sec:low-code}.
 
-The visual design and functionality of the system is inspired by the "what you see is what you get" (abbreviated as \emph{WYSIWYG}) editors presented by \citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
+
+The visual design of the \emph{InterfaceSmith} is inspired by \emph{Darklang} and its provided functionality is inspired by the \emph{WYSIWYG} editors as described by \citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
 This sub-category of low-code editors displays the application's output as if running inside its native environment.
 This design allows the system to update the output every time a change is made to the program and display its result, allowing for a more dynamic development loop \cite{output-directed-programming}.
-
-Our prototype system provides contextual menus based on the structure of the input data, as we will see in Chapter~\ref{chap:implementation} and Chapter~\ref{chap:walktrough}.
-The design of the contextual menus was influenced by menus in currently existing programming systems, such as property menus from the \emph{Visual studio} editor.
+Our prototype system provides contextual menus based on the structure of the input data and places the menus directly next to the preview of the created UI elements, as we will see in the following chapters.
 
 \section{Code generation}
 
@@ -80,16 +80,3 @@ Our prototype implementation also provides a code generation capability.
 The type system of the application represents the created parts of the application in a form that allows translation of the created application to various programming languages and other technologies.
 The prototype system can generate the resulting application in \emph{HTML} and \emph{plain JavaScript}, but could be extended to provide a wider selection of target technologies,
 such as \emph{React} or \emph{VueJS} frameworks.
-
-
-
-
-\section{Requirements}
-\subsection{Functional Requirements}
-\subsection{Non-functional Requirements}
-
-
-
-
-
-

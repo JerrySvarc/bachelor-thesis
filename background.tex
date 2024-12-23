@@ -10,7 +10,7 @@ The low-code development approach can be defined as follows:
 	Defined by \citet{Pinho_Aguiar_Amaral_2023} as ``An approach for software development that uses tools that minimize (or eliminate) the number of lines of code written.''
 \end{defn}
 This definition accommodates a broad spectrum of tools and development systems.
-The main category of these tools is \emph{visual programming tools} such as \citet{darklang} or \citet{mendix}.
+The main category of these tools is \emph{visual programming tools} such as \emph{AppForge}~\cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}, \citet{darklang} or \citet{mendix}.
 The visual programming tools provide a Graphical User Interface (GUI), which allows users to create and modify software by interacting with the interface.
 They differ in the style of UI, provided functionality, their intended use case, and other features, such as automatic deployment of the created software.
 
@@ -21,10 +21,10 @@ Code generation can also be provided by integrating \emph{Large Language Models 
 The last large category of low-code development tools is \emph{Static site generators (SSGs)}, which transform files written in a simple markup language into a static website.
 A popular example of SSGs is the \citet{hugo} static site generator, which also provides tools for customizing the transformation process and supports custom templating.
 
-To better understand the \emph{InterfaceSmith} system, we will describe three programming systems that greatly influenced its design.
-We explain how these particular systems inspired the design of our system in Chapter~\ref{chap:design}.
-The \emph{Hypercard}, \emph{Darklang}, and \emph{Sketch-and-Sketch} are three different systems belonging to the visual programming category of tools.
+To better understand the \emph{InterfaceSmith} system, we will describe four programming systems that greatly influence its design.
+The \emph{Hypercard}, \emph{AppForge}, \emph{Darklang}, and \emph{Sketch-and-Sketch} belong to the category of visual programming tools.
 Each system has a different intended use case, User Interface, and capabilities.
+In Chapter~\ref{chap:design}, we explain \emph{how} these particular systems inspire the design of our system.
 
 \subsection{Hypercard}
 \emph{Hypercard} is a low-code development system created by Bill Atkinson for the Macintosh operating system. Apple released the program in 1987 at the
@@ -39,7 +39,7 @@ Creation and modification of the card is done through the low-code interface. Th
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=.8\linewidth]{img/hypercard−menu.pdf}
-	\caption{Selection of a user level in the Hypercard preferences menu.}
+	\caption{Selection of a user level in the Hypercard preferences menu. (Image created using a Hypercard emulator~\cite{hypercard_emulator}.)}
 	\label{fig:f}
 \end{figure}
 
@@ -55,6 +55,26 @@ Users can choose from five different user levels:
 \end{enumerate}
 This allows the system to be adopted by a wide range of users, as less experienced users can learn to use the interface more easily and gradually increase their proficiency with the program without being overwhelmed by options.
 Advanced users can set the highest user level and use the program in its entirety from the start.
+
+\subsection{AppForge}
+\emph{AppForge} is a low-code programming system presented by~\citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
+It is designed as a "what you see is what you get" (abbreviated as \emph{WYSIWYG}) platform for creating web applications using a low-code interface.
+The system provides options for creating UI elements and automatically generates the necessary parts of a functional web application, such as the underlying database schemas and application logic \cite{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
+
+The users create UI elements using a low-code interface consisting of different menus, which we see in Figure~\ref{fig:appforge}.
+The users manually create the two main types of elements, and they are \emph{Forms} and \emph{Views}.
+Forms are used to add new data to the schema of a corresponding entity, and the Views are elements that display data from one or multiple database entities, and the user can modify how the data is displayed.
+The system automatically creates a new database table for each new entity or when the user creates a View which displays data from multiple entities.
+
+\begin{figure}[htbp]
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{img/appforge.pdf}
+	\end{center}
+	\caption{An example of AppForge's UI created by \citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008} }
+	\label{fig:appforge}
+\end{figure}
+
+%%TODO: add sources to descriptions to images
 
 \subsection{Darklang}
 \label{sec:darklang}
@@ -83,11 +103,9 @@ The user can create program elements of the following categories:
 	\label{fig:darklang}
 \end{figure}
 
-
 By combining these elements, the users can create application backends of varying complexity.
 The system automatically redeploys the entire application after the user creates and modifies a particular element.
 This allows for an interactive style of development where changes made to the system are almost immediately visible.
-
 
 \subsection{Sketch-and-Sketch - Output-directed programming}
 \label{sec:odp}
@@ -124,7 +142,7 @@ In the previous section, we described the low-code development approach and seve
 In this section, we introduce web development tools and technologies that we use for the \emph{InterfaceSmith} programming system or that influence its design and implementation.
 
 To create a data-driven programming system, we must select a data representation format that is easy for users to obtain, understand, and modify.
-We choose the \emph{JavaScript Object Notation format} for our input data representation, as it is widely used in web development, is easy to write and understand, and can be easily parsed by.
+We choose the \emph{JavaScript Object Notation format} for our input data representation, as it is widely used in web development, is easy to write and understand, and can be easily parsed.
 
 Our programming system provides a GUI, and technologies such as the~\citet{eml} functional programming language influenced the nature of our implementation.
 We do not use Elm directly, but we model our implementation after the~\citet{elmish} architecture, which is a simplified form of the programming model used by Elm.

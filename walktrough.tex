@@ -31,6 +31,42 @@ For each successfully comleted task, we will:
 \end{enumerate}
 
 \section{To-do list application}
+\subsection {Creation process}
+
+The steps of the creation process are the following:
+\begin{enumerate}
+	\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
+	      We can see the created JSON object in Figure~\ref{fig:todo-json}.
+\end{enumerate}
+
+
+\begin{figure}[htbp]
+	\caption{JSON object created as input for the Counter task (7GUIs)}
+	\label{fig:todo-json}
+	\begin{lstlisting}
+{
+  "label": 0,
+  "button": "count"
+}
+    \end{lstlisting}
+\end{figure}
+
+\subsection{Results}
+We \emph{successfully} created the desired application, its specified functionality, and UI elements.
+
+\subsection{Analysis}
+The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
+
+We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
+\begin{itemize}
+	\item In Step 1, we created the input data and wrote a total of 4 LOC.
+	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
+	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+\end{itemize}
+We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
+
+
 
 \section{Counter Task (7GUIs)}
 The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only textfield T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
@@ -57,7 +93,7 @@ The steps of the creation process are the following:
 \end{enumerate}
 
 
-\begin{listing}[htbp]
+\begin{figure}[htbp]
 	\caption{JSON object created as input for the Counter task (7GUIs)}
 	\label{fig:counter-json}
 	\begin{lstlisting}
@@ -66,7 +102,7 @@ The steps of the creation process are the following:
   "button": "count"
 }
     \end{lstlisting}
-\end{listing}
+\end{figure}
 
 \subsection{Results}
 We \emph{successfully} created the desired application, its specified functionality, and UI elements.
@@ -90,7 +126,41 @@ We wrote \emph{six} lines of physical code in total, and the rest of the operati
 Temperature Converter task by the \citet{7GUIs-web} involves creating a user interface with two input fields for Celsius and Fahrenheit temperatures,
 implementing bidirectional conversion between the two fields when valid numerical input is provided.
 
+\subsection {Creation process}
 
+The steps of the creation process are the following:
+\begin{enumerate}
+	\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
+	      We can see the created JSON object in Figure~\ref{fig:temp-json}.
+
+\end{enumerate}
+
+
+\begin{figure}[htbp]
+	\caption{JSON object created as input for the Counter task (7GUIs)}
+	\label{fig:temp-json}
+	\begin{lstlisting}
+{
+  "label": 0,
+  "button": "count"
+}
+    \end{lstlisting}
+\end{figure}
+
+\subsection{Results}
+We \emph{successfully} created the desired application, its specified functionality, and UI elements.
+
+\subsection{Analysis}
+The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
+
+We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
+\begin{itemize}
+	\item In Step 1, we created the input data and wrote a total of 4 LOC.
+	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
+	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+\end{itemize}
+We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
 \section{Evaluation}
 In this section, we summarize our findings from the benchmark tasks.
 Our evaluation process involved attempting to implement three distinct tasks using the \emph{Data DrUId} prototype system.
