@@ -16,8 +16,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'  # Use a Node.js version compatible with the existing GLIBC
+
       - name: Build the thesis
         run: latexmk thesis && latexmk abstract-cs && latexmk abstract-en
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -34,5 +41,9 @@ jobs:
     steps:
       - name: Get PDFs
         uses: actions/download-artifact@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'  # Use a Node.js version compatible with the existing GLIBC
       - name: Run VeraPDF
         run: verify Thesis/*.pdf | tee /dev/stderr | grep -qE 'nonCompliant="0" failedJobs="0"'
