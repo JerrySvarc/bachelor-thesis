@@ -136,7 +136,6 @@ It is a functional interpretation of the Morphic GUI Framework providing direct-
 	\label{fig:sketch}
 \end{figure}
 
-\newpage
 \section{Web Development}
 In the previous section, we described the low-code development approach and several existing low-code development systems.
 In this section, we introduce web development tools and technologies that we use for the \emph{InterfaceSmith} programming system or that influence its design and implementation.
@@ -291,7 +290,8 @@ function SimpleComponent() {
 } 
 
 //Component implemented in F# using the Feliz DSL
-let simpleComponent = 
+[<ReactComponent>]
+let SimpleComponent = 
   Html.div [
       Html.p "Feliz component"
   ]

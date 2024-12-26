@@ -1,17 +1,32 @@
-\chapter{Core Logic - Domain and Operations}
+\chapter{Data-driven UI Creation - Domain and Operations}
 \label{chap:corelogic}
 
 
-This chapter describes the core logic of the programming system.
-Firstly, we describe the hole-based approach applied to the creation of elements.
+In the previous chapter, we described the design principles which guide the implementation and functionality of the \emph{InterfaceSmith} programming system.
+This chapter describes the data-driven UI creation feature of the \emph{InterfaceSmith} programming system building upon the principles described in the previous chapter.
+
+Firstly, we describe the hole-based approach applied to the creation of elements, allowing the users to select which data to use to create UI elements.
 After that, we describe the type system, mainly the internal representation of the UI elements and necessary operations on these types.
 We describe mapping the input data types to specific types representing the UI elements.
 Lastly, we describe how the system combines the input data and the corresponding UI elements.
-All example Programs shown in this Chapter are written in the F\# programming language.
+All code examples shown in this chapter are written in the F\#\cite{fsharp} programming language.
 
 \section{Hole-based Approach}
 \label{sec:hole-based}
-The primary motivation of this approach is to allow \emph{incremental creation} of UI elements.
+The primary motivation of this approach is to implement the \emph{data-driven approach} described in the previous chapter.
+Imagine you have the data shown in Figure~\ref{fig:part-json}and you wish to create a web application containing a UI element showing only the value of the \emph{Celsius} field.
+
+\begin{figure}[htbp]
+	\begin{lstlisting} 
+      {
+        "Celsius": 0,
+        "Farenheit": 0
+      }
+    \end{lstlisting}
+	\caption{Example JSON data}\label{fig:part-json}
+\end{figure}
+
+
 The elements are created based on the provided data and its structure.
 Each element corresponds to a data value.
 We need the ability to represent data values that have yet to be used to create UI elements.
@@ -20,7 +35,7 @@ To address this need, we define a type named \emph{Hole} as follows:
 	A Hole is a placeholder type representing a UI element that is yet to be created despite its existing corresponding data. It serves as a temporary stand-in during the incremental construction of a user interface.
 \end{defn}
 
-We then define the \emph{incremental creation process} as a \emph{sequence of opreations}.
+We then define the \emph{incremental creation process} as a \emph{sequence of operations}.
 Each operation is either a \emph{modification} of an existing UI element or a \emph{replacement} of a Hole element with a new UI element based on the corresponding data.
 This approach allows the system to perform different tasks after each operation.
 These tasks include updating the UI element preview, analyzing the input data, or providing new modification menus and options.
