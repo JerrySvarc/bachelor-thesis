@@ -2,12 +2,12 @@
 \label{chap:corelogic}
 
 In the previous chapter, we described the design principles that guide the implementation and functionality of the \emph{InterfaceSmith} programming system.
-This chapter describes the data-driven UI creation feature of the \emph{InterfaceSmith} programming system, expanding upon the principle of \emph{Data to UI} described in the previous chapter.
+This chapter describes the data-driven UI creation feature of the \emph{InterfaceSmith} programming system, expanding upon the principles described in the previous chapter.
 
 Firstly, we describe the \emph{hole-based approach to creating UI elements}, which allows users to create new UI elements based on existing data dynamically.
 After that, we describe the \emph{domain model}, mainly the internal representation of the UI elements and necessary operations on these types.
 We then describe mapping the input data types to specific types representing the UI elements.
-Lastly, we describe how the system combines the input data and UI elements.
+Lastly, we describe how the system combines the input data and UI elements, provides options for creating and modifying the UI elements, and showcase how .
 All code examples shown in this chapter are written in the F\#\cite{fsharp} programming language.
 
 \section{Hole-based UI element creation}
@@ -58,10 +58,10 @@ as well as define the mapping between the input data and the UI element represen
 \label{sub:json}
 The creation process starts by providing \emph{JSON} data to the system.
 In order to use this data, we parse it and create an internal representation.
-We define a discriminated union type named \emph{JSON}.
+We parse the input data using a library called \citet{simpleJson}.
+The library defines a discriminated union type named \emph{JSON}.
 This type is the foundation for the Abstract Syntax Tree representation of the JSON data.
 We can see the type definition in Program \ref{fig:json}.
-
 
 Each node represents a JSON value in the input data.
 The types of nodes can be divided into two categories:
@@ -77,7 +77,7 @@ The types of nodes can be divided into two categories:
 	      a string of text, or the null value.
 \end{itemize}
 
-\begin{listing}[htbp]
+\begin{listing}[H]
 	\caption {JSON type}
 	\label{fig:json}
 	\begin{lstlisting}
@@ -124,16 +124,11 @@ type RenderingCode =
 \end{listing}
 
 \subsubsection{Attributes}
-The RenderingCode type, with the exception of the type \emph{Hole}, provides the ability to create and modify custom \emph{Attributes}.
-The \emph{Attributes} type represents a collection of key-value pairs that represent HTML attributes.
-An \emph{Attribute} consists of a \emph{key} of a type \emph{string} and an \emph{value} of a type \emph{InnerValue} whose definition we can see in Program~\ref{fig:innerVal-type}.
-We can see the type definition in Program~\ref{fig:attrs-type}.
-
-Each HTML element can contain a number of associated attributes, and different types of HTML elements allow the use of special attributes, such as the \emph{type} attribute for the \emph{input} HTML element.
-Our editor allows the definition and modification of these attribute through a low-code interface we can see in Figure~\ref{fig:attrs-menu}.
-The user can create an attribute of a certain key and also modify the value
-
-\begin{listing}[htbp]
+The RenderingCode type, except the case type \emph{Hole}, provides the ability to create and modify custom \emph{Attributes}.
+The \emph{Attributes} type represents a collection of key-value pairs representing HTML attributes.
+An \emph{Attribute} consists of a \emph{key} of a type \emph{string} and an \emph{value} of a type \emph{InnerValue} whose definition we see in Program~\ref{fig:innerVal-type} and
+we can see the type definitions fot the \emph{Attributes} and \emph{Attribute} types in Program~\ref{fig:attrs-type}.
+\begin{listing}[H]
 	\caption{Attribute and Attributes type definition}
 	\label{fig:attrs-type}
 	\begin{lstlisting}
@@ -147,41 +142,51 @@ and Attributes = Attribute list
     \end{lstlisting}
 \end{listing}
 
+
+Each HTML element can contain several associated attributes, and different types of HTML elements allow the use of unique attributes, such as the \emph{type} attribute for the \emph{input} HTML element.
+Our editor allows the definition and modification of these attributes through a low-code interface we see in Figure~\ref{fig:attrs-menu}.
+The user can create an attribute of a particular key and modify the value by selecting the innerValue case type they wish to use.
+
 \begin{figure}[htbp]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{img/attribute-menu.pdf}
 	\end{center}
-	\caption{Attribute modification menu of a HtmlElement}\label{fig:attrs-menu}
+	\caption{Attribute modification menu for a HtmlElement}\label{fig:attrs-menu}
 \end{figure}
 
 \subsubsection{Event Handler}
-Each RenderingCode type, with the exception of the type \emph{Hole}, also provides the ability to add custom \emph{event handling} functionality.
-Each \emph{EventHandler} consists of name of a \emph{function} or a \emph{elmish-style message}, depending on the functionality the user wishes to implement.
-We can see the menu for assigning the handlers to UI elements in Figure~\ref{fig:handler-menu}.
+Each RenderingCode type, except the case type \emph{Hole}, also provides the ability to add custom \emph{event handling} functionality.
+A \emph{handler} is a certain function called when when a certain HTML \emph{event} occurs, such as when the element is hovered over or clicked.
+Each \emph{EventHandler} consists of the name of a \emph{function} or an \emph{elmish-style message}, depending on how the user wishes to implement custom element behaviour and we see the definition in Program~\ref{fig:handlers-type}.
 
-\begin{listing}[htbp]
-	\caption{InnerValue type definition}
+\begin{listing}[H]
+	\caption{EventHandler type definition}
 	\label{fig:handlers-type}
 	\begin{lstlisting}
 and EventHandler =
     | JsHandler of functionName: string
-    | MsgHandler of message: string
+    | MsgHandler of the message: string
   \end{lstlisting}
 \end{listing}
 
-\begin{figure}[htbp]
+We see the menu for assigning the event handling functionality to UI elements in Figure~\ref{fig:handler-menu}.
+It provides options to select an \emph{event} and assign a corresponding handler and also indicates wheter the selected handler is a JavaScript function or an elmish-style message.
+\begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{img/handler-menu.pdf}
 	\end{center}
-	\caption{EventHandler modification menu of a HtmlElement}\label{fig:handler-menu}
+	\caption{EventHandler modification menu for a HtmlElement}\label{fig:handler-menu}
 \end{figure}
+
+\subsubsection{Hole}
+The \emph{Hole} type represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
 
 \subsubsection{HtmlElement}
 The \emph{HtmlElement} type represents a single HTML element.
-It consists of tag of a type \emph{Tag} which denotes the HTML tag (e.g., div, p, span),
-the \emph{InnerValue} which represents the content of the element defined as seen in Program~\ref{fig:innerVal-type}, and the previously defined attributes and event handlers.
+It consists of a tag of a type \emph{Tag}, which denotes the HTML tag (e.g., div, p, span),
+the \emph{InnerValue}, which represents the content of the element defined as seen in Program~\ref{fig:innerVal-type}, and the previously defined attributes and event handlers.
 
-The InnerValue's \emph{Data} case type type indicates content from the corresponding input JSON value, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
+The InnerValue's \emph{Data} case type indicates content from the corresponding input JSON value, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 
 \begin{listing}[htbp]
 	\caption{InnerValue type definition}
@@ -196,17 +201,14 @@ type InnerValue =
 
 \subsubsection{HtmlList}
 The \emph{HtmlList} type represents a collection of HTML elements of the \emph{same type and structure} corresponding to JSON arrays.
-It consists of a \emph{listType} which specifies the list type (e.g., unordered, ordered) and is defined as a simple discriminated union,
-\emph{itemCodes} which is a collection of RenderingCode elements representing the contents of the list, and the previously defined attributes and event handlers.
-
+It consists of a \emph{listType}, which specifies the list type (e.g., unordered, ordered), and we define it as a simple discriminated union type, \emph{itemCodes} is a collection of RenderingCode elements representing the list's contents,
+previously defined attributes, and event handlers.
+As we assume that the list consists of elements of the same type and structure, when one list element is modified, we can apply these modifications to all remaining elements.
 
 \subsubsection{HtmlObject}
 The \emph{HtmlObject} type represents a collection of \emph{diverse} HTML elements derived from a JSON object.
-It consists of an \emph{objectType} which defines the type of the object (e.g., div, span, section) and is defined as a simple discriminated union,
-\emph{elements} which is a list of RenderingCode elements representing the object's contents, and the previously defined attributes and event handlers.
-
-\subsubsection{Hole}
-The \emph{Hole} type represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
+It consists of an \emph{objectType}, which defines the type of the object (e.g., div, span, section) and is defined as a simple discriminated union,
+\emph{elements}, which is a list of RenderingCode elements representing the object's contents, and the previously defined attributes and event handlers.
 
 \subsection{Data Mapping: JSON to RenderingCode}
 \label{sec:mapping}
@@ -225,7 +227,7 @@ A \emph{Hole} element is created for each inner element of the collection types 
 
 We call this mapping process the \emph{recognition} of the JSON value and define the mapping function named \emph{recognizeJson} in Program~\ref{fig:recognizeJson}.
 
-\begin{listing}[htbp]
+\begin{listing}[H]
 	\caption {JSON to RenderingCode mapping}
 	\label{fig:recognizeJson}
 	\begin{lstlisting}
@@ -255,31 +257,6 @@ We divide the operations into two categories:
 \end{itemize}
 This categorization allows us to divide the functionality and responsibilities of the system between different parts of the application.
 For example, the GUI portion of the application is mainly responsible for accepting User operations, whereas other modules can implement different System operations.
-
-
-\subsection{Traversal}
-\label{sec:traversal}
-An essential aspect of the creation process is how the system processes the JSON AST and helps the user build the RenderingCode AST.
-The process involves traversing both the JSON and RenderingCode ASTs simultaneously.
-We can do this because we create the RenderingCode AST based on the structure of the JSON AST.
-This allows the system to dynamically create Hole elements for direct descendants of existing RenderingCode elements for which corresponding data exists, but the elements have not yet been created.
-
-Another way to look at this process is that the RenderingCode AST is guiding our traversal, while the JSON AST inspires the structure of the RenderingCode AST.
-The traversal begins from the roots of the ASTs, and we traverse the trees recursively.
-Based on the type of the visited RenderingCode node and the mapping described in Section~\ref{sec:mapping}, we can perform different operations:
-\begin{itemize}
-	\item \textbf{HtmlElement:} The node is of type HtmlElement, which maps to a primitive JSON value. This means the JSON value has no descendants, and we can end the traversal.
-	      The system then performs the operations of displaying a preview of the HtmlElement and a modification menu.
-	\item \textbf{Hole:} The node is of type Hole, meaning the JSON value was visited before, but the user has not created the corresponding RenderingCode.
-	      The presence of a Hole element also means that we cannot visit the potential descendants, and we can stop the traversal.
-	      The system displays a menu to add a new element corresponding to the JSON value.
-
-	\item \textbf{HtmlList and HtmlObject:} When the node represents a \emph{Collection} type of type HtmlList or HtmlObject, we recursively traverse all its descendants.
-	      The system displays a modification menu for the element and continues the traversal.
-\end{itemize}
-
-After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
-
 
 \subsection{Hole Replacement and Modification}
 
@@ -330,15 +307,44 @@ let rec replace
           // recursively call the function on an element with 
           // the key located inside the keys collection, that has index equal to head
           // return new HtmlObject
-      | _ -> currentCode // remaining path, but the current element is not a collection
+      | _ -> currentCode // remaining path, but the current element is not a collection -> no changes to the RenderingCode
   \end{lstlisting}
 \end{listing}
 
 The User operations such as replacing a Hole with a new RenderingCode or modification of an existing RenderingCode correspond to a specific usage of the replace function.
 
+\subsection{Traversal}
+\label{sec:traversal}
+An essential aspect of the creation process is how the system processes the JSON AST and helps users build the RenderingCode AST.
+The process involves traversing both the JSON and RenderingCode ASTs simultaneously.
+Our system can perform this simultaneous traversal because we create the RenderingCode AST based on the structure of the existing JSON AST.
+This allows the system to dynamically create Hole elements for direct descendants of existing RenderingCode elements for which corresponding data exists, but the elements have not yet been created.
+
+Another way to look at this process is that the RenderingCode AST is guiding our traversal, while the JSON AST inspires the structure of the RenderingCode AST.
+The traversal begins from the roots of the ASTs, and we traverse the trees recursively.
+Based on the type of the visited RenderingCode node and the mapping described in Section~\ref{sec:mapping}, we can perform different operations:
+\begin{itemize}
+	\item \textbf{HtmlElement:} The node is of type HtmlElement, which maps to a primitive JSON value. This means the JSON value has no descendants, and we can end the traversal.
+	      The system then performs the operations of displaying a preview of the HtmlElement and a modification menu.
+	\item \textbf{Hole:} The node is of type Hole, meaning the JSON value was visited before, but the user has not created the corresponding RenderingCode.
+	      The presence of a Hole element also means that we cannot visit the potential descendants, and we can stop the traversal.
+	      The system displays a menu to add a new element corresponding to the JSON value.
+
+	\item \textbf{HtmlList and HtmlObject:} When the node represents a \emph{Collection} type of type HtmlList or HtmlObject, we recursively traverse all its descendants.
+	      The system displays a modification menu for the element and continues the traversal.
+\end{itemize}
+
+After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
+
+\subsection{Combining RenderingCode and JSON data}
+Once the RenderingCode AST is created, the system needs to combine the RenderingCode elements with the data from the JSON AST.
+We use \emph{Structural referencing} to combine a RenderingCode element with the corresponding JSON value.
+By Structural referencing we describe a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
+We can do this easily, as the structure of the RenderingCode AST mirrors that of the JSON AST.
+Thanks to the approach of Structural referencing, we can perform this process during our previously described traversal in Section~\ref{sec:traversal}.
+
 \subsection{Creation of a single RenderingCode}
 
-Now that all necessary operations are defined, we focus on the creation process of a single RenderingCode element based on the input data.
 Creating a single RenderingCode element consists of multiple System operations and a single User operation.
 We can see the sequence of operations in Figure~\ref{fig:element-creation}.
 
@@ -387,17 +393,73 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 		\node[legend, fill=yellow!20,  right=1cm of final] (user_legend) {User Operation};
 		\node[legend, fill=blue!20, right=0.5cm of user_legend] (system_legend) {System Operation};
 
-	\end{tikzpicture}\caption{Single RenderingCode Creation Process}
+	\end{tikzpicture}
+	\caption{Single RenderingCode Creation Process}
 	\label{fig:element-creation}
 \end{figure}
 
-\subsection{Combining RenderingCode and JSON data}
-Once the RenderingCode AST is created, the system needs to combine the RenderingCode elements with the data from the JSON AST.
-We use \emph{Structural referencing} to combine a RenderingCode element with the corresponding JSON value.
-By Structural referencing we describe a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
-We can do this easily, as the structure of the RenderingCode AST mirrors that of the JSON AST, with the exception of CustomWrappers and CustomElements,
-which are ignored during the process and we preserve the paths of wrapped RenderingCode elements.
-Thanks to the approach of Structural referencing, we can perform this process during our previously described traversal in Section~\ref{sec:traversal}.
+\subsection{Simple TODO list UI creation}
+
+Now that all necessary operations are defined, we focus on the creation process of a simple TODO list UI.
+We see the steps of the entire process in Figure~\ref{fig:simple-todo-steps}.
+
+The process starts by uploading JSON data we see in Figure~\ref{fig:simple-todo-json} to the system.
+The system analyzes it and creates a UI skeleton displaying the hole menus for elements which can be created based on the input data.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{lstlisting} 
+      {
+        "title": "TODO list",
+        "tasks": [
+            {
+            "task": "Complete project proposal"
+            },
+            {
+            "task": "Prepare presentation slides"
+            },
+            {
+            "task": "Send meeting agenda to team"
+            }
+        ]
+    }
+    \end{lstlisting}
+	\caption{Example JSON data}\label{fig:simple-todo-json}
+\end{figure}
+
+
+\begin{figure}[p]
+	\vspace{-1cm}
+	\centering
+
+	\begin{tikzpicture}[
+			node distance=1.5cm and 2cm, % Adjust spacing
+			auto,
+			line/.style={draw, thick, -stealth', shorten >=2pt, shorten <=2pt},
+			stepnode/.style={rectangle, draw=black, thick, fill=white, text centered, text width=10em, minimum height=4em}
+		]
+		% Define nodes with smaller, proportional image sizes
+		\node (json) {\includegraphics[width=0.2\textwidth]{img/simple-todo-json.pdf}};
+		\node [right=of json] (todo1) {\includegraphics[width=0.35\textwidth]{img/todo-simple-1.pdf}};
+		\node [below=of json] (todo2) {\includegraphics[width=0.35\textwidth]{img/todo-simple-2.pdf}};
+		\node [right=of todo2] (todo3) {\includegraphics[width=0.35\textwidth]{img/todo-simple-4.pdf}};
+		\node [below=of todo2] (todo4) {\includegraphics[width=0.35\textwidth]{img/todo-simple-5.pdf}};
+		\node [right=of todo4] (todo5) {\includegraphics[width=0.35\textwidth]{img/todo-simple-6.pdf}};
+
+		% Draw arrows between nodes
+		\path [line] (json) -- (todo1);
+		\path [line] (todo1) -- (todo2);
+		\path [line] (todo2) -- (todo3);
+		\path [line] (todo3) -- (todo4);
+		\path [line] (todo4) -- (todo5);
+
+	\end{tikzpicture}
+	\caption{Step-by-step creation of a TODO list from JSON data.}
+	\label{fig:simple-todo-steps}
+\end{figure}
+
+
+
 
 
 \section{Summary}
