@@ -14,12 +14,12 @@ We want to show a minimal but cleanly designed system that satisfies those princ
 
 We extrapolated three main design principles which we aim to follow during our implementation:
 \begin{enumerate}
-	\item \textbf{Data-driven approach:} The approach inspired by \emph{AppForge} and \emph{Darklang}.
+	\item \textbf{Data-driven UI element creation:} The approach inspired by \emph{AppForge} and \emph{Darklang}.
 	\item \textbf{Low-code editing:}  All described systems provide a certain form of low-code editing.
 	\item \textbf{Code generation capability:} The ability to generate text-based representation of the program is mainly inspired by \emph{Sketch-and-Sketch}.
 \end{enumerate}
 
-\section{Data-driven approach}
+\section{Data-driven UI element creation}
 
 The main general design principle of the proposed programming system is the \emph{data-driven} approach in context of creating web application UI elements.
 We define the general approach as follows:
@@ -58,14 +58,13 @@ The system could also use various machine-learning techniques to improve the dat
 
 \section{Low-code editing}
 
-The second design principle is the concept of a \emph{low-code editing}.
+The second design principle is the concept of \emph{low-code editing}.
 Low-code editors usually provide a graphical user interface through which the developer interacts with the system and develops the desired application.
 The system provides contextual menus to aid in the creation of the application.
 Various existing low-code programming editors were presented previously in Section~\ref{sec:low-code}.
 
-
 The visual design of the \emph{InterfaceSmith} is inspired by \emph{Darklang} and its provided functionality is inspired by the \emph{WYSIWYG} editors as described by \citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008}.
-This sub-category of low-code editors displays the application's output as if running inside its native environment.
+This sub-category of low-code editors displays the application's output without the need to explictly trigger a build step.
 This design allows the system to update the output every time a change is made to the program and display its result, allowing for a more dynamic development loop \cite{output-directed-programming}.
 Our prototype system provides contextual menus based on the structure of the input data and places the menus directly next to the preview of the created UI elements, as we will see in the following chapters.
 
