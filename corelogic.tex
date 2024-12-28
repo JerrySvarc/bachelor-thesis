@@ -411,36 +411,31 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST describ
 In the previous sections, we described the domain and operations necessary to provide the \emph{data-driven incremental UI creation} functionality.
 To help visualize the process of creating a UI based on concrete values, we create a simple UI for a TODO list application based on JSON data displayed in Figure~\ref{fig:simple-todo-json}.
 We see the steps of the entire process in Figure~\ref{fig:simple-todo-steps}.
-
-The process starts by uploading the JSON data displayed in Figure~\ref{fig:simple-todo-json} to the system.
-The system analyzes it and creates a UI skeleton displaying the hole menus for the \emph{title} and \emph{tasks} fields.
-We then click on the button to replace the \emph{hole} corresponding to the title field. The system automatically creates a new HtmlElement, displaying its preview and a modification menu.
-We repeat the process for the tasks field, and the system creates a new HtmlElement and a hole for the list elements.
-As described in the previous section, we assume the list contains elements of the same type and structure, allowing the system to show modification menus only for the first list element. All changes made to it affect all other elements.
-After replacing the modification hole, the system finally creates the final HTML elements for each list element, displaying modification menus for all RenderingCode elements.
-Finally, we click the \emph{Toggle Options} button and see the preview of the created elements without the modification menus present.
-
-\begin{figure}[H]
+\begin{figure}[htbp]
 	\centering
 	\begin{lstlisting} 
       {
         "title": "TODO list",
         "tasks": [
-            {
-            "task": "Complete project proposal"
-            },
-            {
-            "task": "Prepare presentation slides"
-            },
-            {
-            "task": "Send meeting agenda to team"
-            }
+            { "task": "Complete project proposal"},
+            { "task": "Prepare presentation slides"},
+            { "task": "Send meeting agenda to team"}
         ]
       }
     \end{lstlisting}
 	\caption{Example TODO list JSON data}
 	\label{fig:simple-todo-json}
 \end{figure}
+
+The process starts by uploading the JSON data displayed in Figure~\ref{fig:simple-todo-json} to the system.
+The system analyzes it and creates a UI skeleton displaying the hole menus for the \emph{title} and \emph{tasks} fields.
+
+We then click on the button to replace the \emph{hole} corresponding to the title field. The system automatically creates a new HtmlElement, displaying its preview and a modification menu.
+We repeat the process for the tasks field, and the system creates a new HtmlElement and a hole for the list elements.
+
+As described in the previous section, we assume the list contains elements of the same type and structure, allowing the system to show modification menus only for the first list element. All changes made to it affect all other elements.
+After replacing the modification hole, the system finally creates the final HTML elements for each list element, displaying modification menus for all RenderingCode elements.
+Finally, we click the \emph{Toggle Options} button and see the preview of the created elements without the modification menus present.
 
 
 \begin{figure}[p]
@@ -459,7 +454,7 @@ Finally, we click the \emph{Toggle Options} button and see the preview of the cr
 		\node [below=of json] (todo2) {\includegraphics[width=0.37\textwidth]{img/todo-simple-2.pdf}};
 		\node [right=of todo2] (todo3) {\includegraphics[width=0.37\textwidth]{img/todo-simple-4.pdf}};
 		\node [below=of todo2] (todo4) {\includegraphics[width=0.37\textwidth]{img/todo-simple-5.pdf}};
-		\node [right=of todo4] (todo5) {\includegraphics[width=0.37\textwidth]{img/todo-simple-6.pdf}};
+		\node [right=of todo4] (todo5) {\includegraphics[width=0.45\textwidth]{img/todo-simple-6.pdf}};
 
 		% Draw arrows between nodes
 		\path [line] (json) -- (todo1);
