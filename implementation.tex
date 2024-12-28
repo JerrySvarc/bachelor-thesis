@@ -1,84 +1,78 @@
 \chapter{Implementation}
 \label{chap:implementation}
-\xxx{
-	We will describe the implementation according to the design principles described in Chapter~\ref{chap:design} and the core logic described in Chapter~\ref{chap:corelogic}.
-	We will explore the technologies chosen, the system's architecture, and key implementation details of \emph{Data-driven UI} programming system.
-}
 
+In the previous chapter, we described the theoretical background for the \emph{InterfaceSmith} programming system, defined the types representing the input data and UI elements, described operations on these types, and showcased the system's core functionality.
+In this chapter, we describe the implementation according to the design principles described in Chapter~\ref{chap:design} and the data-driven UI creation described in Chapter~\ref{chap:corelogic}.
+We explore the technologies chosen, the system's architecture, and key implementation details.
 
 \section{Technologies}
 \label{sec:technologies}
-To provide context for the implementation, we'll first examine the technologies used in developing the \emph{Data-driven UI} system.
-\xxx{
-	We decided to create the \emph{Data-driven UI} editor in a from of a browser-based client-side application providing a graphical user interface, rather than a traditional desktop application.
-	We made this decision to allow greater cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
-	We also wanted to implement the system using a programming language with functional programming capabilities and a strong ecosystem, which narrowed our range of suitable options.
-	The system is implemented using the following key technologies:
-	\begin{itemize}
-		\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
-		\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
-		\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
-		\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
-		\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
-		\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
-		\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
-	\end{itemize}
-}
+To provide context for the implementation, we'll first examine the technologies used in developing the \emph{InterfaceSmith} system.
+
+We created the \emph{InterfaceSmith} programming system as a browser-based client-side application providing a graphical user interface rather than a traditional desktop application.
+The main reasons were to allow cross-platform compatibility and the ability to see the preview of the created web applications in a browser-based environment.
+
+To implement the application, we employed various existing tools that aligned with our vision for the application and fulfilled our demands on the functionality they provide.
+We wanted to implement the system using a programming language with functional programming capabilities and a strong ecosystem, which narrowed our range of suitable options and subsequently influenced which supplementary technologies we could use.
+The system is implemented using the following key technologies:
+\begin{itemize}
+	\item \textbf{F\#:} The \citet{fsharp} programming language is used to implement the entire application, including the core logic and the user interface, chosen for its strong type system and functional programming capabilities.
+	\item \textbf{Fable:} The \citet{fable} compiler, briefly described in Section~\ref{sub:Fable}, compiles the F\# source code to JavaScript, enabling browser-based execution and using technologies from the JavaScript ecosystem.
+	\item \textbf{React:} The \citet{feliz} library provides a domain-specific language (DSL) for building \emph{React} user interface components and applications in F\#.
+	\item \textbf{Elmish:} \citet{elmish} is a library used to enable the creation of Elmish style applications in F\#, which follow the MVU pattern described in Section~\ref{sub:elmish}.
+	\item \textbf{Tailwind:} We use the Tailwind CSS framework for the layout and styling of the UI components of the application, which provides composable CSS classes and enables high customizability of the UI elements.
+	\item \textbf{SimpleJson:} The \citet{simpleJson} library is used to parse the input JSON data into the internal representation described in Section~\ref{sub:json}.
+	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
+\end{itemize}
+
 
 \subsection{Alternatives}
-While we selected the technologies mentioned in the previous Section for our implementation, for several of them we considered using alternative technologies:
+While we selected the technologies mentioned in the previous Section for our implementation, for several of them, we considered using alternative technologies:
 \begin{itemize}
-	\item \textbf{Programming Language:} Instead of F\#, we could have used other functional programming languages such as Haskell or OCaml.
-	      These languages also offer strong type systems and functional programming capabilities.
+	\item \textbf{Programming Language:} Instead of F\#, we could have used other programming languages such as Haskell, OCaml, or TypeScript, which also offer strong type systems and functional programming capabilities.
 	      However, F\# was chosen for its seamless integration with the .NET ecosystem, high-quality development tools and documentation, and its ability to be compiled to JavaScript via Fable.
-
 	\item \textbf{CSS Framework:} We considered using alternative CSS frameworks, such as Bulma or Bootstrap, which provide pre-made styled components.
-	      We chose to use Tailwind instead, as the composable styling classes allow for a more direct approach to styling UI elements, instead of trying to adapt and modify the pre-made components.
-
+	      We chose Tailwind instead, as the composable styling classes allow for a more direct approach to styling UI elements instead of trying to adapt and modify the pre-made components.
 	\item \textbf{JSON Parsing:} Instead of Fable.SimpleJson, we could have used the closest alternative library called \citet{thoth}.
-	      The main strenght of this library is the ability to create custom JSON \emph{encoders} and \emph{decoders}.
-	      However, as we need the ability to parse JSON data of abitrary strucuture, SimpleJson's lightweight nature and its internal representation of the parsed data made it our preffered choice.
+	      The main strength of this library is the ability to create custom JSON \emph{encoders} and \emph{decoders}.
+	      However, as we need the ability to parse JSON data of arbitrary structure, SimpleJson's lightweight nature and its internal representation of the parsed data made it our preferred choice.
 \end{itemize}
 While these alternatives have their strengths, our chosen technologies provided the best balance of functional programming capabilities, browser compatibility, and ecosystem support for our specific requirements.
-
 
 \section{System architecture}
 \label{sec:appArch}
 Before we describe the implementation specifics, we must first describe the \emph{architecture} of the implementation.
 The implementation is divided between different F\# \emph{modules}, each providing different functionality.
-We define two main modules named \emph{Core Logic} and \emph{Editor}, which contain sub-modules implementing the specific functionality.
+We define two main modules named \emph{Core Logic} and \emph{Editor}, which contain sub-modules implementing specific functionality.
 These modules can be described as follows:
 \begin{enumerate}
-	\item \textbf{Core Logic module:} Contains modules responsible for implementing the Core logic described in Chapter~\ref{chap:corelogic}.
+	\item \textbf{Core Logic module:} Contains modules responsible for implementing the Core logic described in Chapter~\ref{chap:corelogic}, such as the representation of the UI elements and the various operations on these types.
 	\item \textbf{Editor module:} Modules focused on implementing the user interface of the programming system and its functionality following the Elmish architecture described in Section~\ref{sub:elmish}.
 	      They use and depend on the functionality provided by the CoreLogic module.
 \end{enumerate}
-We will describe the main modules in greater detail in the following Sections.
 
 Each sub-module comprises various functions or type definitions.
 In our implementation, we separate type definitions and functions into distinct modules, similarly to the separation of \emph{Domain} and \emph{Infrastructure} layers of the \emph{Domain-driven} architecture.
 The modules containing the type definitions define the system's domain and have either none or a small number of external dependencies.
 The modules containing the functions implement the behaviors and operations that manipulate and utilize the domain types.
-
 This approach inherently makes the application more easily extensible.
-For example, we can add new functionality to the Editor module without the need to change the implementation of the Core Logic sub-modules.
+For example, we can add new functionality to the Editor module without changing the domain model or the implementation of the Core Logic submodules.
 
 \subsection{Core Logic Module}
-The Core Logic module is the first main module of the \emph{Data-driven UI's} implementation.
-It forms the foundation of our \emph{Data-driven UI} system, implementing the types and operations described in detail in Chapter~\ref{chap:corelogic}.
+The Core Logic module is the first main module of the \emph{InterfaceSmith's} implementation.
+It contains the implementation of the types and operations described in Chapter~\ref{chap:corelogic}.
 Figure~\ref{fig:core-logic-structure} illustrates the overall structure of this module.
 We divide the implementation into the following sub-modules:
 \begin{itemize}
 	\item \textbf{Types:} This module comprises sub-modules that define the fundamental data structures of our system:
 	      \begin{itemize}
-		      \item \textbf{RenderingTypes:} Contains definitions for types such as \emph{RenderingCode}, \emph{CustomWrapper}, and other related types.
-
+		      \item \textbf{RenderingTypes:} Contains definitions for types such as the \emph{RenderingCode}, \emph{InnerValue}, and other related types.
 	      \end{itemize}
 
 	\item \textbf{Operations:} This module includes sub-modules that implement various operations on the types defined in the Types module:
 	      \begin{itemize}
-		      \item \textbf{RenderingCode:} Implements crucial operations such as the \emph{replace} function, which modifies the RenderingCode AST.
-		            This module is central to manipulating our UI representation.
+		      \item \textbf{RenderingCode:} Implements operations such as the \emph{replace} function, which modifies the RenderingCode AST.
+
 
 		      \item \textbf{DataRecognition:}  Handles the mapping process between input data and our internal UI element representation.
 		            It includes the \emph{recognizeJson} function, detailed in Section~\ref{sec:mapping}, which is key to our data-driven approach.
