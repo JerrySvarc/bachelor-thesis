@@ -12,10 +12,11 @@ All code examples shown in this chapter are written in the F\#\cite{fsharp} prog
 
 \section{Hole-based UI element creation}
 \label{sec:hole-based}
-The primary motivation of this approach is to alllow \emph{incremental creation} of the user interface based on concrete data.
+Our primary motivation is to alllow \emph{incremental creation} of the user interface based on concrete data.
 Rather than creating UI elements for all data fields at once, we provide the functionality to pick what elements to create while still maintaining the structure of the UI based on the input data.
 
 First, the system analyzes the provided data and, based on its structure, creates a UI skeleton containing placeholder types named \emph{holes} that represent potential new UI elements.
+An alternative explanation is that the \emph{hole} reserves a space for potentially inserting a new element into the UI element tree.
 Then, the user is provided the option to \emph{fill} these holes with new UI elements that correspond to the particular hole.
 The creation process of the UI is then a process of gradually filling the holes with new elements.
 
@@ -126,8 +127,8 @@ type RenderingCode =
 \subsubsection{Attributes}
 The RenderingCode type, except the case type \emph{Hole}, provides the ability to create and modify custom \emph{Attributes}.
 The \emph{Attributes} type represents a collection of key-value pairs representing HTML attributes.
-An \emph{Attribute} consists of a \emph{key} of a type \emph{string} and an \emph{value} of a type \emph{InnerValue} whose definition we see in Program~\ref{fig:innerVal-type} and
-we can see the type definitions fot the \emph{Attributes} and \emph{Attribute} types in Program~\ref{fig:attrs-type}.
+An \emph{Attribute} consists of a \emph{key} of a type \emph{string} and an \emph{value} of a type \emph{InnerValue} whose definition we see in Program~\ref{fig:innerVal-type}.
+We can see the type definitions for the \emph{Attributes} and \emph{Attribute} types in Program~\ref{fig:attrs-type}.
 \begin{listing}[H]
 	\caption{Attribute and Attributes type definition}
 	\label{fig:attrs-type}
@@ -142,7 +143,6 @@ and Attributes = Attribute list
     \end{lstlisting}
 \end{listing}
 
-
 Each HTML element can contain several associated attributes, and different types of HTML elements allow the use of unique attributes, such as the \emph{type} attribute for the \emph{input} HTML element.
 Our editor allows the definition and modification of these attributes through a low-code interface we see in Figure~\ref{fig:attrs-menu}.
 The user can create an attribute of a particular key and modify the value by selecting the innerValue case type they wish to use.
@@ -156,8 +156,8 @@ The user can create an attribute of a particular key and modify the value by sel
 
 \subsubsection{Event Handler}
 Each RenderingCode type, except the case type \emph{Hole}, also provides the ability to add custom \emph{event handling} functionality.
-A \emph{handler} is a certain function called when when a certain HTML \emph{event} occurs, such as when the element is hovered over or clicked.
-Each \emph{EventHandler} consists of the name of a \emph{function} or an \emph{elmish-style message}, depending on how the user wishes to implement custom element behaviour and we see the definition in Program~\ref{fig:handlers-type}.
+A \emph{handler} is a function called when a certain HTML \emph{event} occurs, such as when the element is hovered over or clicked.
+Each \emph{EventHandler} consists of the name of a \emph{function} or an \emph{elmish-style message}, depending on how the user wishes to implement custom element behavior, and the definition is displayed in Program~\ref{fig:handlers-type}.
 
 \begin{listing}[H]
 	\caption{EventHandler type definition}
@@ -170,7 +170,7 @@ and EventHandler =
 \end{listing}
 
 We see the menu for assigning the event handling functionality to UI elements in Figure~\ref{fig:handler-menu}.
-It provides options to select an \emph{event} and assign a corresponding handler and also indicates wheter the selected handler is a JavaScript function or an elmish-style message.
+It provides options to select an \emph{event} and assign a corresponding handler and also indicates whether the selected handler is a JavaScript function or an elmish-style message.
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{img/handler-menu.pdf}
@@ -180,11 +180,14 @@ It provides options to select an \emph{event} and assign a corresponding handler
 
 \subsubsection{Hole}
 The \emph{Hole} type represents a placeholder in the UI element structure as defined in Section~\ref{sec:hole-based}, allowing for dynamic element creation.
+There are two types of holes, \emph{named} and \emph{unnamed}.
+A named hole corresponds to a specific data field and bears its name.
+An unnamed hole corresponds to a field with the \emph{null} value, for which the system cannot create a new UI element.
 
 \subsubsection{HtmlElement}
 The \emph{HtmlElement} type represents a single HTML element.
 It consists of a tag of a type \emph{Tag}, which denotes the HTML tag (e.g., div, p, span),
-the \emph{InnerValue}, which represents the content of the element defined as seen in Program~\ref{fig:innerVal-type}, and the previously defined attributes and event handlers.
+the \emph{InnerValue} represents the content of the element defined as seen in Program~\ref{fig:innerVal-type}, and the previously defined attributes and event handlers.
 
 The InnerValue's \emph{Data} case type indicates content from the corresponding input JSON value, \emph{Empty} represents an empty element, and \emph{Constant} holds static, developer-defined content.
 
@@ -200,15 +203,18 @@ type InnerValue =
 \end{listing}
 
 \subsubsection{HtmlList}
-The \emph{HtmlList} type represents a collection of HTML elements of the \emph{same type and structure} corresponding to JSON arrays.
-It consists of a \emph{listType}, which specifies the list type (e.g., unordered, ordered), and we define it as a simple discriminated union type, \emph{itemCodes} is a collection of RenderingCode elements representing the list's contents,
-previously defined attributes, and event handlers.
+The \emph{HtmlList} type represents a collection of ordered HTML elements of the \emph{same type and structure} corresponding to JSON arrays.
+The first type it consists of is the \emph{listType}, which specifies the list type (e.g., unordered, ordered), and we define it as a simple discriminated union type.
+Next, the \emph{itemCodes} of a type \emph{RenderingCode list} is a collection of RenderingCode elements representing the list's contents.
+Lastly, it also consists of the previously defined attributes and event handlers.
 As we assume that the list consists of elements of the same type and structure, when one list element is modified, we can apply these modifications to all remaining elements.
 
 \subsubsection{HtmlObject}
-The \emph{HtmlObject} type represents a collection of \emph{diverse} HTML elements derived from a JSON object.
-It consists of an \emph{objectType}, which defines the type of the object (e.g., div, span, section) and is defined as a simple discriminated union,
-\emph{elements}, which is a list of RenderingCode elements representing the object's contents, and the previously defined attributes and event handlers.
+The \emph{HtmlObject} type represents an unordered collection of \emph{diverse} HTML elements derived from a JSON object.
+Firstly, it consists of an \emph{objectType}, which defines the object type (e.g., div, span, section) and is defined as a simple discriminated union.
+Next, the \emph{elements}, which is a list of RenderingCode elements representing the object's contents, \emph{keyOrdering}, which defines the custom rendering order for the fields,
+and the previously defined \emph{attributes} and \emph{event handlers}.
+
 
 \subsection{Data Mapping: JSON to RenderingCode}
 \label{sec:mapping}
@@ -260,8 +266,8 @@ For example, the GUI portion of the application is mainly responsible for accept
 
 \subsection{Hole Replacement and Modification}
 
-User operations require finding a specific node inside the RenderingCode AST during the creation process.
-We define a dynamically generated \emph{Path} for all nodes during the traversal process to find this specific node.
+User operations require finding a specific node inside the RenderingCode AST during creation.
+To find this specific node, we define a dynamically generated \emph{Path} for all nodes during the traversal process.
 The \emph{Path} is a sequence of indices unique to every node in the AST.
 
 \begin{listing}[htbp]
@@ -281,13 +287,14 @@ The \emph{Path} is a sequence of indices unique to every node in the AST.
 We can see the different paths for each element in Program~\ref{fig:paths}, which shows an example of RenderingCode AST.
 The example AST consists of a root node of a type HtmlObject and elements contained within it.
 We see that the root node has an empty path.
-Then, we append the position of each element inside the collection to the Path.
-This allows us to traverse the AST based on the specified Path and find the correct element using a recursive search function.
+Then, we append the position of each element inside the collection to the path.
+This allows us to traverse the AST based on the specified path and find the correct element using a recursive search function.
 
-Using the dynamically created paths, we can replace a RenderingCode by following its specified Path through the RenderingCode AST.
-We define a recursive function named \emph{replace} which navigates the AST using the provided path to locate and replace a specific element with a new one.
+Using the dynamically created paths, we can replace a RenderingCode by following its specified path through the RenderingCode AST.
+We define a recursive function named \emph{replace}, which navigates the AST using the provided path to locate and replace a specific element with a new one.
 We can see a description of the potential implementation in Program~\ref{fig:replace}.
 
+The User operations such as replacing a Hole with a new RenderingCode or modification of an existing RenderingCode correspond to a specific usage of the replace function.
 \begin{listing}[htbp]
 	\caption {A function used to replace a RenderingCode inside the RenderingCode AST}
 	\label{fig:replace}
@@ -311,7 +318,7 @@ let rec replace
   \end{lstlisting}
 \end{listing}
 
-The User operations such as replacing a Hole with a new RenderingCode or modification of an existing RenderingCode correspond to a specific usage of the replace function.
+
 
 \subsection{Traversal}
 \label{sec:traversal}
@@ -337,15 +344,16 @@ Based on the type of the visited RenderingCode node and the mapping described in
 After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
 
 \subsection{Combining RenderingCode and JSON data}
-Once the RenderingCode AST is created, the system needs to combine the RenderingCode elements with the data from the JSON AST.
+Once the RenderingCode AST is created, the system must combine the RenderingCode elements with the data from the JSON AST.
 We use \emph{Structural referencing} to combine a RenderingCode element with the corresponding JSON value.
-By Structural referencing we describe a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
+Structural referencing describes a process where a RenderingCode with a specific assigned Path is combined with a JSON value with the same Path.
 We can do this easily, as the structure of the RenderingCode AST mirrors that of the JSON AST.
 Thanks to the approach of Structural referencing, we can perform this process during our previously described traversal in Section~\ref{sec:traversal}.
 
+
 \subsection{Creation of a single RenderingCode}
 
-Creating a single RenderingCode element consists of multiple System operations and a single User operation.
+Creating a single RenderingCode element consists of multiple System and User operations.
 We can see the sequence of operations in Figure~\ref{fig:element-creation}.
 
 The process starts when the system visits a previously unvisited node of the JSON AST during the traversal described in Section~\ref{sec:traversal}.
@@ -353,7 +361,7 @@ The system automatically creates a corresponding Hole element and adds it to the
 Then, the system displays a menu to the user, allowing them to replace the Hole element with a RenderingCode based on the JSON value.
 After the user chooses to add the new RenderingCode element, the system uses the previously defined \emph{recognizeJson} function to create the new element based on the corresponding JSON value.
 Following that, the system uses the \emph{replace} function to replace the existing Hole element at the specified path with the newly created RenderingCode.
-Lastly, the system traverses the modified RenderingCode AST and JSON AST as described in Section~\ref{sec:traversal} and performs operations such as displaying modification menus and element preview.
+Lastly, the system traverses the modified RenderingCode AST and JSON AST described in Section~\ref{sec:traversal} and performs operations, such as displaying modification menus and element preview.
 
 \begin{figure}[H]
 	\centering
@@ -398,9 +406,10 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 	\label{fig:element-creation}
 \end{figure}
 
-\subsection{Simple TODO list UI creation}
-
-As we defined the necessary
+\section{Simple TODO list UI creation}
+\label{sec:simple-todo}
+In the previous sections, we described the domain and operations necessary to provide the \emph{data-driven incremental UI creation} functionality.
+To help visualize the process of creating a UI based on concrete values, we create a simple UI for a TODO list application based on JSON data displayed in Figure~\ref{fig:simple-todo-json}.
 We see the steps of the entire process in Figure~\ref{fig:simple-todo-steps}.
 
 The process starts by uploading the JSON data displayed in Figure~\ref{fig:simple-todo-json} to the system.
@@ -408,7 +417,7 @@ The system analyzes it and creates a UI skeleton displaying the hole menus for t
 We then click on the button to replace the \emph{hole} corresponding to the title field. The system automatically creates a new HtmlElement, displaying its preview and a modification menu.
 We repeat the process for the tasks field, and the system creates a new HtmlElement and a hole for the list elements.
 As described in the previous section, we assume the list contains elements of the same type and structure, allowing the system to show modification menus only for the first list element. All changes made to it affect all other elements.
-After replacing the modification hole, the system finally creates the final HTML elements for each element of the list, and modification menus are displayed for all RenderingCode elements.
+After replacing the modification hole, the system finally creates the final HTML elements for each list element, displaying modification menus for all RenderingCode elements.
 Finally, we click the \emph{Toggle Options} button and see the preview of the created elements without the modification menus present.
 
 \begin{figure}[H]
@@ -429,7 +438,8 @@ Finally, we click the \emph{Toggle Options} button and see the preview of the cr
         ]
       }
     \end{lstlisting}
-	\caption{Example TODO list JSON data}\label{fig:simple-todo-json}
+	\caption{Example TODO list JSON data}
+	\label{fig:simple-todo-json}
 \end{figure}
 
 
@@ -438,7 +448,7 @@ Finally, we click the \emph{Toggle Options} button and see the preview of the cr
 	\centering
 
 	\begin{tikzpicture}[
-			node distance=1.5cm and 2cm, % Adjust spacing
+			node distance=1.5cm and 1.5cm, % Adjust spacing
 			auto,
 			line/.style={draw, thick, -stealth', shorten >=2pt, shorten <=2pt},
 			stepnode/.style={rectangle, draw=black, thick, fill=white, text centered, text width=10em, minimum height=4em}
@@ -463,20 +473,22 @@ Finally, we click the \emph{Toggle Options} button and see the preview of the cr
 	\label{fig:simple-todo-steps}
 \end{figure}
 
-
-
+\newpage
 \section{Summary}
 
-In this Chapter, we described the the core logic and domain of our programming system.
-This core logic serves as the foundation of the prototype programming system, which we will describe in the following Chapter.
-\begin{itemize}
-	\item In Section~\ref{sec:hole-based}, we defined the Hole-based approach to creating UI elements based on concrete data.
+This chapter describes our approach to creating UI elements based on concrete data.
+We defined the hole-based approach for incrementally creating UI elements, the domain we use to represent the created UI elements and data, the operations on these types, and how the created elements utilize the input data.
+We concluded the chapter by showing the functionality of the resulting system on an example creation of a simple TODO list UI.
 
-	\item In Section~\ref{sec:types}, we defined the Model of the application consisting of types representing the provided data and UI elements.
+\begin{itemize}
+	\item In Section~\ref{sec:hole-based}, we defined the placeholder type named \emph{hole} and the hole-based approach for incrementally creating UI elements based on concrete data.
+	\item In Section~\ref{sec:types}, we defined the application's domain model consisting of types representing the provided data and UI elements.
+	      We described the representation of JSON values provided by the \citet{simpleJson} library and the representation of the created UI elements using our custom \emph{RenderingCode} type.
 	      We also described the mapping between the input data and our internal representation of created UI elements.
 
 	\item In Section~\ref{sec:creation}, we described the \emph{Incremental Creation Process} including the User and System operation.
-	      Then, we described the simultanious traversal of the JSON AST and RenderingCode AST.
-	      After that, we described the process of replacing and modifying the RenderingCode AST using a Path-based approach.
-	      Lastly, we described the process of combining the RenderingCode elements with correspond JSON values.
+	      Then, we described replacing and modifying the RenderingCode AST using a Path-based approach.
+	      After that, we described the simultaneous traversal of the JSON AST and RenderingCode AST.
+	      Lastly, we described combining the RenderingCode elements with corresponding JSON values.
+	\item In Section~\ref{sec:simple-todo}, we showcased the creation of a simple TODO list user interface using the \emph{InterfaceSmith} system, and the process is displayed in Figure~\ref{fig:simple-todo-steps}.
 \end{itemize}
