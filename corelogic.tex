@@ -265,16 +265,16 @@ We define a dynamically generated \emph{Path} for all nodes during the traversal
 The \emph{Path} is a sequence of indices unique to every node in the AST.
 
 \begin{listing}[htbp]
-	\caption {Example: RenderingCode AST with corresponding paths}
+	\caption {Example RenderingCode AST with corresponding paths}
 	\label{fig:paths}
 	\begin{lstlisting}
-  HtmlObject [ //Path: []
-      HtmlElement(Div, [], Empty) //Path: [0]
-      HtmlList(UnorderedList, [ //Path: [1]
-          HtmlElement(Li, [], Constant "Item 1") //Path: [1,0]
-          HtmlElement(Li, [], Constant "Item 2") //Path: [1,1]
-				])
-		]
+  HtmlObject(ObjType.Div, [],["key1";"key2"], [ //Path: []
+      HtmlElement(Tags.div,[], InnerValue.Empty, []) //Path: [0]
+      HtmlList(ListType.UnorderedList,[], [ //Path: [1]
+          HtmlElement(Li, [], Constant "Item 1", []) //Path: [1,0]
+          HtmlElement(Li, [], Constant "Item 2", []) //Path: [1,1]
+        ], [])
+    ], [])
   \end{lstlisting}
 \end{listing}
 
@@ -355,7 +355,7 @@ After the user chooses to add the new RenderingCode element, the system uses the
 Following that, the system uses the \emph{replace} function to replace the existing Hole element at the specified path with the newly created RenderingCode.
 Lastly, the system traverses the modified RenderingCode AST and JSON AST as described in Section~\ref{sec:traversal} and performs operations such as displaying modification menus and element preview.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[node distance=1.5cm and 1.5cm, auto,
 			user/.style={rectangle, draw=black, thick, fill=yellow!20,
@@ -400,13 +400,18 @@ Lastly, the system traverses the modified RenderingCode AST and JSON AST as desc
 
 \subsection{Simple TODO list UI creation}
 
-Now that all necessary operations are defined, we focus on the creation process of a simple TODO list UI.
+As we defined the necessary
 We see the steps of the entire process in Figure~\ref{fig:simple-todo-steps}.
 
-The process starts by uploading JSON data we see in Figure~\ref{fig:simple-todo-json} to the system.
-The system analyzes it and creates a UI skeleton displaying the hole menus for elements which can be created based on the input data.
+The process starts by uploading the JSON data displayed in Figure~\ref{fig:simple-todo-json} to the system.
+The system analyzes it and creates a UI skeleton displaying the hole menus for the \emph{title} and \emph{tasks} fields.
+We then click on the button to replace the \emph{hole} corresponding to the title field. The system automatically creates a new HtmlElement, displaying its preview and a modification menu.
+We repeat the process for the tasks field, and the system creates a new HtmlElement and a hole for the list elements.
+As described in the previous section, we assume the list contains elements of the same type and structure, allowing the system to show modification menus only for the first list element. All changes made to it affect all other elements.
+After replacing the modification hole, the system finally creates the final HTML elements for each element of the list, and modification menus are displayed for all RenderingCode elements.
+Finally, we click the \emph{Toggle Options} button and see the preview of the created elements without the modification menus present.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	\begin{lstlisting} 
       {
@@ -422,9 +427,9 @@ The system analyzes it and creates a UI skeleton displaying the hole menus for e
             "task": "Send meeting agenda to team"
             }
         ]
-    }
+      }
     \end{lstlisting}
-	\caption{Example JSON data}\label{fig:simple-todo-json}
+	\caption{Example TODO list JSON data}\label{fig:simple-todo-json}
 \end{figure}
 
 
@@ -457,8 +462,6 @@ The system analyzes it and creates a UI skeleton displaying the hole menus for e
 	\caption{Step-by-step creation of a TODO list from JSON data.}
 	\label{fig:simple-todo-steps}
 \end{figure}
-
-
 
 
 
