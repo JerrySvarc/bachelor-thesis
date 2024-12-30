@@ -25,27 +25,26 @@ We will design and implement a \emph{prototype} low-code programming system name
 The \emph{data to UI} process will be influenced by the \emph{type} of data provided to the system and also its \emph{structure}.
 The application's UI elements will then be created through a sequence of steps, mirroring the structure of the provided data.
 The programming system will then aid the developer in modifying the user interface by providing relevant context menus.
-After creating and modifying the UI elements, the system will provide behavior modification options inspired by~\citet{eml} and the~Elmish~architecture\cite{elmish}.
+After creating and modifying the UI elements, the system will provide behavior modification options inspired by~\citet{elm} and the~\citet{elm-arch}.
 After the developer finishes the implementation process, they can preview the created application and download its text-based representation.
 
-To evaluate the presented system, we will \emph{benchmark} the \emph{InterfaceSmith} prototype system on several different tasks.
 Based on the definition of low-code programming systems, we will evaluate the results based on the number of lines of code (LOC) that the user needs to write to implement the selected tasks and whether the functionality of the desired task has been successfully implemented.
 
-\begin{figure}[htbp]
-	\begin{center}
-		\includegraphics[width=0.95\textwidth]{img/UIExample.pdf}
-	\end{center}
-	\caption{InterfaceSmith's UI example }
-	\label{fig:prototype-teaser}
-\end{figure}
 
+\section*{InterfaceSmith}
 The main output of this thesis is the InterfaceSmith application shown in Figure~\ref{fig:prototype-teaser}.
 The user interface consists of a movable canvas containing various draggable canvas elements.
 The main element is the UI modification and preview element, which previews the application's created parts alongside modification menus. It is also resizable, simulating a browser window.
 Other elements include a view of the uploaded data, elements for creating and modifying the behavior of the UI elements, and elements for creating handler JS functions.
 The resulting code is generated based on the created elements. The system creates an Elmish-like application in pure JavaScript, but it could be extended to target other technologies.
 We will describe the system's design, implementation, and functionality in the following chapters.
-
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.95\textwidth]{img/UIExample.pdf}
+	\end{center}
+	\caption{InterfaceSmith's UI example }
+	\label{fig:prototype-teaser}
+\end{figure}
 
 \section*{Goals}
 The main goals of this thesis are the following:

@@ -144,8 +144,8 @@ In this section, we introduce web development tools and technologies that we use
 To create a data-driven programming system, we must select a data representation format that is easy for users to obtain, understand, and modify.
 We choose the \emph{JavaScript Object Notation format} for our input data representation, as it is widely used in web development, is easy to write and understand, and can be easily parsed.
 
-Our programming system provides a GUI, and technologies such as the~\citet{eml} functional programming language influenced the nature of our implementation.
-We do not use Elm directly, but we model our implementation after the~\citet{elmish} architecture, which is a simplified form of the programming model used by Elm.
+Our programming system provides a GUI, and technologies such as the~\citet{elm} functional programming language influenced the nature of our implementation.
+We do not use Elm directly, but we model our implementation after the~\citet{elm-arch} architecture, which is a simplified form of the programming model used by Elm.
 
 To implement our programming system, we use the~\citet{fsharp} programming language alongside the~\citet{fable} compiler, which compiles the application into \emph{JavaScript},
 which allows the application to run in a browser-based environment.
@@ -180,7 +180,7 @@ or used for configuration of different development tools.
 Thanks to its popularity, many different parsers and other tools have been created to support its use, such as the \citet{simpleJson} library which we use in our implementation.
 
 \subsection{Elm}
-\citet{eml} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
+\citet{elm} is a functional programming language presented by \citet{Czaplicki_Chong_2013}.
 It allows the creation of responsive graphical user interfaces by employing the
 \emph{Functional Reactive Programming (FPR)} approach.
 The functional reactive programming approach applies pure functional programming paradigms to time-varying values, as introduced by \citet{Elliott_Hudak_1997}.
@@ -203,7 +203,7 @@ Elm provides a range of primitive signals such as ”Mouse.clicks” which trigg
 mouse click. Some primitive signals may require arguments for their constructor such
 as the ”Window.dimensions” signal.
 
-\subsection{The Elmish architecture}
+\subsection{The Elm architecture}
 \label{sub:elmish}
 
 The \emph{Elmish} architecture, or the \emph{Model View Update(MVU)} architecture, is a programming architecture for building web applications.

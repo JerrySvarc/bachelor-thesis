@@ -1,7 +1,7 @@
 \chapter{Benchmarks}
 \label{chap:walktrough}
 
-This chapter evaluates our Data-driven UI prototype system on two tasks from the \citet{7GUIs-web}.
+This chapter evaluates our \emph{InterfaceSmith} prototype system on three tasks, a simple \emph{TO-DO list} application and two tasks from the \citet{7GUIs-web}.
 Our primary goal is to assess whether we can implement these tasks according to their
 specifications by using only our prototype system and to determine if our approach successfully
 reduces the amount of code that needs to be written,
@@ -16,40 +16,77 @@ We will evaluate our prototype system based on the following criteria:
 	      identify problems with our implementation or design.
 
 	\item \textbf{Number of lines of code written:}
-	      We will compare the number of lines of code required in our system versus the provided referential solution.
+	      If a referential solution exists, we will compare the number of lines of code written using our system versus the provided referential solution.
 	      We will only consider \emph{physical lines of code} as defined by~\citet{Park_1992}.
 	      Because our system requires concrete data before we can begin building the desired application, we will also include the Number of lines of code needed to be written for the data preparation.
 	      We will also ignore all lines of code related to styling the elements and focus only on implementing the specified functionality and UI structure.
 \end{itemize}
 
-For each successfully comleted task, we will:
+For each task, we will:
 \begin{enumerate}
-	\item Describe the task requirements
-	\item Outline the implementation process using our Data-driven UI system
-	\item Present the resulting application or describe what functionality cannot be implemented
-	\item Analyze the Number of lines of code written
+	\item Describe the task requirements.
+	\item Outline the implementation process using the \emph{InterfaceSmith} system.
+	\item Present the resulting application or describe what functionality cannot be implemented.
+	\item Analyze the number of lines of code written.
 \end{enumerate}
 
-\section{To-do list application}
-\subsection {Creation process}
+\section{TO-DO list application}
+The first task is the creation of a simple TODO list application inspired by the \citet{TodoMVC} benchmark.
+As our prototype system focuses mainly on exploring the data-driven UI creation and provides limited options for modifying the functionality of the application,
+we will implement a subset of the functionality specified by the \citet{todo-spec}.
+
+As we will implement a subset of the specified functionality, we will not compare the resulting number of LOC to any referential solution.
+
+\subsection{Task requirements}
+\subsubsection{UI elements}
+The main UI elements of the application are:
+\begin{enumerate}
+	\item InputField: A text input field for descibing a new task.
+	\item AddTodo: A button which creates a new task.
+	\item Todo: A single element displaying a checkbox and the description of a task. The checkbox represents if the Todo is completed.
+	\item Todos: List displaying the created Todo elements.
+	\item CompletedNum: An element displaying the number of completed tasks.
+\end{enumerate}
+
+\subsubsection{Functionality}
+The functionality we will try to implement is the following:
+\begin{enumerate}
+	\item The user can input text into the InputField element.
+	\item When the user clicks the AddTodo and the InputField is not empty, create a new Todo element and display it in the Todos.
+	\item The CompletedNum reflects how many Todo elements have their checkbox checked.
+	\item After clicking the AllDone button, all Todo elements become completed.
+\end{enumerate}
+
+\subsection{Creation process}
 
 The steps of the creation process are the following:
 \begin{enumerate}
 	\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
 	      We can see the created JSON object in Figure~\ref{fig:todo-json}.
+	      We model the data based on the UI elements we wish to create according to our specification.
+	\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
+
 \end{enumerate}
 
 
 \begin{figure}[htbp]
-	\caption{JSON object created as input for the Counter task (7GUIs)}
+	\caption{JSON object created as input for the TO-DO list taks}
 	\label{fig:todo-json}
 	\begin{lstlisting}
 {
-  "label": 0,
-  "button": "count"
+  "InputField": "",
+  "AddTodo": "Add todo",
+  "Todos": [
+      {
+          "text": "Complete project proposal",
+          "completed": false
+      }
+  ],
+  "AllDoneButton": "All done"
 }
     \end{lstlisting}
 \end{figure}
+
 
 \subsection{Results}
 We \emph{successfully} created the desired application, its specified functionality, and UI elements.
