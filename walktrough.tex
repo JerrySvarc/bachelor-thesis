@@ -1,7 +1,8 @@
 \chapter{Benchmarks}
 \label{chap:walktrough}
 
-This chapter evaluates our \emph{InterfaceSmith} prototype system on three tasks, a simple \emph{TO-DO list} application and two tasks from the \citet{7GUIs-web}.
+In the previous chapter, we explored the implementation of the \emph{InterfaceSmith} programming system, described the UI and features, and described the code generation capabilities.
+This chapter evaluates our \emph{InterfaceSmith} prototype system on three tasks: a simple \emph{TO-DO list} application and the \emph{Counter} and \emph{Temperature Converter} from the \citet{7GUIs-web}.
 Our primary goal is to assess whether we can implement these tasks according to their
 specifications by using only our prototype system and to determine if our approach successfully
 reduces the amount of code that needs to be written,
@@ -18,35 +19,33 @@ We will evaluate our prototype system based on the following criteria:
 	\item \textbf{Number of lines of code written:}
 	      If a referential solution exists, we will compare the number of lines of code written using our system versus the provided referential solution.
 	      We will only consider \emph{physical lines of code} as defined by~\citet{Park_1992}.
-	      Because our system requires concrete data before we can begin building the desired application, we will also include the Number of lines of code needed to be written for the data preparation.
+	      Because our system requires concrete data before we can begin building the desired application, we will also include the number of lines of code needed to be written for the data preparation.
 	      We will also ignore all lines of code related to styling the elements and focus only on implementing the specified functionality and UI structure.
 \end{itemize}
 
-For each task, we will:
-\begin{enumerate}
-	\item Describe the task requirements.
-	\item Outline the implementation process using the \emph{InterfaceSmith} system.
-	\item Present the resulting application or describe what functionality cannot be implemented.
-	\item Analyze the number of lines of code written.
-\end{enumerate}
+\noindent For each task, we will first describe the requirements, such as the intended functionality.
+After that, we will outline the implementation process using the \emph{InterfaceSmith} system.
+We will then present the resulting application or describe what functionality cannot be implemented.
+Lastly, we will analyze the number of lines of code written.
+
+
 
 \section{TO-DO list application}
-The first task is the creation of a simple TODO list application inspired by the \citet{TodoMVC} benchmark.
-As our prototype system focuses mainly on exploring the data-driven UI creation and provides limited options for modifying the functionality of the application,
+The first task is creating a simple TODO list application inspired by the \citet{TodoMVC} benchmark.
+As our prototype system focuses mainly on exploring the data-driven UI creation and provides limited options for modifying the application's functionality,
 we will implement a subset of the functionality specified by the \citet{todo-spec}.
-
 As we will implement a subset of the specified functionality, we will not compare the resulting number of LOC to any referential solution.
 
 \subsection{Task requirements}
+\medskip
 \subsubsection{UI elements}
-The main UI elements of the application are:
-\begin{enumerate}
-	\item InputField: A text input field for descibing a new task.
-	\item AddTodo: A button which creates a new task.
-	\item Todo: A single element displaying a checkbox and the description of a task. The checkbox represents if the Todo is completed.
-	\item Todos: List displaying the created Todo elements.
-	\item CompletedNum: An element displaying the number of completed tasks.
-\end{enumerate}
+The TO-DO application's UI will consist of multiple elements.
+The \emph{InputField} is a text input element describing a new task.
+\emph{AddTodo} is a button that creates a new task.
+The \emph{Todo} displays a checkbox and the description of a particular task. The checkbox represents if the Todo is completed.
+\emph{Todos} displays the created Todo elements.
+\emph{CompletedNum} displays the number of completed tasks.
+Moreover, lastly, the \emph{AllDoneButton} is used to mark all Todo elements as completed.
 
 \subsubsection{Functionality}
 The functionality we will try to implement is the following:
@@ -56,20 +55,15 @@ The functionality we will try to implement is the following:
 	\item The CompletedNum reflects how many Todo elements have their checkbox checked.
 	\item After clicking the AllDone button, all Todo elements become completed.
 \end{enumerate}
-
+\medskip
 \subsection{Creation process}
 
 The steps of the creation process are the following:
 \begin{enumerate}
-	\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
-	      We can see the created JSON object in Figure~\ref{fig:todo-json}.
-	      We model the data based on the UI elements we wish to create according to our specification.
-	\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
-
-\end{enumerate}
-
-
-\begin{figure}[htbp]
+\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
+We can see the created JSON object in Figure~\ref{fig:todo-json}.
+We model the data based on the UI elements we wish to create according to our specification.
+\begin{figure}[!htbp]
 	\caption{JSON object created as input for the TO-DO list taks}
 	\label{fig:todo-json}
 	\begin{lstlisting}
@@ -82,32 +76,141 @@ The steps of the creation process are the following:
           "completed": false
       }
   ],
-  "AllDoneButton": "All done"
+  "Others": {
+      "CompletedCount": 0,
+      "AllDoneButton": "All done"
+  }
 }
     \end{lstlisting}
 \end{figure}
 
 
-\subsection{Results}
-We \emph{successfully} created the desired application, its specified functionality, and UI elements.
-
-\subsection{Analysis}
-The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
-
-We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
+\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
+\item \textbf{Replace all hole elements:} We use the provided context menus to replace the hole elements with the new UI elements mirroring the data's structure.
+\item \textbf{Change the order of the elements:} Using the top-level KeyOrdering menu we change the order of the elements.
+\item \textbf{Change the tags of the elements:} We use the provided context menus to change the tags for the elements.
+We select the \emph{input} tag for the InputField and Todo.Completed elements. We choose the \emph{button} tag for the Other.AllDoneButton and AddTodo elements.
+After that, we choose to make the Todos ordered.
+\item \textbf{Add necessary attributes:}
 \begin{itemize}
-	\item In Step 1, we created the input data and wrote a total of 4 LOC.
-	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
-	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
-	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+	\item \emph{Completed element:} We add the \emph{type} attribute to the \emph{Completed} element, select the value as \emph{Constant} and input \emph{checkbox}.
+	      Then we add the checked attribute and select the \emph{Data} InnerValue.
+	\item \emph{InputField element:} We add the \emph{type} attribute with the InnerValue \emph{Constant} set to \emph{text}.
+	      After that, we add the \emph{value} attribute and select the \emph{Data} InnerValue.
 \end{itemize}
-We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
+\item \textbf{Create custom Messages:} To implement custom functionality, we use the provided canvas menu for creating Messages to create 4 messages which modify the state of the application based on UI events. The application automatically creates the corresponing update function cases for each message.
+\begin{itemize}
+\item \textbf{UpdateInput:}  Using the canvas menu, we type the following JavaScript code into the editor window to create the UpdateInput message:
+\begin{listing}[!htbp]
+\begin{lstlisting}
+return {
+  ...model,
+  InputField: event.target.value
+};
+            \end{lstlisting}
+\caption{Update function case for the UpdateInput message.}
+\end {listing}
+\item \textbf{AddTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the AddTodo message:
+\begin{listing}[!htbp]
+	\caption{Update function case for the AddTodo message.}
+
+	\begin{lstlisting}
+if (!model.InputField.trim()) return model;
+return {
+  ...model,
+  InputField: "",
+  Todos: [...model.Todos, {
+      text: model.InputField.trim(),
+      completed: false
+  }]
+};
+            \end{lstlisting}
+\end{listing}
+\item \textbf{ToggleTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the ToggleTodo message:
+\begin{listing}[htbp]
+	\caption{Update function case for the ToggleTodo message.}
+	\begin{lstlisting}
+const todoIndex = 
+    parseInt(event.target.closest('li').dataset.index);
+const updatedTodos = model.Todos.map((todo, index) =>
+  index === todoIndex
+    ? {...todo, completed: !todo.completed}
+    : todo
+);
+return {
+  ...model,
+  Todos: updatedTodos,
+  Others: {
+    ...model.Others,
+    CompletedCount: updatedTodos.filter(todo => todo.completed).length
+  }
+};
+            \end{lstlisting}
+\end{listing}[htbp]
+\item \textbf{CompleteAll:} Using the canvas menu, we type the following JavaScript code into the editor window to create the CompleteAll message:
+\begin{listing}
+	\caption{Update function case for the CompleteAll message.}
+	\begin{lstlisting}
+const allCompleted = model.Todos.map(todo => 
+  ({...todo, completed: true}));
+  return {
+    ...model,
+    Todos: allCompleted,
+    Others: {
+      ...model.Others,
+      CompletedCount: allCompleted.length
+    }
+  };
+  \end{lstlisting}
+\end{listing}
+\end{itemize}
+
+\item \textbf{Attach custom handlers to elements:} Using the provided EventHandler menus, we add 4 EventHandlers to 4 of the created elements:
+\begin{itemize}
+	\item We add the \emph{onChange} event with the message handler \emph{UpdateInput} to the InputField element.
+	\item We add the \emph{onClick} event with the message handler \emph{AddTodo} to the AddTodo element.
+	\item We add the \emph{onChange} event with the message handler \emph{ToggleTodo} to the Todo.completed element.
+	\item We add the \emph{onClick} event with the message handler \emph{CompleteAll} to the Others.AllDoneButton element.
+\end{itemize}
+\end{enumerate}
+\medskip
+\subsection{Results}
+We \textbf{successfully} created the TO-DO list application, implementing all of its specified functionality and UI elements.
+\medskip
+\subsection{Analysis}
+As this particular task implements only a subset of the functionality defined by \citet{todo-spec}, we only analyze the number of LOCs needed to implement the desired functionality.
+We now analyze the Number of LOCs needed to implement the Counter task using our programming system
+\begin{itemize}
+	\item In Step 1, we created the input data and wrote 14 LOC.
+	\item   In Steps 2-5, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 6, we added four attributes in total to two different UI elements using the provided modification menus, and we needed to specify Constant InnerValues for 3 of them, resulting in 3 LOC written.
+	\item   In Step 7, we created the custom functionality by writing JavaScript code, resulting in 37 LOC written.
+	\item In Step 8, we added the custom handlers to four UI elements using only mouse-based operations, resulting in 0 LOC written.
+\end{itemize}
+\noindent We wrote \textbf{54} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
 
 
 
+
+
+\medskip
 \section{Counter Task (7GUIs)}
-The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only textfield T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
+The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only text field T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
 
+\subsection{Task requirements}
+\subsubsection{UI elements}
+The main UI elements of the application are:
+\begin{enumerate}
+	\item Count: A label displaying the current value of the \emph{Count} field.
+	\item incrementButton: A button used to increment the Count.
+\end{enumerate}
+
+\subsubsection{Functionality}
+The functionality we will try to implement is the following:
+\begin{enumerate}
+	\item The user can click on the provided button, and the Count is incremented by 1. The Count element is updated to reflect the change in value.
+\end{enumerate}
+\medskip
 \subsection {Creation process}
 
 The steps of the creation process are the following:
@@ -117,16 +220,17 @@ The steps of the creation process are the following:
 	\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
 	\item \textbf{Replace holes with new elements:} This step involves clicking on a provided button menu for each Hole element.
 	\item \textbf{Modify the elements using the context menus:} We use the provided context menus to change the tag of each element.
-	      We select the label tag for the label element and the button for the button element.
-	\item \textbf{Implementation of custom behavior:} We select the \emph{Custom Handlers} menu.
-	      We type the name of our custom function into the provided input field and
-	      we name the function as \texttt{plusOne}.
-	      Then, using JavaScript, we implement the desired behavior of increasing the value of the label field by one
-	      every time this function is called.
-	      Into the editor window, we input the following: \texttt{data.label++;}.
-	      We do not need to write anything else, as the system automatically generates the function's body and other event handlers.
-	\item \textbf{Add the "onClick" handler to the button element:} We use the menu for the \emph{button} element to add an event handler
-	      which calls the \texttt{plusOne} function when triggered.
+	      We select the label tag for the Count element and the button for the incrementButton element.
+	\item \textbf{Implementation of custom behavior:} Using the canvas menu, we create the Increment message, specify its name, and type the following JavaScript code into the editor window to implement the message:
+	      \begin{listing}[htbp]
+		      \caption{Update function case for the Increment message.}
+		      \begin{lstlisting}
+return {
+  ...model, Count: model.Count + 1
+};
+            \end{lstlisting}
+	      \end{listing}
+	\item \textbf{Add the EventHandler to the button element:} We add the \emph{onClick} event with the message handler \emph{Increment} to the incrementButton element.
 \end{enumerate}
 
 
@@ -135,71 +239,159 @@ The steps of the creation process are the following:
 	\label{fig:counter-json}
 	\begin{lstlisting}
 {
-  "label": 0,
-  "button": "count"
-}
+  "Count": 0,
+  "incrementButton": "Increment counter"
+ }
     \end{lstlisting}
 \end{figure}
-
+\medskip
 \subsection{Results}
-We \emph{successfully} created the desired application, its specified functionality, and UI elements.
-
+We \textbf{successfully} created the desired counter application, implementing all of its specified functionality, and UI elements.
+\medskip
 \subsection{Analysis}
-The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
+The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs written in TypeScript.
 
 We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
 \begin{itemize}
 	\item In Step 1, we created the input data and wrote a total of 4 LOC.
 	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
-	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
-	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 5, we created a custom messahe, for which we wrote its name and implementation, resulting in 4 LOC written.
+	\item   In Step 6, we added an EventHandler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
 \end{itemize}
-We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
+\noindent We wrote \textbf{8} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
 
 
 
 
+
+
+
+\medskip
 \section{Temperature Converter Task (7GUIs)}
-Temperature Converter task by the \citet{7GUIs-web} involves creating a user interface with two input fields for Celsius and Fahrenheit temperatures,
-implementing bidirectional conversion between the two fields when valid numerical input is provided.
+Temperature Converter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing two textfields $T_C$ and $T_F$ representing the temperature in Celsius and Fahrenheit. Initially, both $T_C$ and $T_F$ are empty.
+When the user enters a numerical value into $T_C$ the corresponding value in $T_F$ is automatically updated and vice versa. When the user enters a non-numerical string into $T_C$ the value in $T_F$ is not updated and vice versa.''
+\medskip
+\subsection{Task requirements}
+\subsubsection{UI elements}
+The main UI elements of the application are:
+\begin{enumerate}
+	\item Celsius: An input element displaying the current value of the \emph{Celsius} field.
+	\item Fahrenheit: A input element displaying the current value of the \emph{Fahrenheit} field
+\end{enumerate}
 
+\subsubsection{Functionality}
+The functionality we will try to implement is the following:
+\begin{enumerate}
+	\item The user can change the value of either the Celsius or Fahrenheit elements, and it automatically converts the value of one to the other and updates the elements.
+\end{enumerate}
+\medskip
 \subsection {Creation process}
-
 The steps of the creation process are the following:
 \begin{enumerate}
 	\item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
 	      We can see the created JSON object in Figure~\ref{fig:temp-json}.
-
-\end{enumerate}
-
-
-\begin{figure}[htbp]
-	\caption{JSON object created as input for the Counter task (7GUIs)}
-	\label{fig:temp-json}
-	\begin{lstlisting}
+	      \begin{figure}[H]
+		      \caption{JSON object created as input for the Temperature Converter Task (7GUIs)}
+		      \centering
+		      \label{fig:temp-json}
+		      \begin{lstlisting}
 {
-  "label": 0,
-  "button": "count"
+  "Celsius": "",
+  "CelsiusLabel": "Celsius = ",
+  "Fahrenheit": "",
+  "FahrenheitLabel": "Fahrenheit"
 }
     \end{lstlisting}
-\end{figure}
+	      \end{figure}
+	\item \textbf{Upload data to the system:} We upload the created JSON data to the system.
+	\item \textbf{Replace holes with new elements:} This step involves clicking on a provided button menu for each Hole element.
+	\item \textbf{Modify the elements using the context menus:} We use the provided context menus to change the tag of each element.
+	      We select the label tag for the CelsiusLabel and FahrenheitLabel elements and the input tag for the Celsius and Fahrenheit elements.
+	\item \textbf{Implementation of custom behavior:} The implementation of the custom messages is inspired by the~referential~solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/tempconv.tsx}. We define 2 new messages and modify their names.
+	      \begin{itemize}
+		      \item UpdateCelsius update function implementation:
+		            \begin{listing}[htbp]
+			            \caption{Update function case for the UpdateCelsius message.}
+			            \begin{lstlisting}
+if (isNaN(parseFloat(event.target.value))) {
+  return {
+    ...model,
+    Celsius: event.target.value
+  };
+}
+let celsius = parseFloat(event.target.value);
+let fahrenheit = (celsius * 9 / 5 + 32).toFixed(1);
+return {
+  ...model,
+  Celsius: celsius,
+  Fahrenheit: fahrenheit.toString()
+};            \end{lstlisting}
+		            \end{listing}
 
+		      \item UpdateFahrenheit update function implementation:
+		            \begin{listing}[htbp]
+			            \caption{Update function case for the UpdateFahrenheit message.}
+
+			            \begin{lstlisting}
+if (isNaN(parseFloat(event.target.value))) {
+  return {
+    ...model,
+    Fahrenheit: event.target.value
+  };
+}
+let fahrenheit2 = parseFloat(event.target.value);
+let celsius2 = ((fahrenheit2 - 32) * 5 / 9).toFixed(1);
+return {
+  ...model,
+  Fahrenheit: fahrenheit2,
+  Celsius: celsius2.toString()
+};            \end{lstlisting}
+
+		            \end{listing}
+	      \end{itemize}
+
+	\item \textbf{Add the EventHandlers to the input elements:} We add the \emph{onChange} event with the message handler \emph{UpdateCelsius} to the Celsius element and the \emph{onChange} event with the message handler \emph{UpdateFahrenheit} to the Fahrenheit element.
+\end{enumerate}
+\medskip
 \subsection{Results}
-We \emph{successfully} created the desired application, its specified functionality, and UI elements.
-
+We \textbf{successfully} created the desired application, implemented its specified functionality, and UI elements.
+\medskip
 \subsection{Analysis}
-The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs.
+The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 66 LOCs written in TypeScript using the \citet{react} library.
 
 We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
 \begin{itemize}
-	\item In Step 1, we created the input data and wrote a total of 4 LOC.
+	\item In Step 1, we created the input data and wrote a total of 6 LOC.
 	\item   In Steps 2-4, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
-	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 2 LOC written.
-	\item   In Step 6, we added a handler to the \texttt{button} element through mouse-based operations, resulting in 0 LOC written.
+	\item   In Step 5, we created a custom function, for which we wrote its name and implementation, resulting in 28 LOC written.
+	\item   In Step 6, we added the EventHandlers to both input elements through mouse-based operations, resulting in 0 LOC written.
 \end{itemize}
-We wrote \emph{six} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
-\section{Evaluation}
-In this section, we summarize our findings from the benchmark tasks.
-Our evaluation process involved attempting to implement three distinct tasks using the \emph{Data DrUId} prototype system.
+\noindent We wrote \emph{34} lines of physical code in total, and the rest of the operations were performed through a mouse-based interface.
 
+
+
+
+\medskip
+\section{Evaluation}
+
+Our benchmarking process involved attempting to implement three distinct tasks using the \emph{InterfaceSmith} low-code programming system.
+We successfully implemented all three tasks using our programming system, which were the \emph{Counter task}\cite{7GUIs-web},
+the \emph{Temperature Converter task}\cite{7GUIs-web}, and a simple \emph{TO-DO list} application inspired by the \citet{TodoMVC} project.
+
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|p{3cm}|c|c|c|c|c|}
+		\hline
+		\textbf{Task}   & \textbf{Total} & \textbf{Prep} & \textbf{Custom} & \textbf{Ref.} & \textbf{Success} \\
+		\hline
+		TO-DO List      & 54             & 14            & 37              & N/A           & Yes              \\
+		Counter         & 8              & 4             & 4               & 11            & Yes              \\
+		Temp. Converter & 34             & 6             & 28              & 66            & Yes              \\
+		\hline
+	\end{tabular}
+	\caption{Implementation Results Summary}
+	\label{tab:results}
+\end{table}
 
