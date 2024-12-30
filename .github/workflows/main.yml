@@ -20,7 +20,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Use a Node.js version compatible with the existing GLIBC
+          node-version: '20'  # Update to Node.js version 20
 
       - name: Build the thesis
         run: latexmk thesis && latexmk abstract-cs && latexmk abstract-en
@@ -44,6 +44,6 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Use a Node.js version compatible with the existing GLIBC
+          node-version: '20'  # Update to Node.js version 20
       - name: Run VeraPDF
         run: verify Thesis/*.pdf | tee /dev/stderr | grep -qE 'nonCompliant="0" failedJobs="0"'
