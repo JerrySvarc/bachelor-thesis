@@ -29,7 +29,6 @@ We will then present the resulting application or describe what functionality ca
 Lastly, we will analyze the number of lines of code written.
 
 
-
 \section{TO-DO list application}
 The first task is creating a simple TODO list application inspired by the \citet{TodoMVC} benchmark.
 As our prototype system focuses mainly on exploring the data-driven UI creation and provides limited options for modifying the application's functionality,
@@ -37,8 +36,7 @@ we will implement a subset of the functionality specified by the \citet{todo-spe
 As we will implement a subset of the specified functionality, we will not compare the resulting number of LOC to any referential solution.
 
 \subsection{Task requirements}
-\medskip
-\subsubsection{UI elements}
+
 The TO-DO application's UI will consist of multiple elements.
 The \emph{InputField} is a text input element describing a new task.
 \emph{AddTodo} is a button that creates a new task.
@@ -47,7 +45,6 @@ The \emph{Todo} displays a checkbox and the description of a particular task. Th
 \emph{CompletedNum} displays the number of completed tasks.
 Moreover, lastly, the \emph{AllDoneButton} is used to mark all Todo elements as completed.
 
-\subsubsection{Functionality}
 The functionality we will try to implement is the following:
 \begin{enumerate}
 	\item The user can input text into the InputField element.
@@ -63,8 +60,8 @@ The steps of the creation process are the following:
 \item \textbf{Prepare JSON data:} The creation process starts by creating JSON data based on the format specified by the task.
 We can see the created JSON object in Figure~\ref{fig:todo-json}.
 We model the data based on the UI elements we wish to create according to our specification.
-\begin{figure}[!htbp]
-	\caption{JSON object created as input for the TO-DO list taks}
+\begin{figure}[htbp]
+	\caption{JSON object created as input for the TO-DO list task}
 	\label{fig:todo-json}
 	\begin{lstlisting}
 {
@@ -98,22 +95,28 @@ After that, we choose to make the Todos ordered.
 	\item \emph{InputField element:} We add the \emph{type} attribute with the InnerValue \emph{Constant} set to \emph{text}.
 	      After that, we add the \emph{value} attribute and select the \emph{Data} InnerValue.
 \end{itemize}
-\item \textbf{Create custom Messages:} To implement custom functionality, we use the provided canvas menu for creating Messages to create 4 messages which modify the state of the application based on UI events. The application automatically creates the corresponing update function cases for each message.
+\item \textbf{Create custom Messages:} To implement custom functionality, we use the provided canvas menu for creating messages to create 4 messages which modify the state of the application based on UI events.
+The application automatically creates the corresponding update function cases for each message.
 \begin{itemize}
-\item \textbf{UpdateInput:}  Using the canvas menu, we type the following JavaScript code into the editor window to create the UpdateInput message:
-\begin{listing}[!htbp]
+\item \textbf{UpdateInput:}  Using the canvas menu, we type the following JavaScript code into the editor window to create the UpdateInput message which we can see in Program~\ref{fig:todo-updateInput}.
+
+\begin{listing}[htbp]
+\caption{Update function case for the UpdateInput message.}
+\label{fig:todo-updateInput}
 \begin{lstlisting}
 return {
   ...model,
   InputField: event.target.value
 };
             \end{lstlisting}
-\caption{Update function case for the UpdateInput message.}
 \end {listing}
-\item \textbf{AddTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the AddTodo message:
-\begin{listing}[!htbp]
-	\caption{Update function case for the AddTodo message.}
 
+
+\item \textbf{AddTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the AddTodo message which we see in Program~\ref{fig:todo-AddTodo}.
+
+\begin{listing}[htbp]
+	\caption{Update function case for the AddTodo message.}
+	\label{fig:todo-AddTodo}
 	\begin{lstlisting}
 if (!model.InputField.trim()) return model;
 return {
@@ -126,9 +129,11 @@ return {
 };
             \end{lstlisting}
 \end{listing}
-\item \textbf{ToggleTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the ToggleTodo message:
+
+\item \textbf{ToggleTodo:} Using the canvas menu, we type the following JavaScript code into the editor window to create the ToggleTodo message which we see in Program~\ref{fig:todo-ToggleTodo}.
 \begin{listing}[htbp]
 	\caption{Update function case for the ToggleTodo message.}
+	\label{fig:todo-ToggleTodo}
 	\begin{lstlisting}
 const todoIndex = 
     parseInt(event.target.closest('li').dataset.index);
@@ -146,10 +151,14 @@ return {
   }
 };
             \end{lstlisting}
-\end{listing}[htbp]
-\item \textbf{CompleteAll:} Using the canvas menu, we type the following JavaScript code into the editor window to create the CompleteAll message:
-\begin{listing}
+\end{listing}
+
+\item \textbf{CompleteAll:} Using the canvas menu, we type the following JavaScript code into the editor window to create the CompleteAll message which we see in Program~\ref{fig:todo-CompleteAll}.
+
+
+\begin{listing}[htbp]
 	\caption{Update function case for the CompleteAll message.}
+	\label{fig:todo-CompleteAll}
 	\begin{lstlisting}
 const allCompleted = model.Todos.map(todo => 
   ({...todo, completed: true}));
@@ -163,6 +172,7 @@ const allCompleted = model.Todos.map(todo =>
   };
   \end{lstlisting}
 \end{listing}
+
 \end{itemize}
 
 \item \textbf{Attach custom handlers to elements:} Using the provided EventHandler menus, we add 4 EventHandlers to 4 of the created elements:
@@ -176,10 +186,57 @@ const allCompleted = model.Todos.map(todo =>
 \medskip
 \subsection{Results}
 We \textbf{successfully} created the TO-DO list application, implementing all of its specified functionality and UI elements.
+As we already described the individual update cases based on defined messages, we see the remaining parts generated by the \emph{InterfaceSmith} in Program~\ref{fig:todo-result},
+except the render and init functions common to all applications generated by our system.
+
+\begin{listing}[p]
+	\caption {The TODO list implementation generated by the \emph{InterfaceSmith} based on the interactions with the system, not including the update function.}
+	\label{fig:todo-result}
+	\begin{lstlisting}
+const Msg = {
+  UpdateInput: "UpdateInput",
+  AddTodo: "AddTodo",
+  ToggleTodo: "ToggleTodo",
+  CompleteAll: "CompleteAll",
+};
+
+const model = {
+  InputField: "",
+  AddTodo: "Add todo",
+  Todos: [
+    {
+      text: "Complete project proposal",
+      completed: false,
+    },
+  ],
+  Others: {
+    CompletedCount: 0,
+    AllDoneButton: "All done",
+  },
+};
+
+const view = (
+  model,
+) => `<div  >
+  <input value="${model.InputField}" type="text" onBlur="window.dispatch(Msg.NewMessage1, event)" />
+  <button  onClick="window.dispatch(Msg.NewMessage2, event)">${model.AddTodo}</button>
+
+<ul  >${model.Todos.map(
+  (item, index) => `
+  <li data-index="${index}"><div  ><input type="checkbox" ${item.completed ? "checked" : ""} 
+    onChange="window.dispatch(Msg.NewMessage3, event)" />
+  <span  >${item.text}</span></div></li>`,
+).join("")}</ul>
+
+<div  ><button  onClick="window.dispatch(Msg.NewMessage4, event)">${model.Others.AllDoneButton}</button>
+<div  >${model.Others.CompletedCount}</div></div></div>`;
+\end{lstlisting}
+\end{listing}
+
 \medskip
 \subsection{Analysis}
 As this particular task implements only a subset of the functionality defined by \citet{todo-spec}, we only analyze the number of LOCs needed to implement the desired functionality.
-We now analyze the Number of LOCs needed to implement the Counter task using our programming system
+We now analyze the Number of LOCs needed to implement the Counter task using our programming system:
 \begin{itemize}
 	\item In Step 1, we created the input data and wrote 14 LOC.
 	\item   In Steps 2-5, we created and modified the UI elements using only mouse-based operations, resulting in 0 LOC written.
@@ -193,7 +250,7 @@ We now analyze the Number of LOCs needed to implement the Counter task using our
 
 
 
-\medskip
+\clearpage
 \section{Counter Task (7GUIs)}
 The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only text field T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
 
@@ -247,9 +304,61 @@ return {
 \medskip
 \subsection{Results}
 We \textbf{successfully} created the desired counter application, implementing all of its specified functionality, and UI elements.
+We can see the code generated by the \emph{InterfaceSmith} system in Program~\ref{fig:counter-result}.
 \medskip
 \subsection{Analysis}
 The referential 7GUIs solution~\cite{7guis-React-TypeScript-MobX/src/app/guis/counter.tsx} for the counter task consists of 11 LOCs written in TypeScript.
+
+
+\begin{listing}[p]
+	\caption {The Counter task implementation generated by the \emph{InterfaceSmith} system.}
+	\label{fig:counter-result}
+	\begin{lstlisting}
+const Msg = {
+  Increment: "Increment",
+};
+
+const model = {
+  Count: 0,
+  incrementButton: "Increment counter",
+};
+
+const update = (msg, event, model) => {
+  switch (msg) {
+    case Msg.Increment:
+      return {
+        ...model,
+        Count: model.Count + 1,
+      };
+
+    default:
+      return model;
+  }
+};
+
+const view = (model, dispatch) => `
+<div  >
+<label  >${model.Count}</label>
+<button  onClick="window.dispatch(Msg.NewMessage1, event)">${model.incrementButton}</button>
+</div>`;
+
+function init(initialModel, updateFunction, viewFunction) {
+  let currentModel = initialModel;
+  const render = () => {
+    const root = document.getElementById("app");
+    root.innerHTML = viewFunction(currentModel, dispatch);
+  };
+  window.dispatch = (msg, event) => {
+    currentModel = updateFunction(msg, event, currentModel);
+    render();
+  };
+  render();
+}
+
+init(model, update, view);
+\end{lstlisting}
+\end{listing}
+
 
 We will now analyze the Number of LOCs needed to implement the Counter task using our programming system
 \begin{itemize}
@@ -266,7 +375,7 @@ We will now analyze the Number of LOCs needed to implement the Counter task usin
 
 
 
-\medskip
+\clearpage
 \section{Temperature Converter Task (7GUIs)}
 Temperature Converter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing two textfields $T_C$ and $T_F$ representing the temperature in Celsius and Fahrenheit. Initially, both $T_C$ and $T_F$ are empty.
 When the user enters a numerical value into $T_C$ the corresponding value in $T_F$ is automatically updated and vice versa. When the user enters a non-numerical string into $T_C$ the value in $T_F$ is not updated and vice versa.''

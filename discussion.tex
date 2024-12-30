@@ -3,7 +3,7 @@
 
 Every approach to software development has associated benefits and limitations.
 For example, \citet{Pinho_Aguiar_Amaral_2023} identified several benefits and pitfalls associated with existing programming systems employing the Low-code programming approach.
-Some of the common benefits and limitations of existing Low-code programming systems are the following:
+Some of the common benefits and limitations of existing low-code programming systems are the following:
 \begin{itemize}
 	\item Common Benefits:
 	      \begin{itemize}
@@ -18,17 +18,18 @@ Some of the common benefits and limitations of existing Low-code programming sys
 	      \end{itemize}
 \end{itemize}
 
-In this chapter, we will critically evaluate our work and describe its benefits, limitations, and potential avenues for future research.
-We will separate the limitations of the Data-driven Low-code approach from the limitations of our Data-driven UI programming system prototype as to
+\noindent In this chapter, we will critically evaluate our work and describe its benefits, limitations, and potential avenues for future research.
+We will separate the limitations of the data-driven low-code UI creation from the limitations of our \emph{InterfaceSmith} programming system as to
 better evaluate the potential feasibility of the approach itself.
 
 \section{Evaluation of the approach}
-This section evaluates the data-driven low-code approach and discusses its positive and negative aspects, separate from our \emph{Data-driven UI} prototype implementation.
+This section evaluates the data-driven low-code approach and discusses its positive and negative aspects, separate from our \emph{InterfaceSmith} programming system.
 
 \subsection{Benefits of the approach}
 
 Our work identifies several benefits of the Data-driven Low-code approach to creating client-side web applications.
 Each benefit directly results from our specific design principles described in Chapter~\ref{chap:design}.
+The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
 The main benefits are the following:
 \begin{enumerate}
 	\item \textbf{Guided UI element creation:} The Data-driven Hole-based approach allows for a guided process of creating the desired UI elements.
@@ -36,7 +37,7 @@ The main benefits are the following:
 	      This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
 	      of element and places it at the correct place in the internal representation of UI elements.
 
-	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from a system's opaque internal representation of the created software artifacts
+	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from a system's opaque internal representation
 	      and the system not allowing the conversion of this internal representation to a more widely used representation.
 	      This means the user cannot easily use a different tool to modify or extend the created software artifacts.
 
@@ -52,7 +53,6 @@ The main benefits are the following:
 	      Another aspect of our approach that improves interoperability is the ability to generate a textual representation of the created program using a standard representation, which allows the use of other tools that accept the standard representation.
 \end{enumerate}
 
-The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
 
 \subsection{Limitations of the approach}
 Even though our approach provides several previously described benefits, we also identify several potential limitations.
@@ -86,13 +86,13 @@ The potential limitations are the following:
 
 \section{Evaluation of the implementation}
 
-In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{Data-driven UI} programming system.
+In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{InterfaceSmith} programming system.
 The motivation for creating this prototype system was to show a minimal but cleanly designed system satisfying design principles defined in Chapter~\ref{chap:design}.
-In this section, we evaluate the \emph{Data-driven UI} prototype and discuss its positive and negative aspects in implementing the functionality of the data-driven low-code approach.
+In this section, we evaluate the \emph{InterfaceSmith} system and discuss its positive and negative aspects in implementing the functionality of the data-driven low-code approach.
 
 \subsection{Positive aspects of the implementation}
 During our benchmarking process described in Chapter~\ref{chap:walktrough},
-we identified several positive aspects of the \emph{Data-driven UI} prototype system.
+we identified several positive aspects of the \emph{InterfaceSmith} prototype system.
 These strengths demonstrate the potential of our data-driven low-code approach and provide a foundation for future development.
 The key positive aspects are as follows:
 \begin{enumerate}
@@ -132,8 +132,9 @@ the prototype implementation has several limitations that should be addressed by
 \end{enumerate}
 These limitations primarily stem from the prototype nature of the implementation and the focus on demonstrating the core concepts of the data-driven low-code approach.
 
+\clearpage
 \section{Future work}
-In this thesis, we laid the foundation for the data-driven low-code approach to creating client-side web applications.
+In this thesis, we explored the data-driven low-code approach to creating client-side web applications.
 However, there are several areas where further research and development could significantly enhance the capabilities and applicability of this approach:
 \begin{enumerate}
 	\item \textbf{Empirical user studies:} Conducting comprehensive user studies to evaluate the effectiveness of this approach compared to traditional development methods and other low-code platforms would provide valuable insights for further improvement.
