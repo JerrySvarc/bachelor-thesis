@@ -1,148 +1,121 @@
 \chapter{Discussion}
 \label{chap:discussion}
 
-Every approach to software development has associated benefits and limitations.
-For example, \citet{Pinho_Aguiar_Amaral_2023} identified several benefits and pitfalls associated with existing programming systems employing the Low-code programming approach.
+In the previous chapter, we implemented three tasks using the \emph{InterfaceSmith} programming system.
+This chapter will evaluate our work and describe its benefits, limitations, and potential avenues for future research.
+
+\citet{Pinho_Aguiar_Amaral_2023} identify several benefits and pitfalls associated with existing programming systems employing the low-code development approach.
 Some of the common benefits and limitations of existing low-code programming systems are the following:
 \begin{itemize}
-	\item Common Benefits:
-	      \begin{itemize}
-		      \item \emph{Low requirements for technical skills}
-		      \item \emph{High speed/short development time}
-	      \end{itemize}
-
-	\item Common Pitfalls:
-	      \begin{itemize}
-		      \item \emph{Interoperability issues}
-		      \item \emph{Vendor lock-in}
-	      \end{itemize}
+	\item \textbf{Common Benefits}: The two common benefits of low-code development systems are \emph{Low requirements for technical skills} and \emph{High speed/short development time} while using the programming systems.
+	\item \textbf{Common Pitfalls}: Low-code systems commonly suffer from \emph{Interoperability issues} and \emph{Vendor lock-in}.
 \end{itemize}
 
-\noindent In this chapter, we will critically evaluate our work and describe its benefits, limitations, and potential avenues for future research.
-We will separate the limitations of the data-driven low-code UI creation from the limitations of our \emph{InterfaceSmith} programming system as to
-better evaluate the potential feasibility of the approach itself.
+\noindent
+To better assess the approach's potential viability, we will distinguish between the limitations of our \emph{InterfaceSmith} programming system and the data-driven low-code UI creation approach.
+
 \medskip
 \section{Evaluation of the approach}
 This section evaluates the data-driven low-code approach and discusses its positive and negative aspects, separate from our \emph{InterfaceSmith} programming system.
-
+\medskip
 \subsection{Benefits of the approach}
 
 Our work identifies several benefits of the data-driven low-code approach to creating client-side web applications.
 Each benefit directly results from our specific design principles described in Chapter~\ref{chap:design}.
 The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
-The main benefits are the following:
-\begin{enumerate}
-	\item \textbf{Guided UI element creation:} The data-driven hole-based approach allows for a guided process of creating the desired UI elements.
-	      The input data inspires the created elements and their resulting structure.
-	      This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
-	      of element and places it at the correct place in the internal representation of UI elements.
 
-	\item \textbf{Mitigates Vendor lock-in:} The issue of Vendor lock-in usually stems from a system's opaque internal representation
-	      and the system not allowing the conversion of this internal representation to a more widely used representation.
-	      This means the user cannot easily use a different tool to modify or extend the created software artifacts.
+The first main benefit is the \emph{guided UI element creation}.
+The input data inspires the created UI elements and their resulting structure, meaning the user can easily create all necessary UI elements with minimal effort.
+This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
+of element and place it in the correct place in the AST.
 
-	      Our design mitigates this problem, as the ability to generate a textual representation of the created software artifact is a core requirement
-	      for systems implementing our approach, mitigating the possibility of Vendor lock-in issues.
+The issue of \emph{Vendor lock-in} usually stems from a system's opaque internal representation and the system not allowing the conversion of this internal representation to a more widely used representation, as stated by \citet{Pinho_Aguiar_Amaral_2023}.
+This means the user cannot easily use a different tool to modify or extend the created software components.
+Our design solves the issue of Vendor lock-in by allowing users to generate a textual representation of the created application.
 
-	\item \textbf{Mitigates Interoperability issues:}
-	      Another issue our approach mitigates is the lack of interoperability with other existing systems.
-	      Our system accepts input data in a widely used JSON format.
-	      The programming system can then be used alongside existing systems, mainly those focused on data manipulation and retrieval.
-	      An example of a programming system that could achieve a synergy with systems implementing our approach is \citet{graphql}.
+Another issue our approach does not suffer from is the \emph{lack of interoperability} with other existing systems.
+Our system accepts input data in a widely used JSON format.
+The programming system can then be used alongside existing systems, mainly those focused on data manipulation and retrieval.
+An example of a programming system that could achieve a synergy with systems implementing our approach is \citet{graphql}.
+Another aspect of our approach that improves interoperability is the ability to generate a textual representation of the created program using a standard representation, which allows the use of other tools that accept the standard representation.
 
-	      Another aspect of our approach that improves interoperability is the ability to generate a textual representation of the created program using a standard representation, which allows the use of other tools that accept the standard representation.
-\end{enumerate}
-
-
+\medskip
 \subsection{Limitations of the approach}
 Even though our approach provides several previously described benefits, we also identify several potential limitations.
 Some of these limitations are a direct result of our design principles described in Chapter~\ref{chap:design}, while others are
 a side-effect of our definition of the core logic described in Chapter~\ref{chap:corelogic}.
-The potential limitations are the following:
-\begin{enumerate}
-	\item \textbf{Necessity to prepare data in advance:} As defined in Chapter~\ref{chap:design}, the data-driven approach first involves providing concrete data to the system.
-	      By some users, this can be seen as a potential negative, as creation of a simple page mandates creating the structured contents of it first.
-	      This high upfront cost could be lowered by providing simple data templates which the user could modify according to their needs.
 
-	\item \textbf{Rigid element structure:} The creation process described in Chapter~\ref{chap:corelogic} defines a structured way
-	      of creating elements based on concrete data.
-	      We also define the concept of \emph{structual referencing}, which enables us to dynamically create \emph{Holes} and efficiently combine the created UI elements with corresponding data.
-	      However, we must keep the representations' structures exactly the same to ensure the correct structural mapping.
-	      This prevents us from modifying the structure of the created UI elements independently from the corresponding data, resulting in a very rigid structure.
+As defined in Chapter~\ref{chap:design}, the data-driven approach first involves providing concrete data to the system.
+The \emph{necessity to prepare data in advance} may be seen by some users as a potential negative feature of the system, as creating a simple page mandates creating the structured content first.
+This upfront cost could be lowered by providing simple \emph{data templates}, which the user could modify according to their needs.
 
-	      To mitigate this issue, we could explore other options for referencing the data from the UI elements, such as \emph{Selector-based} referencing.
-	      This approach involves creating UI elements independently of the input data's structure and referencing it directly.
-	      However, we did not explore this option because we wanted to evaluate the purely data-driven approach.
+The creation process described in Chapter~\ref{chap:corelogic} defines a structured way
+of creating elements based on concrete data.
+We also define the concept of \emph{structual referencing}, which enables us to dynamically create \emph{Holes} and efficiently combine the created UI elements with corresponding data.
+However, we must keep the representations' structures precisely the same to ensure the correct structural mapping.
+The \emph{rigid element structure} prevents us from modifying the created UI elements independently from the corresponding data or creating new UI elements not referencing the created data.
+To solve this issue, we could explore other options for referencing the data from the UI elements, such as \emph{Selector-based} referencing.
+This approach involves creating UI elements independently of the input data's structure and referencing it directly.
+However, we did not explore this option because we wanted to evaluate the purely data-driven approach.
 
-	\item \textbf{Potentially time and resource intensive:} The incremental creation process described in Chapter~\ref{chap:corelogic} involves simultaneously traversing the Abstract Syntax Trees representing the created UI elements and the input data.
-	      We must visit each node of the ASTs during our traversal to provide correct modification menus and previews for every created UI element.
-	      This means the time to traverse the created ASTs grows linearly with the number of elements they contain.
-	      This approach to updating the preview and modification menus could pose a problem when modifying large ASTs, as we perform the traversal after each update of the UI elements.
-	      This means that the delay between changing a UI element and seeing the updated result could become too large.
-
-	      This problem can be mitigated by employing a more targeted approach to re-rendering, such as re-rendering only the modified element and its children.
-
-\end{enumerate}
+The \emph{incremental creation process} described in Chapter~\ref{chap:corelogic} involves simultaneously traversing the Abstract Syntax Trees representing the created UI elements and the input data.
+During our traversal, we must visit each node of the ASTs to provide the correct modification menus and previews for every created UI element.
+This means the time to traverse the created AST grows \emph{linearly with the number of elements} they contain.
+This approach to updating the preview and modification menus could pose a problem when modifying large ASTs, as we perform the traversal after each update of the UI elements.
+The delay between changing a UI element and seeing the updated result could become too large.
+This problem can be solved by employing a more targeted approach to re-rendering, such as re-rendering only the modified element and its children.
 
 \medskip
-\section{Evaluation of the implementation}
+\section{Evaluation of the \emph{InterfaceSmith} system}
 
 In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{InterfaceSmith} programming system.
 The motivation for creating this prototype system was to show a minimal but cleanly designed system satisfying design principles defined in Chapter~\ref{chap:design}.
 In this section, we evaluate the \emph{InterfaceSmith} system and discuss its positive and negative aspects in implementing the functionality of the data-driven low-code approach.
 
+\medskip
 \subsection{Positive aspects of the implementation}
 During our benchmarking process described in Chapter~\ref{chap:walktrough},
 we identified several positive aspects of the \emph{InterfaceSmith} prototype system.
-These strengths demonstrate the potential of our data-driven low-code approach and provide a foundation for future development.
-The key positive aspects are as follows:
-\begin{enumerate}
-	\item \textbf{High-speed UI element creation and modification:}
-	      The system facilitates rapid creation of UI elements based on the structure of provided concrete data.
-	      For each created element, the system offers a modification menu enabling quick property changes through mouse-based or keyboard-based operations.
-	      Properties update automatically after each modification, allowing a fast and interactive development loop.
-	\item \textbf{Live preview with dynamic updates:}
-	      The system provides a real-time preview of created elements, automatically populated with corresponding data.
-	      This preview updates instantly with each modification, offering immediate visual feedback.
-	      Additionally, a sandboxed preview of the entire web application allows users to test and refine custom behaviors.
-	\item \textbf{Comprehensive code generation:}
-	      The system automatically generates a complete textual representation of the created web application.
-	      This includes incorporating user-defined custom behaviors and generating all necessary HTML elements,
-	      providing a seamless transition from the low-code environment to traditional code if needed.
-\end{enumerate}
 
+Based on the structure of the supplied concrete data, the system makes it easier to \emph{quickly create user interface elements}.
+The system provides a modification menu for every created element, allowing for fast property changes via mouse-based operations.
+After every change, properties are automatically updated, enabling a quick and engaging development loop.
 
+The system provides a \emph{real-time preview} of created elements, automatically populated with corresponding data.
+This preview updates instantly with each modification, offering immediate visual feedback.
+A sandboxed preview of the entire web application allows users to test and refine custom behaviors.
+
+The system automatically \emph{generates a complete textual representation} of the created web application.
+This includes incorporating user-defined custom functionality and generating all necessary HTML elements and JavaScript functions.
+
+\medskip
 \subsection{Limitations of the implementation}
-While the Data-driven UI system demonstrates the potential of our approach,
-the prototype implementation has several limitations that should be addressed by future research:
-\begin{enumerate}
-	\item \textbf{Handling of deeply nested data structures:}
-	      The current implementation struggles with efficiently displaying the preview and modification menus of deeply nested data structures.
-	      This limitation can make it challenging for users to work with complex JSON inputs.
-	\item \textbf{Limited set of available UI components:} The current implementation supports a limited set of HTML elements and UI components.
-	      This restriction may not adequately cover all use cases for web application development, particularly for more complex or specialized applications.
-	\item \textbf{Performance with large datasets:}
-	      As noted in the approach limitations,
-	      the system's performance may degrade with very large JSON inputs due to the traversal method used.
-	      This implementation-specific issue could be mitigated with more optimized rendering and update algorithms.
-	\item \textbf{Lack of persistent storage:}
-	      Our prototype system does not implement any persistent storage functionality.
-	      This means that all data is kept in memory, and is lost upon refreshing the page.
+The prototype implementation has several limitations that should be addressed by future research.
 
-\end{enumerate}
-These limitations primarily stem from the prototype nature of the implementation and the focus on demonstrating the core concepts of the data-driven low-code approach.
+The preview and modification menus of \emph{deeply nested data structures are difficult to display} effectively in the current implementation.
+Due to this limitation, users may find working with complex JSON inputs challenging.
 
-\clearpage
+The current implementation supports a \emph{limited set of UI element modification options}.
+This system does not support all use cases for web application development, particularly for more complex or specialized applications.
+
+The traversal method may cause the \emph{system's performance to deteriorate with large JSON inputs}.
+This implementation-specific issue could be mitigated with more optimized rendering and update algorithms.
+
+Our prototype system \emph{does not implement persistent storage functionality}.
+This means all data is kept in memory and lost upon refreshing the page.
+
+These limitations primarily stem from the implementation's prototype nature and the focus on demonstrating the core concepts of the data-driven low-code approach.
+
+
+\medskip
 \section{Future work}
-There are several areas where further research and development could significantly enhance the capabilities and applicability of this approach and the functionality of the \emph{InterfaceSmith} programming system:
+There are several areas where further research and development could significantly enhance the capabilities and \emph{User Experience (UX)} of low-code data-driven approach and the functionality of the \emph{InterfaceSmith} programming system:
 \begin{enumerate}
-	\item \textbf{Empirical user studies:} Conducting comprehensive user studies to evaluate the effectiveness of this approach compared to traditional development methods and other low-code platforms would provide valuable insights for further improvement.
-	\item \textbf{Solving the issue of rigid element structure:} Research focusing on the issue of strong coupling between the representations of UI elements and input data could enhance the overall functionality of the approach.
-	\item \textbf{Improved handling of complex data structures:} Research into more efficient algorithms for traversing and rendering large or deeply nested data structures could improve the system's performance and usability.
-	\item \textbf{Expanded UI modification support:} Developing a more comprehensive set of UI modification options would improve the system's versatility.
-	\item \textbf{Modification of behavior through a low-code interface:} In our implementation, defining custom behavior of elements involves writing code in JavaScript.
-	      Future research could focus on defining and implementing comprehensive low-code interface for implementing the custom behavior without the need to write code.
+	\item \textbf{Empirical user studies:} Conducting empirical user studies to evaluate the low-code data-driven approach could help improve the functionality of modifying custom element behavior.
+	\item \textbf{Solving the issue of rigid element structure:} The rigid element structure stems from one of our core design principles. However, the design of the internal representation could be improved to allow for the creation of custom elements independently of the input data.
+	\item \textbf{Improved handling of complex data structures:} Research into more efficient handling of complex input data structures could improve the user experience.
+	\item \textbf{Modification of behavior through a low-code interface:} In our implementation, defining the custom behavior of elements involves writing code in JavaScript.
+	      Future research could focus on defining and implementing a low-code interface for implementing the custom behavior without writing code.
 	\item \textbf{Combining data-driven low-code programming with other approaches:} Combining our approach with other existing approaches, such as \emph{output-directed-programming}\cite{output-directed-programming}, could improve the functionality of the overall system.
 	\item \textbf{Performance optimization:} Further research into optimizing the rendering and update algorithms could improve the system's performance with large datasets and complex applications.
 \end{enumerate}
-These areas of future work aim to address the current limitations of the system while also exploring new possibilities opened up by this data-driven, low-code approach.

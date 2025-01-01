@@ -332,17 +332,47 @@ The traversal begins from the roots of the ASTs, and we traverse the trees recur
 Based on the type of the visited RenderingCode node and the mapping described in Section~\ref{sec:mapping}, we can perform different operations:
 \begin{itemize}
 	\item \textbf{HtmlElement:} The node is of type HtmlElement, which maps to a primitive JSON value. This means the JSON value has no descendants, and we can end the traversal.
-	      The system then performs the operations of displaying a preview of the HtmlElement and a modification menu.
+	      The system then performs the operations of displaying a preview of the HtmlElement and a modification menu. We can see an exammple of the menu and the preview of the HtmlElement displayed in Figure~\ref{fig:htmlElementMenu}
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.6\textwidth]{img/htmlElementMenu.pdf}
+		      \end{center}
+		      \caption{A modification menu and a preview for a HtmlList element.}\label{fig:htmlElementMenu}
+	      \end{figure}
+
+
 	\item \textbf{Hole:} The node is of type Hole, meaning the JSON value was visited before, but the user has not created the corresponding RenderingCode.
 	      The presence of a Hole element also means that we cannot visit the potential descendants, and we can stop the traversal.
-	      The system displays a menu to add a new element corresponding to the JSON value.
+	      The system displays a menu to add a new element corresponding to the JSON value. We see the menu displayed in Figure~\ref{fig:replaceHoleMenu}.
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.5\textwidth]{img/replaceHoleMenu.pdf}
+		      \end{center}
+		      \caption{The menu used to replace a \emph{Hole} element.}\label{fig:replaceHoleMenu}
+	      \end{figure}
+
 
 	\item \textbf{HtmlList and HtmlObject:} When the node represents a \emph{Collection} type of type HtmlList or HtmlObject, we recursively traverse all its descendants.
-	      The system displays a modification menu for the element and continues the traversal.
+	      The system displays a modification menu for the element and continues the traversal.We see the modification menu for the HtmlList displayed in Figure~\ref{fig:htmlListtMenu} and the modification menu for the HtmlObject in Figure~\ref{fig:htmlObjectMenu}.
+
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.7\textwidth]{img/htmlListMenu.pdf}
+		      \end{center}
+		      \caption{A modification menu for HtmlList element.}\label{fig:htmlListtMenu}
+	      \end{figure}
+
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.4\textwidth]{img/htmlObjectMenu.pdf}
+		      \end{center}
+		      \caption{A modification menu for the HtmlObject.}\label{fig:htmlObjectMenu}
+	      \end{figure}
+
 \end{itemize}
 
 After every User operation, the system performs this traversal to update the element preview and modification menus to reflect changes made to the RenderingCode AST.
-
+\clearpage
 \subsection{Combining RenderingCode and JSON data}
 Once the RenderingCode AST is created, the system must combine the RenderingCode elements with the data from the JSON AST.
 We use \emph{Structural referencing} to combine a RenderingCode element with the corresponding JSON value.
@@ -467,7 +497,7 @@ Finally, we click the \emph{Toggle Options} button and see the preview of the cr
 	\caption{Step-by-step creation of a TODO list from JSON data.}
 	\label{fig:simple-todo-steps}
 \end{figure}
-
+\clearpage
 \section{Summary}
 
 This chapter describes our approach to creating UI elements based on concrete data.
