@@ -4,7 +4,7 @@
 In the previous chapter, we described the theoretical background for the \emph{InterfaceSmith} programming system, defined the types representing the input data and UI elements, described operations on these types, and showcased the system's core functionality.
 In this chapter, we describe the implementation according to the design principles described in Chapter~\ref{chap:design} and the data-driven UI creation described in Chapter~\ref{chap:corelogic}.
 We explore the technologies chosen, the system's architecture, and key implementation details.
-
+\medskip
 \section{Technologies}
 \label{sec:technologies}
 To provide context for the implementation, we'll first examine the technologies used in developing the \emph{InterfaceSmith} system.
@@ -25,7 +25,7 @@ The system is implemented using the following key technologies:
 	\item \textbf{SAFE stack template:} We use the \citet{safestack} template's \emph{Build} project, which provides scripts for building web applications built in F\#.
 \end{itemize}
 
-
+\medskip
 \subsection{Alternatives}
 While we selected the technologies mentioned in the previous Section for our implementation, for several of them, we considered using alternative technologies:
 \begin{itemize}
@@ -38,7 +38,7 @@ While we selected the technologies mentioned in the previous Section for our imp
 	      However, as we need the ability to parse JSON data of arbitrary structure, SimpleJson's lightweight nature and its internal representation of the parsed data made it our preferred choice.
 \end{itemize}
 While these alternatives have their strengths, our chosen technologies provided the best balance of functional programming capabilities, browser compatibility, and ecosystem support for our specific requirements.
-
+\medskip
 \section{System architecture}
 \label{sec:appArch}
 Before we describe the implementation specifics, we must first describe the \emph{architecture} of the implementation.
@@ -68,7 +68,7 @@ type Page = {
   \end{lstlisting}
 \end{listing}
 
-
+\medskip
 \subsubsection{Main Elmish application}
 At the top level, our application follows the Elm architecture described in Section~\ref{sub:elmish}.
 The primary application state is represented by the \emph{Model} type, and we define corresponding \emph{view} and \emph{update} functions to manage this state.
@@ -108,7 +108,7 @@ type Msg =
     | PageEditorMsg of Guid * PageEditorMsg
     \end{lstlisting}
 \end{listing}
-
+\medskip
 \subsubsection{PageEditor sub-application}
 
 The \emph{PageEditor} is an Elmish application that provides modification functionality for an individual Page.
@@ -153,8 +153,9 @@ type PageEditorModel = {
 }    
   \end{lstlisting}
 \end{listing}
-
+\medskip
 \subsection{Module structure}
+\nopagebreak[4]
 The implementation is divided between different F\# \emph{modules}, each providing different functionality.
 We define two main modules named \emph{Core Logic} and \emph{Editor}, which contain sub-modules implementing specific functionality.
 These modules can be described as follows:
@@ -170,12 +171,13 @@ The modules containing the type definitions define the system's domain and have 
 The modules containing the functions implement the behaviors and operations that manipulate and utilize the domain types.
 This approach inherently makes the application more easily extensible.
 For example, we can add new functionality to the Editor module without changing the domain model or the implementation of the Core Logic submodules.
-
+\medskip
 \subsubsection{Core Logic Module}
 The Core Logic module is the first main module of the \emph{InterfaceSmith's} implementation.
 It contains the implementation of the types and operations described in Chapter~\ref{chap:corelogic}.
 Figure~\ref{fig:core-logic-structure} illustrates the overall structure of this module.
 We divide the implementation into the following sub-modules:
+\nopagebreak[4]
 \begin{itemize}
 	\item \textbf{Types:} This module comprises sub-modules that define the fundamental data structures of our system:
 	      \begin{itemize}
@@ -195,7 +197,7 @@ We divide the implementation into the following sub-modules:
 	      \end{itemize}
 \end{itemize}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	\begin{tikzpicture}[
 			node distance = 0.5cm and 0.5cm,
@@ -233,7 +235,7 @@ We divide the implementation into the following sub-modules:
 	\caption{Core Logic Module Structure}
 	\label{fig:core-logic-structure}
 \end{figure}
-
+\medskip
 \subsubsection{Editor module}
 The Editor module is the second main module of the \emph{Data-driven UI's} implementation.
 It is responsible for implementing the~programming system's UI, state management, and functionality.
@@ -297,100 +299,208 @@ We divide the module into the following sub-modules:
 	\caption{Editor Module Structure}
 	\label{fig:editor-module-structure}
 \end{figure}
-
+\medskip
 \section{Main Features}
 \label{sec:features}
 Now that we have defined the implementation's modular architecture and structure, we can describe the specifics of the implementation.
 As the implementation comprises many different type definitions and functions of various complexity,
 we will briefly describe the system's \emph{main features} that implement the design principles described in Chapter~\ref{chap:design}.
 
-
-\subsection{User Interface implementation}
-The integral component of our programming system is the low-code user interface, as it realizes one of the design principles described in Chapter~\ref{chap:design}.
-It provides tools for creation and modification of UI elements through the use of context menus.
-It also shows the preview of the already created UI elements.
-
 To implement the programming system, we use tools and technologies previously described in Section~\ref{sec:technologies}.
-One of these tools is the \citet{feliz} library, used for creating composable React UI components in F\#.
-Another important tool is the \citet{elmish} library, which provides abstractions that enable the creation of \emph{Elmish-style} applications in F\#.
-We can also create React components that use the Elmish-style architecture as part of their internal representation of state and operations
-by using the \emph{React.useElmish} hook provided by the \emph{Feliz.UseElmish} library.
+One of these tools is the \citet{feliz} library, used for creating composable \emph{React} UI components in F\#.
+Another important tool is the \citet{elmish} library, which provides abstractions that enable the creation of \emph{Elm-style} applications in F\#.
 
-The user interface is composed of multiple React components some managed by the top-level Elmish application, while others employing the
-component-level architecture.
+\medskip
+\subsection{User Interface implementation}
+The integral component of our programming system is the low-code user interface, as it realizes the design principles described in Chapter~\ref{chap:design}.
+It provides tools for creation and modification of UI elements through the use of context menus, shows the preview of the already created UI elements, and allows customization of the functionality of the created UI elements.
+The user interface is composed of multiple React components some managed by the top-level Elmish application, while others managed by the individual PageEditor sub-applications.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/UIExample.pdf}
 	\caption{Example of \emph{Data-driven UI's} user interface}
 	\label{fig:ui}
 \end{figure}
-We can see the layout of the \emph{Data-driven UI's} interface in Figure~\ref{fig:ui}
-Located on the left is a collapsable side-menu used to open created pages for editing.
-On the top we can see a panel displaying tabs for currently open pages.
-The state and operations of these components is managed by the main Elmish application.
 
-Under the tab panel we can see the main editor window.
-The left side of the window is used to provide the modification and preview functionality explained in more detail in the following Section.
-On the right side we see a window for creating and modifying custom JavaScript handler functions.
-The state and operations of these components is managed by the individual PageEditor components.
+We see the layout of the \emph{Data-driven UI's} interface in Figure~\ref{fig:ui}.
+Located on the left is a collapsible side-menu used to open and delete pages, and a button to create a new page.
+Users can also customize the name of the individual page, by clicking twice on the page option.
+The menu is implemented as a \emph{React component}, and dispatches different messages to the \emph{update} function based on the interactions with the UI.
+The state and operations of this menu is managed by the main Elmish application.
 
+To the right side of the menu we see the movable canvas, displaying canvas elements for the selected page.
+On the top of the canvas we can see a panel with three buttons, the first one is used to upload the input data for the page, the second one is used to download the generated JavaScript source code for the created page,
+and the third button is used to preview the generated JavaScript code for the page.
+The canvas elements are draggable and some are also resizable.
+The state and operations of the canvas and its content is managed by the individual PageEditor applications.
+
+\subsubsection{Canvas elements}
+\begin{itemize}
+	\item \textbf{ModelElement:} Displays the uploaded data. Each field is collapsible and also shows the type of the field. We an example of this element in Figure~\ref{fig:model-menu}.
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.35\textwidth]{img/json-menu.pdf}
+		      \end{center}
+		      \caption{The canvas ModelElement showing a preview of the uploaded JSON data.}\label{fig:model-menu}
+	      \end{figure}
+
+	\item \textbf{FunctionsElement:} Provides options to create, delete and modify custom functions. It also provides an editor window to write the function implementation. We see the element displayed in Figure~\ref{fig:functions-menu}.
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.7\textwidth]{img/function-menu.pdf}
+		      \end{center}
+		      \caption{The canvas FunctionsElement }\label{fig:functions-menu}
+	      \end{figure}
+	\item \textbf{MessageAndUpdateElement:} Allows the user to create new messages and modify the update function's modification of the model.
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.7\textwidth]{img/message-menu.pdf}
+		      \end{center}
+		      \caption{The canvas MessageAndUpdateElement.}\label{fig:message-menu}
+	      \end{figure}
+	\item \textbf{ViewElement:} A resizable element displaying a preview of the created UI elements alongside modification menus described in Chapter\ref{chap:corelogic} for each element. Also serves as a preview window of the running application.
+	      \begin{figure}[htbp]
+		      \begin{center}
+			      \includegraphics[width=0.7\textwidth]{img/view-menu.pdf}
+		      \end{center}
+		      \caption{The canvas ViewElement.}\label{fig:view-menu}
+	      \end{figure}
+\end{itemize}
+
+
+\medskip
 \subsection{Custom Rendering}
 
 To implement the Low-code approach described in Chapter~\ref{chap:design} combined with the Data-driven approach described in Chapter~\ref{chap:corelogic},
 we define a \emph{Higher-order} recursive function named \emph{renderingCodeToReactElement}.
-This function performs the simultaneous traversal of the RenderingCode and JSON ASTs described in Chapter~\ref{chap:corelogic}.
-
-The arguments of the \emph{renderingCodeToReactElement} function are the following:
-\begin{itemize}
-	\item \emph{code}: The RenderingCode to be rendered
-	\item \emph{path}: The current path in the RenderingCode AST
-	\item \emph{json}: The corresponding JSON data
-	\item \emph{name}: A string identifier for the current element corresponding to a JSON field of the same path
-	\item \emph{dispatch}: A function to dispatch messages to the Elmish update function
-\end{itemize}
+This function performs the simultaneous traversal of the \emph{RenderingCode} and JSON ASTs described in Chapter~\ref{chap:corelogic}.
+This function provides the main functionality of our implementation and effectively combines the functionality from the \emph{Core logic} module,
+with the low-code approach.
+It is used by the previously described \emph{ViewElement}.
 
 The function recursively traverses the RenderingCode AST, matching each type of RenderingCode to its appropriate rendering function.
 We then define a rendering function for each type of RenderingCode.
 Each rendering function combines the RenderingCode structure with the corresponding JSON data to create a preview of the element.
-The function also interweaves option menus with the rendered elements when, allowing for editing of the rendered structure.
+The function also interweaves option menus with the rendered elements, allowing for editing of the rendered structure.
 Error handling is implemented throughout the rendering process to handle mismatches between the RenderingCode and JSON structures.
 
-This function provides the main functionality of our implementation and effectively combines the functionality from the Core logic module,
-with the low-code approach.
+The function takes two arguments, the current RenderingCode node and \emph{RenderingContext}.
+The RenderingContext type provides information necessary for correctly rendering the preview of the RenderingCode and the modification menu.
+We define the RenderingContext type as seen in Program~\ref{fig:renderingContext}.
+\begin{listing}[htpb]
+	\begin{lstlisting}
+type RenderContext<'Msg> = {
+    Options:
+        ('Msg -> unit)
+            -> RenderingCode
+            -> list<int>
+            -> string
+            -> Map<string, Javascript>
+            -> UserMessage list
+            -> ReactElement
+    Dispatch: 'Msg -> unit
+    Json: Json
+    Path: int list
+    Name: string
+    CustomFunctions: Map<string, Javascript>
+    ShowOptions: bool
+    UserMessages: UserMessage list
+}
+      \end{lstlisting}
+	\caption{The RenderingContext type definition.}\label{fig:renderingContext}
+\end{listing}
 
+
+\clearpage
 \subsection{Code generation}
 
 One of our core design principles, as outlined in Chapter~\ref{chap:design},
 is the ability to generate a textual representation of the created application.
+We define a recursive function named \emph{generateJavaScript} to implement this functionality.
+It generates a complete JavaScript application using the \citet{elm-arch}, transforming RenderingCode into client-side JavaScript code.
 
-To implement this functionality, we define a recursive function named \emph{generateHtml}.
-This function operates in a manner similar to the \emph{renderingCodeToReactElement} function described in the previous section,
-performing a simultaneous traversal of the RenderingCode and JSON ASTs as detailed in Chapter~\ref{chap:corelogic}.
+As the user uploads the JSON data in its text representation to the application, we can directly use it.
+We create the \emph{Model} type, equal to the uploaded JSON and representing the application's state.
+This then allows us to reference this model and also change the state.
 
-For each type of RenderingCode, the function generates appropriate HTML:
+The \emph{view} functions are generated using a recursive function called \emph{generateView}.
+This function operates like the \emph{renderingCodeToReactElement} function described in the previous section,
+performing a traversal of the RenderingCode ASTs.
+For each type of RenderingCode, the function generates the appropriate JavaScript code:
 \begin{itemize}
-	\item \texttt{HtmlElement} is translated into its corresponding HTML element
-	\item \texttt{HtmlList} generates HTML lists based on the list type
-	\item \texttt{HtmlObject} creates a structured representation of the object based on its properties and object type
-	\item \texttt{Hole} elements are represented as comments in the generated HTML, maintaining the structure for potential future updates
+	\item \texttt{HtmlElement} is translated into its corresponding HTML element, attributes, and event handlers.
+	\item \texttt{HtmlList} generates Javascript code to dynamically render the list elements, the attributes of the list, and its event handlers.
+	\item \texttt{HtmlObject} is translated to its corresponding HTML representation based on the selected \emph{ObjType}, along with its attributes and event handlers.
+	\item \texttt{Hole} elements are represented as comments in the generated HTML, maintaining the structure for potential future updates.
 \end{itemize}
+\noindent A key feature of this function is its ability to automatically populate the generated HTML elements with the corresponding reference to the JSON data,
+ensuring that the textual representation accurately reflects the created application's structure and content.
+The references to the JSON data are created dynamically by creating a ``path'' of the field names during the traversal, which then accurately reflects the structure of the \emph{Model}.
 
-A key feature of this function is its ability to automatically populate the generated HTML elements with the corresponding JSON data,
-ensuring that the textual representation accurately reflects both the structure and content of the created application.
+As the user can create custom \emph{messages}, we generate the \emph{Msg} object, which holds the created messages.
+The \emph{update} function is generated as a JavaScript function and takes three arguments, the \emph{Msg}, the event that triggered the dispatching of this message, and the current application's state.
+The function consists of a JavaScript \emph{switch statement}, where each case corresponds to a specific message.
+The body of the cases is specified by the user and inserted without change.
 
-The generated HTML is formatted with proper indentation for readability,
-making it easier for developers to understand and potentially modify the code outside of the low-code environment.
-This approach not only facilitates the transition from low-code to traditional development when necessary but also promotes transparency in the development process.
+The \emph{startApplications} function is generated the same way for all applications implemented using the \emph{InterfaceSmith} system.
+It sets the model's value to the input data, provides re-rendering functionality, and creates a dispatch function, which calls the \emph{update} function when a specific UI event is triggered.
+We see the function along the other parts of the application in Program~\ref{fig:code-generation}.
+The result is then inserted into a script HTML element inside an HTML project template.
 
+\begin{listing}[H]
+	\begin{lstlisting}
+const Msg = {
+  MsgExample: "MsgExample",
+};
+
+const model = {
+  value : 0
+};
+
+const update = (msg, event, model) => {
+  switch (msg) {
+    case Msg.MsgExample:
+      return { ...model };
+    default:
+      return model;
+  }
+};
+
+const view = (model, dispatch) => `
+<div  >
+<label  >${model.value}</label>
+</div>`;
+
+function startApplication(initialModel, updateFunction, viewFunction) {
+  let currentModel = initialModel;
+  const render = () => {
+    const root = document.getElementById("app");
+    root.innerHTML = viewFunction(currentModel, dispatch);
+  };
+  window.dispatch = (msg, event) => {
+    currentModel = updateFunction(msg, event, currentModel);
+    render();
+  };
+  render();
+}
+
+startApplication(model, update, view);
+	\end{lstlisting}
+	\caption{An example Elm-style application generated by the \emph{InterfaceSmith} system.}\label{fig:code-generation}
+\end{listing}
+
+
+\clearpage
 \section{Building and Deployment}
 \label{sec:build}
-Now that we have described the implementation of the \emph{Data-driven UI} system, we must describe how the application is built and deployed.
+Now that we have described the implementation of the \emph{InterfaceSmith} system, we must describe how the application is built and deployed.
 As we mentioned in Section~\ref{sec:technologies}, we use the \emph{Build} project provided by the \citet{safestack} template.
 The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building
 the \emph{Shared} and \emph{Server} projects, as our programming system only consists of a client-side application.
-
+\medskip
 \subsection{Build Tools and Libraries}
-The SAFE stack \emph{Build} project eploys different specialized tools to make building F\# application easier.
+The SAFE stack \emph{Build} project employs different specialized tools to make building F\# application easier.
 The two main tools used by the \emph{Build} project are the following:
 \begin{itemize}
 	\item \textbf{FAKE (F\# Make):} A build automation tool for projects written in F\#, used to define build targets and their individual build steps.
@@ -400,15 +510,16 @@ The two main tools used by the \emph{Build} project are the following:
 
 The pre-requisites are needed to build the application:
 \begin{itemize}
-	\item \textbf{.NET Core SDK}
+	\item \textbf{.NET Core SDK 8}
 	\item \textbf{Node 20}
 \end{itemize}
 
+\medskip
 \subsection{Build targets}
 The \emph{Build} project provides multiple different build targets.
 Each provides a different build result and comprises a different sequence of build steps.
 
-The \emph{Build} project defines the follwing targets:
+The \emph{Build} project defines the following targets:
 \begin{itemize}
 	\item \textbf{Run:} Configuration for running a local development server with HMR capabilities.
 	      Uses the Fable compiler to compile the source code into JavaScript and uses Vite to run the development server.
@@ -418,13 +529,14 @@ The \emph{Build} project defines the follwing targets:
 	\item \textbf{RunTests:} Configuration for running the unit tests.
 	\item \textbf{Format:} Uses the \emph{Fantomas} F\# code formatter, to format the source code.
 \end{itemize}
+
 In order to build a specific target, we use the following command:
 \begin{lstlisting}[language=bash]
   dotnet run [Target] 
 \end{lstlisting}
 It consists of the \emph{dotnet run} command, followed by the name of the target we wish to build.
 It is important to mention, that the target names are case-sensitive.
-
+\medskip
 \subsection{Deployment}
 We provide a deployment solution in a form of a \texttt{Dockerfile}.
 To run or deploy the \emph{Data-driven UI} docker image, we must first build it using the following command inside the root of the project:
@@ -432,20 +544,20 @@ To run or deploy the \emph{Data-driven UI} docker image, we must first build it 
   docker build -t data-driven-ui .  
 \end{lstlisting}
 
-After the build process is finished, we can run the docker container by running the following command:
-
+After the build process is finished, we can run the docker container by running the following command which starts the docker image and makes the application accessible on port 8080:
 \begin{lstlisting}[language=bash]
    docker run -p 8080:80 data-driven-ui  
 \end{lstlisting}
 
+\medskip
 \section{Testing}
 \label{sec:testing}
-To decide if the implemented operations perform as expected, we decided to create a separate project named \emph{Tests}.
+To ensure that the implemented operations perform as expected, we decided to create a separate project named \emph{Tests}.
 We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and the code generation capability from the \emph{CoreLogic.Operations.CodeGeneration} module.
 
 We use the testing library named \citet{mocha}, which provides useful tools to implement the testing functionality.
 It provides a browser-based testing environment with a graphical user interface displaying the individual test cases and their results.
-It also allows composing related \emph{test cases} into \emph{test lists}, improving the readability and maintainablity of the tests.
+It also allows composing related \emph{test cases} into \emph{test lists}, improving the readability and maintainability of the tests.
 
 The structure of the individual test cases follows the \emph{Arange Act Assert} (AAA) unit test pattern.
 It involves preparing the required data, then performing some operation using this data, and then asserting that the operation has the expected result.

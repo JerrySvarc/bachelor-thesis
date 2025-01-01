@@ -200,7 +200,7 @@ const Msg = {
   CompleteAll: "CompleteAll",
 };
 
-const model = {
+const Model = {
   InputField: "",
   AddTodo: "Add todo",
   Todos: [
@@ -318,7 +318,7 @@ const Msg = {
   Increment: "Increment",
 };
 
-const model = {
+const Model = {
   Count: 0,
   incrementButton: "Increment counter",
 };
@@ -342,7 +342,7 @@ const view = (model, dispatch) => `
 <button  onClick="window.dispatch(Msg.Increment, event)">${model.incrementButton}</button>
 </div>`;
 
-function init(initialModel, updateFunction, viewFunction) {
+function startApplication(initialModel, updateFunction, viewFunction) {
   let currentModel = initialModel;
   const render = () => {
     const root = document.getElementById("app");
@@ -355,7 +355,7 @@ function init(initialModel, updateFunction, viewFunction) {
   render();
 }
 
-init(model, update, view);
+startApplication(model, update, view);
 \end{lstlisting}
 \end{listing}
 
@@ -477,7 +477,7 @@ const Msg = {
   UpdateFahrenheit: "UpdateFahrenheit",
 };
 
-const model = {
+const Model = {
   Celsius: "",
   CelsiusLabel: "Celsius = ",
   Fahrenheit: "",
@@ -493,7 +493,7 @@ const view = (
 <input value="${model.Fahrenheit}" onChange="window.dispatch(Msg.UpdateFahrenheit, event)" />
 <label  >${model.FahrenheitLabel}</label></div>`;
 
-function init(initialModel, updateFunction, viewFunction) {
+function startApplication(initialModel, updateFunction, viewFunction) {
   let currentModel = initialModel;
   const render = () => {
     const root = document.getElementById("app");
@@ -506,7 +506,7 @@ function init(initialModel, updateFunction, viewFunction) {
   render();
 }
 
-init(model, update, view);
+startApplication(model, update, view);
 \end{lstlisting}
 \end{listing}
 
