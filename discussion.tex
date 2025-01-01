@@ -21,18 +21,18 @@ Some of the common benefits and limitations of existing low-code programming sys
 \noindent In this chapter, we will critically evaluate our work and describe its benefits, limitations, and potential avenues for future research.
 We will separate the limitations of the data-driven low-code UI creation from the limitations of our \emph{InterfaceSmith} programming system as to
 better evaluate the potential feasibility of the approach itself.
-
+\medskip
 \section{Evaluation of the approach}
 This section evaluates the data-driven low-code approach and discusses its positive and negative aspects, separate from our \emph{InterfaceSmith} programming system.
 
 \subsection{Benefits of the approach}
 
-Our work identifies several benefits of the Data-driven Low-code approach to creating client-side web applications.
+Our work identifies several benefits of the data-driven low-code approach to creating client-side web applications.
 Each benefit directly results from our specific design principles described in Chapter~\ref{chap:design}.
 The described benefits may serve as a motivation to implement new systems employing our described approach or incorporate our approach into existing systems.
 The main benefits are the following:
 \begin{enumerate}
-	\item \textbf{Guided UI element creation:} The Data-driven Hole-based approach allows for a guided process of creating the desired UI elements.
+	\item \textbf{Guided UI element creation:} The data-driven hole-based approach allows for a guided process of creating the desired UI elements.
 	      The input data inspires the created elements and their resulting structure.
 	      This process relieves the cognitive load associated with creating UI elements from scratch, as the system automatically creates the right type
 	      of element and places it at the correct place in the internal representation of UI elements.
@@ -48,7 +48,7 @@ The main benefits are the following:
 	      Another issue our approach mitigates is the lack of interoperability with other existing systems.
 	      Our system accepts input data in a widely used JSON format.
 	      The programming system can then be used alongside existing systems, mainly those focused on data manipulation and retrieval.
-	      An example of a programming system that could achieve a perfect synergy with systems implementing our approach is \citet{graphql}.
+	      An example of a programming system that could achieve a synergy with systems implementing our approach is \citet{graphql}.
 
 	      Another aspect of our approach that improves interoperability is the ability to generate a textual representation of the created program using a standard representation, which allows the use of other tools that accept the standard representation.
 \end{enumerate}
@@ -84,6 +84,7 @@ The potential limitations are the following:
 
 \end{enumerate}
 
+\medskip
 \section{Evaluation of the implementation}
 
 In Chapter~\ref{chap:implementation}, we described the implementation of our \emph{InterfaceSmith} programming system.
@@ -111,7 +112,6 @@ The key positive aspects are as follows:
 \end{enumerate}
 
 
-
 \subsection{Limitations of the implementation}
 While the Data-driven UI system demonstrates the potential of our approach,
 the prototype implementation has several limitations that should be addressed by future research:
@@ -134,13 +134,12 @@ These limitations primarily stem from the prototype nature of the implementation
 
 \clearpage
 \section{Future work}
-In this thesis, we explored the data-driven low-code approach to creating client-side web applications.
-However, there are several areas where further research and development could significantly enhance the capabilities and applicability of this approach:
+There are several areas where further research and development could significantly enhance the capabilities and applicability of this approach and the functionality of the \emph{InterfaceSmith} programming system:
 \begin{enumerate}
 	\item \textbf{Empirical user studies:} Conducting comprehensive user studies to evaluate the effectiveness of this approach compared to traditional development methods and other low-code platforms would provide valuable insights for further improvement.
 	\item \textbf{Solving the issue of rigid element structure:} Research focusing on the issue of strong coupling between the representations of UI elements and input data could enhance the overall functionality of the approach.
 	\item \textbf{Improved handling of complex data structures:} Research into more efficient algorithms for traversing and rendering large or deeply nested data structures could improve the system's performance and usability.
-	\item \textbf{Expanded UI component library:} Developing a more comprehensive set of UI components and patterns would increase the system's versatility.
+	\item \textbf{Expanded UI modification support:} Developing a more comprehensive set of UI modification options would improve the system's versatility.
 	\item \textbf{Modification of behavior through a low-code interface:} In our implementation, defining custom behavior of elements involves writing code in JavaScript.
 	      Future research could focus on defining and implementing comprehensive low-code interface for implementing the custom behavior without the need to write code.
 	\item \textbf{Combining data-driven low-code programming with other approaches:} Combining our approach with other existing approaches, such as \emph{output-directed-programming}\cite{output-directed-programming}, could improve the functionality of the overall system.

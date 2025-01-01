@@ -1,5 +1,35 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
+This thesis explored the \emph{data-driven} approach to creating UI elements using a \emph{low-code} interface, specifically in creating client-side web applications.
+At the beginning of this thesis, we defined three main \emph{goals} as follows:
+\begin{enumerate}
+	\item Explore the applicability of the low-code programming approach coupled with the data-driven approach to creating UI elements of web applications.
+	\item Create a working prototype programming system named the \emph{InterfaceSmith} implementing the data-driven approach according to the design principles.
+	\item Benchmark the prototype programming system on three different tasks and analyze the results based on whether the particular tasks can be implemented and how many lines of code we need to write to implement all specified functionality.
+\end{enumerate}
+
+\noindent To fulfill our first goal, we described several existing systems employing the low-code approach and also systems that combined it with other programming approaches to enhance the development experience, such as \emph{Sketch-and-sketch}\cite{sketch-and-sketch}.
+We provided two different definitions of the data-driven approach in Chapter~\ref{chap:design}, both of which apply to the approach we explored in this thesis.
+To provide theoretical background behind the data-driven UI element creation, we defined the \emph{Hole-based} approach, the mapping between the input data and our internal representation of the UI elements called a \emph{RenderingCode},
+and important operations on the RenderingCode type.
+
+To fulfill our second goal, we created a working prototype programming system called the \emph{InterfaceSmith}.
+The system was implemented according to the design principles in Chapter~\ref{chap:design}, provides a low-code interface and data-driven UI creation functionality, and generates a textual representation of the created application.
+The resulting application's textual representation is generated as a pure JavaScript application using the \citet{elm-arch}.
+
+We benchmarked the application on the three tasks we chose at the beginning of the thesis.
+The tasks were a simple \emph{TO-DO list} application inspired by the \citet{TodoMVC}, and the \emph{Counter} and \emph{Temperature Converter} tasks from the \citet{7GUIs-web}.
+We successfully implemented all three tasks according to their specification using the \emph{InterfaceSmith} programming system.
+We analyzed the amount of code needed to implement the \emph{Counter} and \emph{Temperature Converter} tasks according to their specifications, compared to their referential solutions.
+We saw that we needed to write less LOC than the referential solution for the two tasks while providing the same resulting functionality.
+
+
+The positive aspects of the system we noticed during the benchmarking phase were the high speed with which we could create the UI elements based on the input data, the live preview of the created elements the system provides, and the code generation capability.
+The system's negative aspects include the inability to create new UI elements for which no corresponding input data field exists, potential sub-optimal performance for large input data, and limited availability of UI element modification options.
+
+We successfully fulfilled the goals of our thesis and believe this work provides a stepping stone for further research in low-code data-driven development.
+
+
 
 

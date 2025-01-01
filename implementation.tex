@@ -237,17 +237,17 @@ We divide the implementation into the following sub-modules:
 \end{figure}
 \medskip
 \subsubsection{Editor module}
-The Editor module is the second main module of the \emph{Data-driven UI's} implementation.
+The Editor module is the second main module of the \emph{InterfaceSmith's} implementation.
 It is responsible for implementing the~programming system's UI, state management, and functionality.
 
 As our main implementation unit, we selected a
 Figure~\ref{fig:editor-module-structure} illustrates the module's structure, and we describe the implementation in greater detail in the following sections.
 We divide the module into the following sub-modules:
 \begin{itemize}
-	\item \textbf{Types:} This module defines the core data structures that represent the state and operations of our Elmish-style application, as detailed in Section~\ref{sub:elmish}.
+	\item \textbf{Types:} This module defines the core data structures that represent the state and operations of our Elmish applications, as detailed in Section~\ref{sub:elmish}.
 	      \begin{itemize}
 		      \item \textbf{EditorDomain:} Definition of the domain types that represent the internal state of the entire application.
-		      \item \textbf{PageEditorDomain:} Defines specialized domain types focused on representing the \emph{Page Editor} elmish-style sub-application.
+		      \item \textbf{PageEditorDomain:} Defines specialized domain types focused on representing the \emph{PageEditor} Elmish application.
 	      \end{itemize}
 
 	\item \textbf{Utilities:} Provides a collection of helper functions that support various aspects of the application:
@@ -264,7 +264,7 @@ We divide the module into the following sub-modules:
 		      \item \textbf{ElementComponents:} Implementation of the draggable canvas elements.
 		      \item \textbf{OptionsComponents:} Provides components serving as context menus to allow editing functionality for the individual RenderingCode elements.
 		      \item \textbf{EditorComponents:} Provides a set of components that deliver general editor functionality, such as a collapsable side menu showing the created pages.
-		      \item \textbf{PageEditorComponents:} Implements the \emph{Page Editor} elmish-style sub-application used for editing a \emph{Page}.
+		      \item \textbf{PageEditorComponents:} Implements the \emph{PageEditor} Elmish application used for editing a specific \emph{Page}.
 	      \end{itemize}
 	\item \textbf{CustomRendering:} Implements dynamically rendering previews of the RenderingCode AST, together with interactive modification menus, and the rendering of the canvas elements.
 \end{itemize}
