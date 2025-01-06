@@ -48,8 +48,8 @@
 }
 
 % Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
-\def\Abstract{%
-	Software development using low-code programming systems is increasingly popular. Traditional low-code development systems that provide UI creation functionality primarily follow a UI-to-data approach where developers create user interface elements before populating them with data. However, the data-to-UI approach, where the development process begins with concrete data that drives the creation of corresponding UI elements, remains unexplored as a primary development method. We present the InterfaceSmith prototype programming system, which implements data-to-UI as a primary development method for creating web applications' UI elements. We demonstrate how this data-driven approach enables incremental UI creation through a hole-based approach where UI elements are created based on the provided data's type and structure. The system creates a UI skeleton using holes as placeholders that developers can incrementally replace with automatically generated UI elements based on the underlying data structure. The system aims to aid developers in modifying the interface through context menus and generates applications following the Elm architecture. Our evaluation through benchmarks, including a TODO list application and tasks from the 7GUIs benchmark suite, demonstrates the system's effectiveness in reducing the amount of code developers need to write while maintaining the ability to implement custom web application functionality.
+\def\Abstract{
+	Software development using low-code programming systems is increasingly popular. Traditional low-code development systems that provide UI creation functionality primarily provide the UI-to-data approach, where developers create user interface elements before populating them with data. However, the data-to-UI approach, where the development process begins with concrete data that drives the creation of corresponding UI elements, remains unexplored as a primary development method. We present the InterfaceSmith prototype programming system, which implements data-to-UI as the primary development method for creating web applications' UI elements. We demonstrate how this data-driven approach enables incremental UI creation through a hole-based approach, where the system creates a UI skeleton using holes as placeholders that developers can incrementally replace with automatically generated UI elements based on the underlying data. The system aims to aid developers in modifying the interface through context menus and generates applications following the Elm architecture. Our evaluation through benchmarks, including a TO-DO list application and tasks from the 7GUIs benchmark suite, demonstrates the system's effectiveness in reducing the amount of code developers need to write while maintaining the ability to implement custom web application functionality.
 }
 
 % 3 to 5 keywords (recommended) separated by \sep
@@ -67,12 +67,11 @@
 
 % If your abstracts are long and do not fit in the infopage, you can make the
 % fonts a bit smaller by this setting. (Also, you should try to compress your abstract more.)
-\def\InfoPageFont{}
-%\def\InfoPageFont{\small}  % uncomment to decrease font size
+%\def\InfoPageFont{}
+\def\InfoPageFont{\small}  % uncomment to decrease font size
 
 % If you are studing in a Czech programme, you also need to provide metadata in Czech:
 % (in English programmes, this is not used anywhere)
-
 \def\ThesisTitleCS{Data-driven low-code programming system}
 \def\DepartmentCS{Katedra distribuovaných a spolehlivých systémů}
 \def\DeptTypeCS{Katedra}
@@ -83,5 +82,5 @@
 	low-code programování\sep vývojové nástroje\sep datově řízené programování}
 
 \def\AbstractCS{%
-	\xxx{}
+	Vývoj softwaru pomocí systémů, které minimalizují potřebu psaní velkého množství kódu (low-code), roste na popularitě. Tradiční low-code vývojové systémy obvykle umožňují vytvářet uživatelské rozhraní prostřednictvím přístupu „UI-to-data“, kdy vývojáři nejprve navrhnou prvky uživatelského rozhraní, které jsou následně naplněny daty. Oproti tomu přístup „data-to-UI“, při kterém vývoj začíná konkrétními daty a ta určují podobu odpovídajících prvků uživatelského rozhraní, zůstává jako hlavní metoda vývoje dosud málo prozkoumána. V této práci představujeme prototyp programovacího systému jménem InterfaceSmith, který implementuje přístup „data-to-UI“ jako hlavní metodu pro návrh uživatelských rozhraní webových aplikací. Tento přístup umožňuje postupné vytváření uživatelského rozhraní prostřednictvím konceptu „děr“ (holes), které slouží jako zástupné prvky. Ty mohou vývojáři postupně nahrazovat automaticky generovanými komponentami uživatelského rozhraní na základě dostupných dat. Systém si dává za cíl usnadnit úpravy rozhraní pomocí kontextových menu a umožnit generování aplikací podle architektury Elm. Testování systému na několika benchmarcích, jako je aplikace typu TO-DO list a úlohy z benchmarkové sady 7GUIs, demonstruje jeho schopnost snížit množství kódu, které vývojáři musí psát, aniž by tím byla omezena možnost implementace vlastní funkcionality webových aplikací.
 }
