@@ -7,7 +7,7 @@ This chapter describes the data-driven UI creation feature of the \emph{Interfac
 Firstly, we describe the \emph{hole-based approach to creating UI elements}, which allows users to create new UI elements based on existing data dynamically.
 After that, we describe the \emph{domain model}, mainly the internal representation of the UI elements and necessary operations on these types.
 We then describe mapping the input data types to specific types representing the UI elements.
-Lastly, we describe how the system combines the input data and UI elements, provides options for creating and modifying the UI elements, and showcase how .
+Lastly, we describe how the system combines the input data and UI elements, provides options for creating and modifying the UI elements, and showcase the creation of a simle TO-DO list UI elements.
 All code examples shown in this chapter are written in the F\#\cite{fsharp} programming language.
 
 \section{Hole-based UI element creation}
@@ -93,7 +93,7 @@ type Json =
 \end{listing}
 
 \subsection{RenderingCode Type}
-To facilitate the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
+To enable the creation of UI elements based on the JSON type, we define a type named \emph{RenderingCode}.
 The \emph{RenderingCode} is a discriminated union type used to represent the UI elements.
 Similarly to the JSON type, each case represents a type of an HTML element with a corresponding mapping to the JSON type.
 This type is the foundation for the \emph{Abstract Syntax Tree} representation of UI elements.
@@ -145,7 +145,7 @@ and Attributes = Attribute list
 
 Each HTML element can contain several associated attributes, and different types of HTML elements allow the use of unique attributes, such as the \emph{type} attribute for the \emph{input} HTML element.
 Our editor allows the definition and modification of these attributes through a low-code interface we see in Figure~\ref{fig:attrs-menu}.
-The user can create an attribute of a particular key and modify the value by selecting the innerValue case type they wish to use.
+The user can create an attribute of a particular key and modify the value by selecting the InnerValue case type they wish to use.
 
 \begin{figure}[htbp]
 	\begin{center}
@@ -163,14 +163,14 @@ Each \emph{EventHandler} consists of the name of a \emph{function} or an \emph{e
 	\caption{EventHandler type definition}
 	\label{fig:handlers-type}
 	\begin{lstlisting}
-and EventHandler =
+type EventHandler =
     | JsHandler of functionName: string
     | MsgHandler of the message: string
   \end{lstlisting}
 \end{listing}
 
 We see the menu for assigning the event handling functionality to UI elements in Figure~\ref{fig:handler-menu}.
-It provides options to select an \emph{event} and assign a corresponding handler and also indicates whether the selected handler is a JavaScript function or an elmish-style message.
+It provides options to select an \emph{event} and assign a corresponding handler and also indicates whether the selected handler is a JavaScript function or an Elm-style message.
 \begin{figure}[H]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{img/handler-menu.pdf}
@@ -241,10 +241,10 @@ let recognizeJson (json) =
     match json with
     | JArray array -> 
         //create a hole for each element of the array
-        HtmlList containing the holes as elements
+        //return a HtmlList containing the holes as elements
     | JObject obj ->
         //create a Hole for each element of the object 
-        HtmlObject containing the holes as elements
+        //return a HtmlObject containing the holes as elements
     | JNull -> Hole(UnNamed)
     | _ -> HtmlElement 
   \end{lstlisting}

@@ -140,7 +140,7 @@ The main categories of the PageEditor messages are:
 	\begin{lstlisting}
 type PageEditorModel = {
     PageData: Page
-    FileUploadError: bool
+    FileUploadError: FileValidationError option
     ViewportPosition: Position
     Scale: float
     Elements: Element list
@@ -148,9 +148,10 @@ type PageEditorModel = {
     IsPanning: bool
     LastMousePosition: Position option
     IsPreviewOpen: bool
+    IsCodeViewOpen: bool
     ContextMenuVisible: bool
     ContextMenuPosition: Position option
-}    
+}
   \end{lstlisting}
 \end{listing}
 \medskip
@@ -252,10 +253,10 @@ We divide the module into the following sub-modules:
 
 	\item \textbf{Utilities:} Provides a collection of helper functions that support various aspects of the application:
 	      \begin{itemize}
-		      \item \textbf{Icons:}Icon importing and management.
-		      \item \textbf{FileUpload:}File Upload handling and processing.
-		      \item \textbf{JsonParsing:}JSON data parsing and serialization, leveraging the \citet{simpleJson} library.
-		      \item \textbf{JavaScriptEditor:}Importing the libraries necessary to use the Codemirror editor component.
+		      \item \textbf{Icons:} Icon importing and management.
+		      \item \textbf{FileUtilities:} File IO operations.
+		      \item \textbf{JsonParsing:} JSON data parsing and serialization, leveraging the \citet{simpleJson} library.
+		      \item \textbf{JavaScriptEditor:} Importing the libraries necessary to use the Codemirror editor component.
 	      \end{itemize}
 
 
@@ -498,6 +499,65 @@ Now that we have described the implementation of the \emph{InterfaceSmith} syste
 As we mentioned in Section~\ref{sec:technologies}, we use the \emph{Build} project provided by the \citet{safestack} template.
 The original SAFE stack \emph{Build} project supports building \emph{full-stack} applications written in F\#, and we modified it to remove the support for building
 the \emph{Shared} and \emph{Server} projects, as our programming system only consists of a client-side application.
+
+\medskip
+\subsection{Installation and Usage}
+To install the InterfaceSmith prototype system we provide two main options.
+The first option is to use the provided pre-built Docker container.
+The second option is to build the container using the provided \emph{Dockerfile}.
+After deployment, the system provides two endpoints:
+\begin{itemize}
+	\item The InterfaceSmith editor available at:
+	      \begin{lstlisting}
+      localhost:8080
+    \end{lstlisting}
+	\item User and developer documentation available at:
+	      \begin{lstlisting}
+      localhost:8082
+    \end{lstlisting}
+\end{itemize}
+\subsubsection{Using Pre-built Docker Image}
+
+The recommended way to run the InterfaceSmith system is by using the pre-built \emph{Docker} image, as it avoids the lengthy process of downloading dependencies and compiling the application.
+The only prerequisite is to have Docker installed and running.
+
+To start the InterfaceSmith using the pre-built image:
+\begin{lstlisting}[language=bash]
+docker load < interfacesmith.tar
+docker run -p 8080:8080 -p 8082:8082 --name interfacesmith 
+\end{lstlisting}
+
+\subsubsection{Building from Source}
+
+Alternatively, the system can be built from source using the following commands:
+\begin{lstlisting}[language=bash]
+cd InterfaceSmith
+docker build -t interfacesmith .
+docker run -p 8080:8080 -p 8082:8082 --name interfacesmith
+\end{lstlisting}
+
+
+\medskip
+\subsection{Development Environment}
+
+For development purposes, we use the \emph{Nix package manager}~\cite{Nix} to provide a reproducible development environment. The only prerequisite for development is to have the
+Nix package manager installed and the experimental \emph{Nix flakes} enabled.
+
+To set up the development environment enter the root of the source repository and enter the following set of commands:
+\begin{lstlisting}[language=bash]
+nix develop
+dotnet tool restore
+dotnet paket restore
+\end{lstlisting}
+
+\noindent The Nix development shell provides all required dependencies:
+\begin{itemize}
+	\item .NET SDK 8
+	\item Node.js 20
+	\item Python with mkdocs
+	\item Other development dependencies
+\end{itemize}
+
 \medskip
 \subsection{Build Tools and Libraries}
 The SAFE stack \emph{Build} project employs different specialized tools to make building F\# application easier.
@@ -508,7 +568,7 @@ The two main tools used by the \emph{Build} project are the following:
 \end{itemize}
 
 
-The pre-requisites are needed to build the application:
+\noindent The pre-requisites are needed to build the application:
 \begin{itemize}
 	\item \textbf{.NET Core SDK 8}
 	\item \textbf{Node 20}
@@ -526,28 +586,20 @@ The \emph{Build} project defines the following targets:
 	\item \textbf{Bundle:} Target used for bundling of the application for deployment.
 	      Uses the Fable compiler to compile the source code into JavaScript and uses Vite to
 	      bundle and optimize the application assets, including the JavaScript program, CSS, and static files.
-	\item \textbf{RunTests:} Configuration for running the unit tests.
+	\item \textbf{RunTests:} Configuration for running the unit tests which are then available at:
+	      \begin{lstlisting}
+      localhost:8081
+    \end{lstlisting}
 	\item \textbf{Format:} Uses the \emph{Fantomas} F\# code formatter, to format the source code.
+	\item \textbf{BuildDocs:} Builds the documentation.
 \end{itemize}
 
-In order to build a specific target, we use the following command:
+\noindent In order to build a specific target, we use the following command:
 \begin{lstlisting}[language=bash]
   dotnet run [Target] 
 \end{lstlisting}
 It consists of the \emph{dotnet run} command, followed by the name of the target we wish to build.
 It is important to mention, that the target names are case-sensitive.
-\medskip
-\subsection{Deployment}
-We provide a deployment solution in a form of a \texttt{Dockerfile}.
-To run or deploy the \emph{Data-driven UI} docker image, we must first build it using the following command inside the root of the project:
-\begin{lstlisting}[language=bash]
-  docker build -t data-driven-ui .  
-\end{lstlisting}
-
-After the build process is finished, we can run the docker container by running the following command which starts the docker image and makes the application accessible on port 8080:
-\begin{lstlisting}[language=bash]
-   docker run -p 8080:80 data-driven-ui  
-\end{lstlisting}
 
 \medskip
 \section{Testing}

@@ -30,7 +30,7 @@ Lastly, we will analyze the number of lines of code written.
 
 
 \section{TO-DO list application}
-The first task is creating a simple TODO list application inspired by the \citet{TodoMVC} benchmark.
+The first task is creating a simple TO-DO list application inspired by the \citet{TodoMVC} benchmark.
 As our prototype system focuses mainly on exploring the data-driven UI creation and provides limited options for modifying the application's functionality,
 we will implement a subset of the functionality specified by the \citet{todo-spec}.
 As we will implement a subset of the specified functionality, we will not compare the resulting number of LOC to any referential solution.
@@ -248,11 +248,10 @@ We now analyze the Number of LOCs needed to implement the Counter task using our
 
 
 
-
-
 \clearpage
 \section{Counter Task (7GUIs)}
-The Counter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing a label or read-only text field T and a button B. Initially, the value in T is “0” and each click of B increases the value in T by one.''
+The Counter task is defined by the \citet{7GUIs-web} as a straightforward task meant to introduce the technology used, its features, and required scaffolding.
+It consists of two UI elements: a button and a current count label. When the button is clicked, the counter's value is incremented by one.
 
 \subsection{Task requirements}
 \subsubsection{UI elements}
@@ -377,9 +376,9 @@ We will now analyze the Number of LOCs needed to implement the Counter task usin
 
 \clearpage
 \section{Temperature Converter Task (7GUIs)}
-Temperature Converter task is defined by the \citet{7GUIs-web} as follows: ``The task is to build a frame containing two textfields $T_C$ and $T_F$ representing the temperature in Celsius and Fahrenheit.
-Initially, both $T_C$ and $T_F$ are empty.
-When the user enters a numerical value into $T_C$ the corresponding value in $T_F$ is automatically updated and vice versa. When the user enters a non-numerical string into $T_C$ the value in $T_F$ is not updated and vice versa.''
+Temperature Converter task is defined by the \citet{7GUIs-web} as a more complicated task, as it requires implementing a \emph{bidirectional data flow} between
+two input elements, and also requires implementing custom validation of user input.
+
 \medskip
 \subsection{Task requirements}
 \subsubsection{UI elements}

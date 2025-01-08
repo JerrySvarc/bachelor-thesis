@@ -10,21 +10,21 @@ Some programming systems allow an alternative approach of \emph{low-code} softwa
 These systems employ an alternative way of creating and modifying the software components by providing a \emph{Graphical User interface (GUI)} and modification tools that aid the user during the creation process.
 The popularity of these systems has been increasing in recent years, as stated by \citet{Sahay_Indamutsa_Di}.
 
-\citet{Sahay_Indamutsa_Di} identify that low-code systems provide two main approaches to creating the \emph{User Interface (UI)} of software applications, and they are \textbf{UI to Data} and \textbf{Data to UI}.
-\emph{UI to Data} involves creating the application's UI and populating it with data, whereas \emph{Data to UI} is a data-driven approach where the UI is created \emph{after} modeling necessary data.
-The \emph{AppForge} programming system presented by~\citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008} provides tools to create user interface elements of web applications and automatically creates corresponding database schema and application logic.
-The system also provides tools to create UI elements based on existing database schemas and custom logic.
-
 Systems such as~\citet{mendix}~or~\citet{darklang} specialize in providing a comprehensive low-code development platform for creating specific components of web applications.
 Other programming systems, such as \emph{Sketch-n-Sketch} presented by~\citet{sketch-and-sketch}, combine the low-code approach
 with other programming techniques, such as \emph{output-directed programming}~\cite{output-directed-programming}, to enhance the system's functionality and development process.
+
+\citet{Sahay_Indamutsa_Di} identify that low-code systems provide two main approaches to creating the \emph{User Interface (UI)} of software applications, and they are \textbf{UI to data} and \textbf{data to UI}.
+\emph{UI to data} involves creating the application's UI and populating it with data, whereas \emph{data to UI} is a data-driven approach where the UI is created \emph{after} modeling necessary data.
+The \emph{AppForge} programming system presented by~\citet{Yang_Gupta_Botev_Churchill_Levchenko_Shanmugasundaram_2008} provides tools to create user interface elements of web applications and automatically creates corresponding database schema and application logic.
+The system also provides tools to create UI elements based on existing database schemas and custom logic, however the \emph{UI to data} approach is still the main development method.
 
 But what if we used the data-to-UI approach as the primary means of creating UI elements of client-side web applications?
 In this thesis, we aim to explore the \emph{data to UI} approach in the context of creating \emph{client-side web applications}, providing an alternative to traditional text-based development methods.
 We will design and implement a \emph{prototype} low-code programming system named \textbf{InterfaceSmith} inspired mainly by the functionality of the \emph{AppForge} programming system.
 The \emph{data to UI} process will be influenced by the \emph{type} of data provided to the system and also its \emph{structure}.
 The application's UI elements will then be created through a sequence of steps, mirroring the structure of the provided data.
-The programming system will then aid the developer in modifying the user interface by providing relevant context menus.
+The programming system aims to aid the developer in modifying the user interface by providing relevant context menus.
 After creating and modifying the UI elements, the system will provide behavior modification options inspired by~\citet{elm} and the~\citet{elm-arch}.
 After the developer finishes the implementation process, they can preview the created application and download its text-based representation.
 
@@ -39,7 +39,7 @@ The main element is the UI modification and preview element, which previews the 
 Other elements include a view of the uploaded data, elements for creating and modifying the behavior of the UI elements, and elements for creating custom JavaScript functions.
 The resulting code is generated based on the created elements. The system creates an application in pure JavaScript using the Elm architecture\cite{elm-arch}, but it could be extended to target other technologies.
 We will describe the system's design, implementation, and functionality in the following chapters.
-\begin{figure}
+\begin{figure}[htbp]
 	\begin{center}
 		\includegraphics[width=0.95\textwidth]{img/UIExample.pdf}
 	\end{center}
@@ -56,7 +56,7 @@ The main goals of this thesis are the following:
 	\item Explore the applicability of the low-code programming system employing the data-driven approach to the creation of UI elements of web applications:
 	      \begin{itemize}
 		      \item Define the \emph{data-driven} approach.
-		      \item Define the approach in the context of creating web applications based on concrete data.
+		      \item Define the approach in the context of creating web application's UI elements based on concrete data.
 		      \item Describe the design principles behind the approach.
 		      \item Present a description of creating UI elements based on the input data.
 		      \item Evaluate the feasibility of this approach in the context of the prototype application.
@@ -64,7 +64,7 @@ The main goals of this thesis are the following:
 	\item Create a working \textbf{prototype programming system} implementing the data-driven approach according to the design principles described in Chapter~\ref{chap:design}.
 	\item Benchmark the prototype application on the following tasks:
 	      \begin{itemize}
-		      \item A simple \textbf{To-do list} application inspired by the \citet{TodoMVC}.
+		      \item A simple \textbf{TO-DO list} application inspired by the \citet{TodoMVC}.
 		      \item \textbf{Counter} task from the \citet{7GUIs-web}.
 		      \item \textbf{Temperature converter} task from the \citet{7GUIs-web}.
 	      \end{itemize}
@@ -74,12 +74,12 @@ The main goals of this thesis are the following:
 This thesis contributes to the field of software development, specifically web development systems employing a data-driven low-code approach.
 \begin{itemize}
 	\item In Chapter \ref{chap:design}, we describe the main design principles that influenced the design of the
-	      proposed programming system and the functional and non-functional requirements for the \emph{InterfaceSmith} prototype application.
+	      prototype programming system.
 	\item {In Chapter \ref{chap:corelogic}, we describe the core logic of our programming system.
 	      We introduce the data-driven hole-based approach to creating UI elements, describe the domain model and essential operations,
 	      and describe the incremental creation process.}
 	\item In Chapter \ref{chap:implementation}, we describe the implementation specifics of the \emph{InterfaceSmith} application, including its architecture, technologies used, and the design of its user interface.
-	\item In Chapter \ref{chap:walktrough}, we showcase the creation of a user interface for a simple to-do list application and several other tasks from \citet{7GUIs-web}.
+	\item In Chapter \ref{chap:walktrough}, we showcase the creation of a user interface for a simple TO-DO list application and several other tasks from \citet{7GUIs-web}.
 	\item In Chapter \ref{chap:discussion}, we discuss the benefits and limitations of our proposed programming system, and we evaluate our \emph{InterfaceSmith} application.
 	      We also provide several future avenues of research.
 \end{itemize}

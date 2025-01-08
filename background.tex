@@ -121,7 +121,7 @@ It is a browser-based application that provides a bimodal programming environmen
 The application consists mainly of an editor window for the source code, a canvas window displaying the program's output, and a button to run the program.
 After clicking on the canvas, the output is overlaid by context menus and \emph{widgets}, allowing users to modify the program's \emph{sub-expressions} and \emph{intermediate values} as seen in Figure~\ref{fig:sketch}.
 
-\emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it.
+\emph{Sub-expressions} refer to a certain syntactic scope of the program and the user can select and modify it~\cite{output-directed-programming}.
 \emph{Intermediate values} are values produced at the intermediate execution steps of the program.
 The program provides widgets for different types of intermediate values such as \emph{offset}, \emph{point}, or \emph{list} widgets.
 Widgets can take the form of draggable boxes or input fields.
@@ -255,7 +255,7 @@ The architecture consists of the following components:
 
 \citet{fsharp} is a functional-first programming language running on the .NET platform.
 Although it is mainly a functional programming language, it allows the use of other paradigms, such as the imperative and object-oriented paradigms.
-We chose F\# to implement our low-code programming system due to its strong type system, functional programming capabilities, and seamless integration with the .NET ecosystem.
+We chose F\# to implement our low-code programming system due to its strong type system, functional programming capabilities, and integration with the .NET ecosystem.
 The reasons for this choice are further elaborated in Chapter~\ref{chap:implementation}.
 
 \citet{fable} is a compiler capable of compiling programs written in F\# to multiple target languages.
@@ -264,10 +264,6 @@ This enables the creation of web applications in a type-safe functional programm
 
 The Fable compiler supports the use of some types from .NET Base Class and FSharp.Core libraries \cite{fable-comp} and attempts to compile these types to native JavaScript whenever possible.
 This feature allows developers to leverage their existing knowledge of F\# and .NET while building web applications.
-
-By using F\# with Fable, we can develop our low-code programming system using a statically-typed functional language while targeting the JavaScript runtime environment of web browsers,
-and also allowing us to use tools from the wider JavaScript ecosystem.
-
 
 \subsection{React and Feliz}
 The \citet{react} JavaScript library, initially developed by \emph{Facebook}, is used to create user interfaces for various target platforms, such as browsers or mobile devices.
