@@ -522,7 +522,7 @@ The only prerequisite is to have Docker installed and running.
 To start the InterfaceSmith using the pre-built image:
 \begin{lstlisting}[language=bash]
 docker load < interfacesmith.tar
-docker run -p 8080:8080 -p 8082:8082 --name interfacesmith 
+docker run -p 8080:8080 -p 8082:8082 interfacesmith
 \end{lstlisting}
 
 \subsubsection{Building from Source}
@@ -531,7 +531,7 @@ Alternatively, the system can be built from source using the following commands:
 \begin{lstlisting}[language=bash]
 cd InterfaceSmith
 docker build -t interfacesmith .
-docker run -p 8080:8080 -p 8082:8082 --name interfacesmith
+docker run -p 8080:8080 -p 8082:8082 interfacesmith
 \end{lstlisting}
 
 
