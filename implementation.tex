@@ -149,8 +149,6 @@ type PageEditorModel = {
     LastMousePosition: Position option
     IsPreviewOpen: bool
     IsCodeViewOpen: bool
-    ContextMenuVisible: bool
-    ContextMenuPosition: Position option
 }
   \end{lstlisting}
 \end{listing}
@@ -605,7 +603,7 @@ It is important to mention, that the target names are case-sensitive.
 \section{Testing}
 \label{sec:testing}
 To ensure that the implemented operations perform as expected, we decided to create a separate project named \emph{Tests}.
-We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module, and the code generation capability from the \emph{CoreLogic.Operations.CodeGeneration} module.
+We implemented \emph{Unit tests} for various operations from the Core Logic module, such as the \emph{replace} function from the \emph{CoreLogic.Operations.RenderingCode} module.
 
 We use the testing library named \citet{mocha}, which provides useful tools to implement the testing functionality.
 It provides a browser-based testing environment with a graphical user interface displaying the individual test cases and their results.
@@ -620,12 +618,12 @@ We can see the name of the test case and its implementation which follows the \e
 	\caption{An example test case testing the functionality of the \emph{replace} function.}
 	\label{fig:test}
 	\begin{lstlisting}
-testCase "Replace Hole"
-  <| fun _ ->
-      let original = Hole(Named "placeholder")
-      let replacement = HtmlElement(Div, [], Empty, [])
-      let result = replace [] replacement original
-      Expect.equal result replacement "Should replace Hole at root level"
+testCase "Replace with invalid path"
+<| fun _ ->
+    let element = RenderingCode.HtmlElement(Tags.div, [], Empty, [])
+    let replacement = RenderingCode.HtmlElement(Tags.span, [], Empty, [])
+    let result = replace [ 0 ] replacement element
+    Expect.isError result "Should return error for invalid path"
   \end{lstlisting}
 \end{listing}
 
